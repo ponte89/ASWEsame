@@ -17,7 +17,7 @@
      <section class="container">
      <%@ include file="/WEB-INF/jspf/sidebar.jspf" %>   
      <div class="content">
-         ciao ciao
+         ciao ciao ciao
                 <h1 id="nome">Benvenuti nella nuova Pizzeria Interattiva</h1>
                 <p id = "benvenuti">
                     Il concetto di questa nuova pizzeria &egrave; semplice, con pochi passaggi ti registri al sito, 

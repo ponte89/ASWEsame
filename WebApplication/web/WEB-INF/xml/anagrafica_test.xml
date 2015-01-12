@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+
+<an:users xmlns:an="./../xml-types/anagrafica.xsd" xmlns="./../xml-types">
+    <an:admin>
+        <an:username>admin</an:username>
+        <an:password>admin</an:password>
+    </an:admin>
+</an:users>

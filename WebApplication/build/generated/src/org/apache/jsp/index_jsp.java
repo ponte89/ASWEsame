@@ -64,7 +64,7 @@ public final class index_jsp extends org.apache.jasper.runtime.HttpJspBase
       out.write("            <div class=\"headerPic\"><img src=\"./../multimedia/headerPic.jpg\"></div>\n");
       out.write("            <nav>\n");
       out.write("                <ul id=\"navlist\">\n");
-      out.write("                    <li><a href=\"./../jsp/index.jsp\">Home</a></li>\n");
+      out.write("                    <li><a href=\"./../index.jsp\">Home</a></li>\n");
       out.write("                    <li><a href=\"./../jsp/menu.jsp\">Menu</a></li>\n");
       out.write("                    <li><a href=\"./../jsp/ordina.jsp\">Ordina</a></li>\n");
       out.write("                    <li><a href=\"./../jsp/riepilogo.jsp\">Riepilogo ordini</a></li>\n");

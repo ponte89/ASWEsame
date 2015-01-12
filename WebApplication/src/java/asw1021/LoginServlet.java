@@ -5,6 +5,9 @@
  */
 package asw1021;
 
+import asw1012.ManageXML;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.PrintWriter;
 import javax.servlet.ServletException;
@@ -12,6 +15,8 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import org.w3c.dom.Document;
+import org.w3c.dom.NodeList;
 
 /**
  *
@@ -32,15 +37,48 @@ public class LoginServlet extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        System.out.println("Arrivo qui");
         
-        String user = request.getParameter("username");
-        String password = request.getParameter("password");
+        String target = request.getParameter("target");
         
-        System.out.println("User: " + user + " " + password);
+        switch(target){
+        
+            case "login":
+                String user = request.getParameter("username");
+                String password = request.getParameter("password");
+                
+                checkUser(user, password);
+                
+                
+                break;
+        }
+        
         
         
     }
+    
+    private void checkUser(String us, String pw) {
+        try{
+        String context = getServletContext().getRealPath("") + "/WEB-INF/xml/anagrafica_test.xml";
+        FileInputStream in = new FileInputStream(context);
+        //System.out.println(context);
+        
+        
+        ManageXML mng = new ManageXML();
+        Document doc = mng.parse(in);
+        
+        NodeList list = doc.getDocumentElement().getElementsByTagName("admin");
+        //System.out.println("-->"+list.)
+        
+        System.out.println("---->"+list.getLength());//list.item(0).getAttributes().getNamedItem("username").getNodeValue());
+       // System.out.println("---->"+list.item(0).getNodeName());
+        
+        
+        
+        }catch (Exception e){
+            System.out.println(e.toString());
+        }
+    }
+    
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**

@@ -5,7 +5,7 @@
                 <br/><br/>
                 
                 <div class="login">
-                 <form class="login" action="../LoginServlet" method="post">
+                 <form class="login" action="../LoginServlet?target=login" method="post">
 
                         <label class="login" for="username">Username:</label>
 

@@ -19,7 +19,7 @@
      <div class="content">
                 <h1 id="nome">Benvenuti nella nuova Pizzeria Interattiva</h1>
 
-
+ciao
                 <p id = "benvenuti">
                     Il concetto di questa nuova pizzeria &egrave; semplice, con pochi passaggi ti registri al sito, 
                     poi potrai subito ordinare le pizze che pi&ugrave; di piacciono!

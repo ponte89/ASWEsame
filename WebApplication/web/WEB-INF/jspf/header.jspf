@@ -4,7 +4,7 @@
             <div class="headerPic"><img src="./../multimedia/headerPic.jpg"></div>
             <nav>
                 <ul id="navlist">
-                    <li><a href="./../jsp/menu.jsp">Home</a></li>
+                    <li><a href="./../jsp/index.jsp">Home</a></li>
                     <li><a href="./../jsp/menu.jsp">Menu</a></li>
                     <li><a href="./../jsp/ordina.jsp">Ordina</a></li>
                     <li><a href="./../jsp/riepilogo.jsp">Riepilogo ordini</a></li>

@@ -1,0 +1,30 @@
+<%-- any content can be specified here e.g.: --%>
+<%@ page pageEncoding="UTF-8" %>
+<div class="sidebar1">
+                <h2>Area riservata</h2>
+                <br/><br/>
+
+                <div class="login">
+                    <form class="login">
+
+                        <label class="login" for="username">Username:</label>
+
+                        <input class="login" type="text" id="username" name="username">
+
+                        <label class="login" for="password">Password:</label>
+
+                        <input class="login" type="password" id="password" name="password">
+
+                        <input class="login" type="submit" value="Login">
+
+                        <input class="login" type="submit" value="Registrati">
+
+                    </form>
+                </div>
+
+
+
+                <div id="consigli">
+                    <h2>Ultime richieste</h2>
+                </div>
+</div>

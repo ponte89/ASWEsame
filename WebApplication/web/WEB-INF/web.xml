@@ -11,7 +11,7 @@
     </servlet>
     <servlet>
         <servlet-name>TestServlet</servlet-name>
-        <servlet-class>asw1021.LoginServlet</servlet-class>
+        <servlet-class>asw1021.TestServlet</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>Faces Servlet</servlet-name>

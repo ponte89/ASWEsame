@@ -5,7 +5,7 @@
                 <br/><br/>
                 
                 <div class="login">
-                    <form class="login" action="<%= request.getContextPath()%>/LoginServlet" method="post">
+                 <form class="login" action="../LoginServlet" method="post">
 
                         <label class="login" for="username">Username:</label>
 
@@ -17,10 +17,8 @@
 
                         <input class="login" type="submit" value="Login">
                     </form>
-                    
                        <!-- <input class="login" type="submit" value="Registrati">-->
 
-                    
                 </div>
 
                 <div id="consigli">

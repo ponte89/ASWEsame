@@ -8,15 +8,16 @@ package asw1021;
 import java.io.IOException;
 import java.io.PrintWriter;
 import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 /**
  *
  * @author Alessia
  */
+@WebServlet(name = "LoginServlet", urlPatterns = {"/LoginServlet"})
 public class LoginServlet extends HttpServlet {
 
     /**
@@ -31,28 +32,14 @@ public class LoginServlet extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        PrintWriter out = response.getWriter();
-        HttpSession session = request.getSession();
-        String url = request.getContextPath() + "/jsp/home.jsp";
-
-        String action = request.getParameter("action");
-        System.out.println("Azione selezionata: "+action);
-
-        String user, psw;
-
-        switch (action) {
-            case "login":
-                user = request.getParameter("username");
-                psw = request.getParameter("password");
-                System.out.println("Login ricevuto: " + user + " " + psw);
-                session.setAttribute("login", user);
-                break;
-            case "logout":
-                    session.invalidate();
-                    break;
-            case "registration":
-        }
-        response.sendRedirect(url);
+        System.out.println("Arrivo qui");
+        
+        String user = request.getParameter("username");
+        String password = request.getParameter("password");
+        
+        System.out.println("User: " + user + " " + password);
+        
+        
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

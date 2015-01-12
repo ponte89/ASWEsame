@@ -64,7 +64,7 @@ public final class index_jsp extends org.apache.jasper.runtime.HttpJspBase
       out.write("            <div class=\"headerPic\"><img src=\"./../multimedia/headerPic.jpg\"></div>\n");
       out.write("            <nav>\n");
       out.write("                <ul id=\"navlist\">\n");
-      out.write("                    <li><a href=\"./../jsp/menu.jsp\">Home</a></li>\n");
+      out.write("                    <li><a href=\"./../jsp/index.jsp\">Home</a></li>\n");
       out.write("                    <li><a href=\"./../jsp/menu.jsp\">Menu</a></li>\n");
       out.write("                    <li><a href=\"./../jsp/ordina.jsp\">Ordina</a></li>\n");
       out.write("                    <li><a href=\"./../jsp/riepilogo.jsp\">Riepilogo ordini</a></li>\n");
@@ -110,8 +110,6 @@ public final class index_jsp extends org.apache.jasper.runtime.HttpJspBase
       out.write("   \n");
       out.write("     <div class=\"content\">\n");
       out.write("                <h1 id=\"nome\">Benvenuti nella nuova Pizzeria Interattiva</h1>\n");
-      out.write("\n");
-      out.write("\n");
       out.write("                <p id = \"benvenuti\">\n");
       out.write("                    Il concetto di questa nuova pizzeria &egrave; semplice, con pochi passaggi ti registri al sito, \n");
       out.write("                    poi potrai subito ordinare le pizze che pi&ugrave; di piacciono!\n");

@@ -2,10 +2,12 @@
 <%@ page contentType="text/html" pageEncoding="UTF-8" %>
 <div class="sidebar1">
                 <h2>Area riservata</h2>
-                <br/><br/>
-                
+                <br/>                
                 <div class="login">
-                 <form class="login" action="../LoginServlet?target=login" method="post">
+                <%  
+                    if (session.getAttribute("login") == null){ 
+                         %><%@ include file="/WEB-INF/jspf/message.jspf" %> 
+                       <form class="login" action="../LoginServlet?target=login" method="post">
 
                         <label class="login" for="username">Username:</label>
 
@@ -16,9 +18,19 @@
                         <input class="login" type="password" id="password" name="password">
 
                         <input class="login" type="submit" value="Login">
-                    </form>
-                       <!-- <input class="login" type="submit" value="Registrati">-->
-
+                      </form>
+                       <a href="../jsp/registrazione.jsp"><input class="login" type="submit" value="Registrati"></a>
+                    <%
+                    } else {%> 
+                    <div class="option">
+                        Benvenuto <%=session.getAttribute("login")%> 
+                        <br />
+                        <a href="../LoginServlet?target=logout" class="a">Logout</a>
+                    </div>
+                        <%
+                    }
+                %>    
+               
                 </div>
 
                 <div id="consigli">

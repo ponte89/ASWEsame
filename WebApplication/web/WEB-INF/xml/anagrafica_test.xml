@@ -1,8 +1,4 @@
-<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-
-<an:users xmlns:an="./../xml-types/anagrafica.xsd" xmlns="./../xml-types">
-    <an:admin>
-        <an:username>admin</an:username>
-        <an:password>admin</an:password>
-    </an:admin>
-</an:users>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<anagrafica xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../xml-types/anagrafica.xsd">   
+    
+</anagrafica>

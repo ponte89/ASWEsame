@@ -20,7 +20,7 @@
             <div class="content">
                 <h1>Registrazione nuovo utente</h1>
 
-                <form id="reg">
+                <form id="reg" action="../LoginServlet?target=registration" method="post">
 
                     <fieldset>
 

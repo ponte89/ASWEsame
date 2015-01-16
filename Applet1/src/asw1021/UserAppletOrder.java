@@ -1,8 +1,8 @@
 package asw1021;
 
-import asw1021.model.pizza;
-import asw1021.model.pizzaPersonalizzata;
-import asw1021.model.pizzaStandard;
+import asw1021.pizze.pizza;
+import asw1021.pizze.pizzaPersonalizzata;
+import asw1021.pizze.pizzaStandard;
 import java.awt.Color;
 import java.awt.Container;
 import java.awt.event.ActionEvent;

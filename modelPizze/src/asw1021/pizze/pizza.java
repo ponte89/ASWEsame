@@ -1,4 +1,4 @@
-package asw1021.model;
+package asw1021.pizze;
 import java.util.ArrayList;
 
 /*

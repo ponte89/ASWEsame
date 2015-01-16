@@ -30,33 +30,16 @@
             <div class="content">
                 <h1>Fai la tua ordinazione</h1>
                 
-                //QUESTA IN REALTA DEVE ESSERE UNA APPLET
+                <div id="applet" align="center" style="margin:10px;">
+
+                <applet code="asw1021.UserAppletOrder" 
+                        codebase="../applet/" 
+                        archive="Applet1.jar, Lib1.jar, Lib2.jar"
+                        width="750"
+                        height="530">
+                    Applet failed to run. No Java plug-in was found.
+                </applet>
                 
-                <div class="ordini">
-                    <form >
-                        <input type="radio" name="prenotazione" value="loco" checked>Ritiro in loco<br/><br/>
-                        <input type="radio" name="prenotazione" value="prenotazione">Prenotazione tavolo<br/><br/>
-                        <input type="radio" name="prenotazione" value="spedizione">Spedizione<br/><br/>
-
-
-                        <select name="pizze" id="pizze">
-                            <option value="margherita">margherita</option>
-                            <option value="quattro stagioni">quattro stagioni</option>
-                            <option value="quattro formaggi">quattro formaggi</option>
-                            <option value="capricciosa">capricciosa</option>
-                            <option value="bianca">bianca</option>
-                            <option value="marinara">marinara</option>
-                        </select>
-
-                        <input type="number" id="number" value="1">
-                        
-                        <textarea rows="10" cols="30" id="ordini" style="resize:none;"></textarea><br/><br/>
-
-                        <button type="submit" onclick="addfield()" >Aggiungi</button>
-
-
-                        <button type="submit" >Fatto</button>
-                    </form>
                 </div>
             </div>
                 

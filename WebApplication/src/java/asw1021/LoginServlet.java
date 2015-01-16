@@ -51,7 +51,7 @@ public class LoginServlet extends HttpServlet {
                 case "login":
                     user = request.getParameter("username");
                     password = request.getParameter("password");
-
+                    
                     if(checkUser(user, password)){
                          session.setAttribute("login", user);
                     } else {

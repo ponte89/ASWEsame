@@ -20,12 +20,12 @@
                 <h1 id="nome">Benvenuti nella nuova Pizzeria Interattiva</h1>
                 <p id = "benvenuti">
                     Il concetto di questa nuova pizzeria &egrave; semplice, con pochi passaggi ti registri al sito, 
-                    poi potrai subito ordinare le pizze che pi&ugrave; di piacciono!
+                    poi potrai subito ordinare le pizze che pi&ugrave; ti piacciono!
                     <br/>Ma non solo questo: una volta che sarai un nosto cliente potrai anche divertirti 
-                    a crearne di nuove e fantasiose!<br/><br/> Non ti va?Nessun problma scorri il menu del giorno, sar&agrave; 
-                    la nostra cucina a consigliarti un piatto il piatto tipico.
+                    a crearne di nuove e fantasiose!<br/><br/> Non ti va? Nessun problema scorri il menu del giorno, sar&agrave; 
+                    la nostra cucina a consigliarti un piatto tipico.
                     <br/><br/>Non ti basta ancora? Puoi anche seguire i suggerimenti delle ultime pizze ordinate, 
-                    ogni volta sempre nuovi abbinamenti e nuovi ingredienti per rendere le tue pizze sempre piu sfizione.
+                    ogni volta sempre nuovi abbinamenti e nuovi ingredienti per rendere le tue pizze sempre piu sfiziose.
 
                     <br/><br/>Per il trasporto? Nessun problema, inserisci l'indirizzo e ti verranno recapitate a casa ancora calde
                     e pronte per essere mangiate!
@@ -33,7 +33,7 @@
                     le pizze siano pronte!
 
 
-                    Vuoi prenotare un tavolo? Anche per questo abbiamo la soluzione potrai selezionarlo personalmente da casa!
+                    Vuoi prenotare un tavolo? Anche per questo abbiamo la soluzione, potrai selezionarlo personalmente da casa!
 
 
                     <br/><br/> Che fai ancora li? Vieni a trovarci o registrati, e ordina subito la tua prima pizza da "Pizzeria Interattiva"</p>

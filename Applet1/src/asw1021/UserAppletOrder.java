@@ -287,7 +287,11 @@ public class UserAppletOrder extends JApplet {
 
     }
     
-    private void salvaOrdinazione(){}
+    private void salvaOrdinazione(){
+        tabbedPane.setEnabled(false);
+        panelStandard.setEnabled(false);
+        panelPersonalizzata.setEnabled(false);
+    }
     
     private void resetOrdinazione(){
         

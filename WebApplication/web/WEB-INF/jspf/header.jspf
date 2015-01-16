@@ -1,14 +1,35 @@
 <%-- any content can be specified here e.g.: --%>
 <%@ page pageEncoding="UTF-8" %>
 <header class="container">
-            <div class="headerPic"><img src="./../multimedia/headerPic.jpg"></div>
-            <nav>
-                <ul id="navlist">
-                    <li><a href="./../jsp/home.jsp">Home</a></li>
-                    <li><a href="./../jsp/menu.jsp">Menu</a></li>
-                    <li><a href="./../jsp/ordina.jsp">Ordina</a></li>
-                    <li><a href="./../jsp/riepilogo.jsp">Riepilogo ordini</a></li>
-                    <li><a href="./../jsp/contatti.jsp">Contatti</a></li>
+    <div class="headerPic"><img src="./../multimedia/headerPic.jpg">
 
-                </ul>
+
+    </div>
+    <nav>
+        <ul id="navlist">
+
+            <%
+                String value = "";
+                if (session.getAttribute("login") != null) {
+                    String us = session.getAttribute("login").toString();
+                    if (us.equals("admin")) {%>
+            
+            <li><a href="./../jsp/menu.jsp">Menu</a></li>
+            <li><a href="./../jsp/gestioneOrdini.jsp">Gestione Ordini</a></li>
+            <li><a href="./../jsp/gestionePrenotazioni.jsp">Gestione Prenotazioni</a></li>
+
+            <% } else if (us.equals("cuoco")) {%>
+            
+            <li><a href="./../jsp/menu.jsp">Menu</a></li>
+            <li><a href="./../jsp/inserimentoPizze.jsp">Inserimento Pizze</a></li> 
+                <%} else {%>
+            <li><a href="./../jsp/home.jsp">Home</a></li>
+            <li><a href="./../jsp/menu.jsp">Menu</a></li>
+            <li><a href="./../jsp/ordina.jsp">Ordina</a></li>
+            <li><a href="./../jsp/riepilogo.jsp">Riepilogo ordini</a></li>
+            <li><a href="./../jsp/contatti.jsp">Contatti</a></li>
+                <%}
+                    }
+                %> 
+        </ul>
 </header>

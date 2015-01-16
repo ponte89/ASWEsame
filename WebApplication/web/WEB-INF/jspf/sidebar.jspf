@@ -1,43 +1,44 @@
 <%-- any content can be specified here e.g.: --%>
 <%@ page contentType="text/html" pageEncoding="UTF-8" %>
 <div class="sidebar1">
-                <h2>Area riservata</h2>
-                <br/>                
-                <div class="login">
-                <% String  login=null;
-                    if(session.getAttribute("login")!=null)
-                    login = session.getAttribute("login").toString();
-                %>
-                <%  
-                    if (session.getAttribute("login") == null){ 
-                         %><%@ include file="/WEB-INF/jspf/message.jspf" %> 
-                       <form class="login" action="../LoginServlet?target=login" method="post">
+    <h2>Area riservata</h2>
+    <br/>                
+    <div class="login">
+        <% 
+            String login = null;
+            if (session.getAttribute("login") != null) {
+                login = session.getAttribute("login").toString();
+            }
+        %>
+        <%
+            if (session.getAttribute("login") == null) {
+                %><%@ include file="/WEB-INF/jspf/message.jspf" %> 
+        <form class="login" action="../LoginServlet?target=login" method="post">
 
-                        <label class="login" for="username">Username:</label>
+            <label class="login" for="username">Username:</label>
 
-                        <input class="login" type="text" id="username" name="username">
+            <input class="login" type="text" id="username" name="username">
 
-                        <label class="login" for="password">Password:</label>
+            <label class="login" for="password">Password:</label>
 
-                        <input class="login" type="password" id="password" name="password">
+            <input class="login" type="password" id="password" name="password">
 
-                        <input class="login" type="submit" value="Login">
-                      </form>
-                       <a href="../jsp/registrazione.jsp"><input class="login" type="submit" value="Registrati"></a>
-                    <%
-                    } else {%> 
-                    <div class="option" id="benvenuto">
-                        Benvenuto <%=session.getAttribute("login")%> 
-                        <br />
-                        <a href="../LoginServlet?target=logout"><input class="login" type="submit" value="Logout"></a>
-                    </div>
-                        <%
-                    }
-                %>    
-               
-                </div>
+            <input class="login" type="submit" value="Login">
+        </form>
+        <a href="../jsp/registrazione.jsp"><input class="login" type="submit" value="Registrati"></a>
+            <%                    } else {%> 
+        <div class="option" id="benvenuto">
+            Benvenuto: <%=session.getAttribute("login")%> 
 
-                <div id="consigli">
-                    <h2>Ultime richieste</h2>
-                </div>
+            <a href="../LoginServlet?target=logout"><input class="login" type="submit" value="Logout"></a>
+        </div>
+        <%
+            }
+        %>    
+
+    </div>
+
+    <div id="consigli">
+        <h2>Pizze Novità </h2>
+    </div>
 </div>

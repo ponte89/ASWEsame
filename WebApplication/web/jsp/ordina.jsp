@@ -24,31 +24,36 @@
 
             <%@ include file="/WEB-INF/jspf/sidebar.jspf" %> 
 
-            <% if(login!=null){  %>
-                
-            
+            <% if (login != null) {  %>
+
+
             <div class="content">
                 <h1>Fai la tua ordinazione</h1>
-                
+
                 <div id="applet" align="center" style="margin:10px;">
 
-                <applet code="asw1021.UserAppletOrder" 
-                        codebase="../applet/" 
-                        archive="Applet1.jar, Lib1.jar, Lib2.jar"
-                        width="750"
-                        height="530">
-                    Applet failed to run. No Java plug-in was found.
-                </applet>
-                
+                    <applet code="asw1021.UserAppletOrder" 
+                            codebase="../applet/" 
+                            archive="Applet1.jar, Lib1.jar, Lib2.jar"
+                            width="750"
+                            height="530">
+                        Applet failed to run. No Java plug-in was found.
+                    </applet>
+
                 </div>
             </div>
-                
-            <%}else{%>
-                <div class="error">
-                    <p>
-                    Devi essere loggato per fare un'ordinazione!
-                    </p>
+
+            <%} else {%>
+            <div class="content">
+                <h1>Attenzione!</h1>
+
+                <div id="error" >
+                    <p>Non puoi accedere ai servizi di ordinazione, devi essere un utente registrato!</p>
+                    <p>Registrati subito e non lasciarti scappare l'occasione di ordinare una pizza
+                        nel nuovo ristorante Pizzeria Interattiva</p>
+
                 </div>
+            </div>
 
             <%}%>
 

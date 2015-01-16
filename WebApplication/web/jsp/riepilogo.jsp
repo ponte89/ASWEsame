@@ -19,9 +19,26 @@
 
             <%@ include file="/WEB-INF/jspf/sidebar.jspf" %>   
             
+            <% if (login != null) {  %>
+            
             <div class="content">
                 <h1>Riepilogo ordini</h1> 
             </div>
+            
+            <%} else {%>
+            <div class="content">
+                <h1>Attenzione!</h1>
+
+                <div id="error" >
+                    <p>Non puoi accedere ai servizi di ordinazione, devi essere un utente registrato!</p>
+                    <p>Registrati subito e non lasciarti scappare l'occasione di ordinare una pizza
+                        nel nuovo ristorante Pizzeria Interattiva</p>
+
+                </div>
+            </div>
+
+            <%}%>
+            
         </section>
 
         <%@ include file="/WEB-INF/jspf/footer.jspf" %>

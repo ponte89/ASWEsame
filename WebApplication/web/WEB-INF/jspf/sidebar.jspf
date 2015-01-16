@@ -4,6 +4,10 @@
                 <h2>Area riservata</h2>
                 <br/>                
                 <div class="login">
+                <% String  login=null;
+                    if(session.getAttribute("login")!=null)
+                    login = session.getAttribute("login").toString();
+                %>
                 <%  
                     if (session.getAttribute("login") == null){ 
                          %><%@ include file="/WEB-INF/jspf/message.jspf" %> 

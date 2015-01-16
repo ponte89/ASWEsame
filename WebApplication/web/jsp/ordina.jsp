@@ -24,6 +24,9 @@
 
             <%@ include file="/WEB-INF/jspf/sidebar.jspf" %> 
 
+            <% if(login!=null){  %>
+                
+            
             <div class="content">
                 <h1>Fai la tua ordinazione</h1>
                 
@@ -56,6 +59,15 @@
                     </form>
                 </div>
             </div>
+                
+            <%}else{%>
+                <div class="error">
+                    <p>
+                    Devi essere loggato per fare un'ordinazione!
+                    </p>
+                </div>
+
+            <%}%>
 
 
 

@@ -10,5 +10,16 @@
         <address>a</address>
         <cap>admin</cap>
         <country>admin</country>
+        
+         <name>beuc</name>
+        <surname>beuc</surname>
+        <mail>admin@admin.it</mail>
+        <tel>admin</tel>
+        <username>beuc</username>
+        <password>beuc</password>
+        <address>a</address>
+        <cap>admin</cap>
+        <country>admin</country>
+        
     </utente>
 </anagrafica>

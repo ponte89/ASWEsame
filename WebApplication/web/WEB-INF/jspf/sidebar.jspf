@@ -26,10 +26,10 @@
                        <a href="../jsp/registrazione.jsp"><input class="login" type="submit" value="Registrati"></a>
                     <%
                     } else {%> 
-                    <div class="option">
+                    <div class="option" id="benvenuto">
                         Benvenuto <%=session.getAttribute("login")%> 
                         <br />
-                        <a href="../LoginServlet?target=logout" class="a">Logout</a>
+                        <input class="login" type="submit" value="Logout" onclick="../LoginServlet?target=logout">
                     </div>
                         <%
                     }

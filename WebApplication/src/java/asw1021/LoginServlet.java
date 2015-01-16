@@ -52,6 +52,8 @@ public class LoginServlet extends HttpServlet {
                     user = request.getParameter("username");
                     password = request.getParameter("password");
                     
+                    
+                    
                     if(checkUser(user, password)){
                          session.setAttribute("login", user);
                     } else {
@@ -134,7 +136,7 @@ public class LoginServlet extends HttpServlet {
                             newUser.appendChild(newCountry);
                             root.appendChild(newUser);
                             
-                            String path = getServletContext().getRealPath("")+"\\WEB-INF\\xml\\anagrafica_test.xml";
+                            String path = getServletContext().getRealPath("")+"/WEB-INF/xml/anagrafica_test.xml";
                             OutputStream os = new FileOutputStream(new File(path));             
                             manageXml.transform(os, doc);
                             os.close();

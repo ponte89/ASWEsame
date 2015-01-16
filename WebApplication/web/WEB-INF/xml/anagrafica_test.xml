@@ -1,4 +1,14 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <anagrafica xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../xml-types/anagrafica.xsd">   
-    
+    <utente>
+        <name>admin</name>
+        <surname>admin</surname>
+        <mail>admin@admin.it</mail>
+        <tel>admin</tel>
+        <username>admin</username>
+        <password>admin</password>
+        <address>a</address>
+        <cap>admin</cap>
+        <country>admin</country>
+    </utente>
 </anagrafica>

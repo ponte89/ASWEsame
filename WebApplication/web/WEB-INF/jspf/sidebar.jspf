@@ -29,7 +29,7 @@
                     <div class="option" id="benvenuto">
                         Benvenuto <%=session.getAttribute("login")%> 
                         <br />
-                        <input class="login" type="submit" value="Logout" onclick="../LoginServlet?target=logout">
+                        <a href="../LoginServlet?target=logout"><input class="login" type="submit" value="Logout"></a>
                     </div>
                         <%
                     }

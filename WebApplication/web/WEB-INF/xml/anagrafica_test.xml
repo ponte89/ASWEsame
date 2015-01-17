@@ -1,27 +1,49 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<anagrafica xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../xml-types/anagrafica.xsd">   
-    <utente>
-        <name>admin</name>
-        <surname>admin</surname>
-        <mail>admin@admin.it</mail>
-        <tel>admin</tel>
-        <username>admin</username>
-        <password>admin</password>
-        <address>a</address>
-        <cap>admin</cap>
-        <country>admin</country>
-          
-    </utente>
-    
-    <utente>
-         <name>beuc</name>
-        <surname>beuc</surname>
-        <mail>admin@admin.it</mail>
-        <tel>admin</tel>
-        <username>beuc</username>
-        <password>beuc</password>
-        <address>a</address>
-        <cap>admin</cap>
-        <country>admin</country>
-    </utente>
+<anagrafica xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../xml-types/anagrafica.xsd">
+    <utenti>
+        <admin>
+            <name>admin</name>
+            <surname>admin</surname>
+            <username>admin</username>
+            <password>admin</password>
+        </admin>
+        
+        <cuoco>
+            <name>cuoco1</name>
+            <surname>cuoco1</surname>
+            <username>cuoco1</username>
+            <password>cuoco1</password>
+        </cuoco>
+        
+        <cuoco>
+            <name>cuoco2</name>
+            <surname>cuoco2</surname>
+            <username>cuoco2</username>
+            <password>cuoco2</password>
+        </cuoco>
+        
+        <utente>
+            <name>utente1</name>
+            <surname>utente1</surname>
+            <mail>utente1@utente.com</mail>
+            <tel>utente1 tel</tel>
+            <username>utente1</username>
+            <password>utente1</password>
+            <address>utente1 indirizzo</address>
+            <cap>utente1 cap</cap>
+            <country>utente1 country</country>
+        </utente>
+        
+        <utente>
+            <name>utente2</name>
+            <surname>utente2</surname>
+            <mail>utente2@utente.com</mail>
+            <tel>utente2 tel</tel>
+            <username>utente2</username>
+            <password>utente2</password>
+            <address>utente2 indirizzo</address>
+            <cap>utente2 cap</cap>
+            <country>utente2 country</country>
+        </utente>
+    </utenti>
 </anagrafica>

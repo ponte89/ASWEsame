@@ -45,17 +45,18 @@ public class LoginServlet extends HttpServlet {
         String url = request.getContextPath() + "/jsp/home.jsp";
         HttpSession session = request.getSession();
         String target = request.getParameter("target");
-        String user, password;
+        String user, password,type;
         try{
             switch(target){
                 case "login":
                     user = request.getParameter("username");
                     password = request.getParameter("password");
+                    type = request.getParameter("type");
                     
                     
-                    
-                    if(checkUser(user, password)){
+                    if(checkUser(user, password,type)){
                          session.setAttribute("login", user);
+                         session.setAttribute("type",type);
                     } else {
                          session.setAttribute("message", "Attenzione! I dati inseriti non sono corretti");   
                     }
@@ -162,13 +163,13 @@ public class LoginServlet extends HttpServlet {
         response.sendRedirect(url);
     }
 
-    private boolean checkUser(String us, String pwd) {
+    private boolean checkUser(String us, String pwd,String type) {
        try{
             
         InputStream is = getServletContext().getResourceAsStream("/WEB-INF/xml/anagrafica_test.xml");
         ManageXML manageXml = new ManageXML();
         Document doc = manageXml.parse(is);
-        NodeList users= doc.getDocumentElement().getElementsByTagName("utente");
+        NodeList users= doc.getDocumentElement().getElementsByTagName(type);
         Element user;
         System.out.println(users.getLength());
         

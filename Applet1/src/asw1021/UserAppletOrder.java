@@ -152,15 +152,15 @@ public class UserAppletOrder extends JApplet {
         label_1.setBounds(6, 186, 61, 16);
         panelStandard.add(label_1);
 
-        chckbxBaseKamutS = new JCheckBox("Base kamut");
+        chckbxBaseKamutS = new JCheckBox("Base kamut + €2.50");
         chckbxBaseKamutS.setBounds(90, 182, 128, 23);
         panelStandard.add(chckbxBaseKamutS);
 
-        chckbxGiganteS = new JCheckBox("Gigante");
+        chckbxGiganteS = new JCheckBox("Maxi");
         chckbxGiganteS.setBounds(90, 205, 128, 23);
         panelStandard.add(chckbxGiganteS);
 
-        chckbxDoppiaMozzarellaS = new JCheckBox("Doppia mozzarella");
+        chckbxDoppiaMozzarellaS = new JCheckBox("Doppia mozzarella + €1.00");
         chckbxDoppiaMozzarellaS.setBounds(90, 227, 153, 23);
         panelStandard.add(chckbxDoppiaMozzarellaS);
 
@@ -198,13 +198,13 @@ public class UserAppletOrder extends JApplet {
         lblAggiunte = new JLabel("Aggiunte:");
         lblAggiunte.setBounds(8, 206, 61, 16);
 
-        chckbxBaseKamutP = new JCheckBox("Base kamut");
+        chckbxBaseKamutP = new JCheckBox("Base kamut + €2.50");
         chckbxBaseKamutP.setBounds(71, 202, 128, 23);
 
-        chckbxGiganteP = new JCheckBox("Gigante");
+        chckbxGiganteP = new JCheckBox("Maxi");
         chckbxGiganteP.setBounds(71, 226, 128, 23);
 
-        chckbxDoppiaMozzarellaP = new JCheckBox("Doppia mozzarella");
+        chckbxDoppiaMozzarellaP = new JCheckBox("Doppia mozzarella + €1.00");
         chckbxDoppiaMozzarellaP.setBounds(71, 248, 153, 23);
 
         lblBase = new JLabel("Base:");
@@ -315,13 +315,13 @@ public class UserAppletOrder extends JApplet {
         String aggiunte="(";
         
         if(chckbxBaseKamutS.isSelected()){
-            aggiunte+= " Base Kamut ";
+            aggiunte+= " Base Kamut + €2.50";
             pizza.setAggiunta("Base Kamut");
         }
         
         if(chckbxGiganteS.isSelected()){
-            aggiunte += " Gigante ";
-            pizza.setAggiunta("Gigante");
+            aggiunte += " Maxi ";
+            pizza.setAggiunta("Maxi");
         }
         
         if(chckbxDoppiaMozzarellaS.isSelected()){
@@ -398,8 +398,8 @@ public class UserAppletOrder extends JApplet {
         }
         
         if(chckbxGiganteP.isSelected()){
-            aggiunte += " Gigante ";
-            pizza.setAggiunta("Gigante");
+            aggiunte += " Maxi ";
+            pizza.setAggiunta("Maxi");
         }
         
         if(chckbxDoppiaMozzarellaP.isSelected()){
@@ -426,9 +426,26 @@ public class UserAppletOrder extends JApplet {
     private void initializeListaCondimenti(){
         ArrayList<String> lista = new ArrayList<String>();
             
-            lista.add("ingrediente1");
-            lista.add("ingrediente2");
-            lista.add("ingrediente3");
+            lista.add("Patatine fritte");
+            lista.add("Salsiccia");
+            lista.add("Salame");
+            lista.add("Wurstel");
+            lista.add("Peperoni");
+            lista.add("Rucola");
+            lista.add("Zucchine");
+            lista.add("Melanzane");
+            lista.add("Pancetta");
+            lista.add("Zucca");
+            lista.add("Prosciutto crudo");
+            lista.add("Prosciutto cotto");
+            lista.add("Parmigiano");
+            lista.add("Speck");
+            lista.add("Mais");
+            lista.add("Carciofi");
+            lista.add("Tonno");
+            lista.add("Cipolla");
+            lista.add("Porcini");
+            lista.add("Ricotta");
             lista.add("nessuna selezione");
             
             for(String s : lista){
@@ -442,9 +459,27 @@ public class UserAppletOrder extends JApplet {
     private void initializeListaStandard(){
         ArrayList<String> lista = new ArrayList<String>();
             
-            lista.add("pizza1");
-            lista.add("pizza2");
-            lista.add("pizza3");
+            lista.add("Margherita");
+            lista.add("Marinara");
+            lista.add("Cardinale");
+            lista.add("Biancaneva");
+            lista.add("Capricciosa");
+            lista.add("4 Stagioni");
+            lista.add("Calabrese");
+            lista.add("Wurstel");
+            lista.add("Reginella");
+            lista.add("Completa");
+            lista.add("Tonno");
+            lista.add("Tonno e cipolla");
+            lista.add("Melanzane");
+            lista.add("Peperoni");
+            lista.add("Funghi");
+            lista.add("Funghi porcini");
+            lista.add("Carciofi");
+            lista.add("Prosciutto crudo");
+            lista.add("Siciliana");
+            lista.add("4 Formaggi");
+            lista.add("Rucola");
             
             for(String s : lista){
                 comboBoxStandard.addItem(s);

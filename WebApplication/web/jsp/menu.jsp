@@ -18,8 +18,14 @@
       <%@ include file="/WEB-INF/jspf/sidebar.jspf" %>   
       
       <div class="content">
-        <h1>Il menu di oggi</h1>
+        <h1>Consigli del giorno</h1
         
+      </div>
+      
+      <div class="content">
+        <h1>Il menu tradizionale</h1>
+      </div>
+      <div class="Menù"><img src="./../multimedia/Menù.jpg">    
       </div>
       
       

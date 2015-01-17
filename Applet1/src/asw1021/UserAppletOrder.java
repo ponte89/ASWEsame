@@ -110,7 +110,7 @@ public class UserAppletOrder extends JApplet {
         cp.setLayout(null);
 
         tabbedPane = new JTabbedPane(JTabbedPane.TOP);
-        tabbedPane.setBounds(11, 6, 270, 390);
+        tabbedPane.setBounds(11, 6, 314, 390);
         cp.add(tabbedPane);
 
         panelStandard = new JPanel();
@@ -127,7 +127,7 @@ public class UserAppletOrder extends JApplet {
         panelStandard.add(comboBoxStandard);
 
         btnAggiungiStandard = new JButton("Aggiungi");
-        btnAggiungiStandard.setBounds(126, 309, 117, 29);
+        btnAggiungiStandard.setBounds(152, 309, 117, 29);
         btnAggiungiStandard.addActionListener(new ActionListener(){
             
             @Override
@@ -141,7 +141,7 @@ public class UserAppletOrder extends JApplet {
         model2 = new SpinnerNumberModel(1.0, 1.0, 100.0, 1.0);
         
         spinnerStandard = new JSpinner(model1);
-        spinnerStandard.setBounds(143, 269, 86, 28);
+        spinnerStandard.setBounds(102, 269, 86, 28);
         panelStandard.add(spinnerStandard);
 
         label = new JLabel("Numero Pizze:");
@@ -153,15 +153,15 @@ public class UserAppletOrder extends JApplet {
         panelStandard.add(label_1);
 
         chckbxBaseKamutS = new JCheckBox("Base kamut + €2.50");
-        chckbxBaseKamutS.setBounds(90, 182, 128, 23);
+        chckbxBaseKamutS.setBounds(67, 182, 164, 23);
         panelStandard.add(chckbxBaseKamutS);
 
         chckbxGiganteS = new JCheckBox("Maxi");
-        chckbxGiganteS.setBounds(90, 205, 128, 23);
+        chckbxGiganteS.setBounds(67, 204, 128, 23);
         panelStandard.add(chckbxGiganteS);
 
         chckbxDoppiaMozzarellaS = new JCheckBox("Doppia mozzarella + €1.00");
-        chckbxDoppiaMozzarellaS.setBounds(90, 227, 153, 23);
+        chckbxDoppiaMozzarellaS.setBounds(67, 228, 220, 23);
         panelStandard.add(chckbxDoppiaMozzarellaS);
 
         panelPersonalizzata = new JPanel();
@@ -169,18 +169,18 @@ public class UserAppletOrder extends JApplet {
         tabbedPane.addTab("Personalizzata", null, panelPersonalizzata, null);
 
         rdbtnMargherita = new JRadioButton("Margherita");
-        rdbtnMargherita.setBounds(92, 6, 99, 23);
+        rdbtnMargherita.setBounds(53, 6, 99, 23);
         rdbtnMargherita.setSelected(true);
 
         rdbtnBianca = new JRadioButton("Bianca");
-        rdbtnBianca.setBounds(92, 26, 72, 23);
+        rdbtnBianca.setBounds(53, 27, 72, 23);
         
         buttonGroup = new ButtonGroup();
         buttonGroup.add(rdbtnMargherita);
         buttonGroup.add(rdbtnBianca);
         
         btnAggiungiPersonalizzata = new JButton("Aggiungi");
-        btnAggiungiPersonalizzata.setBounds(107, 314, 117, 29);
+        btnAggiungiPersonalizzata.setBounds(170, 309, 117, 29);
         btnAggiungiPersonalizzata.addActionListener(new ActionListener(){
             
             @Override
@@ -190,7 +190,7 @@ public class UserAppletOrder extends JApplet {
         });
 
         spinnerPersonalizzata = new JSpinner(model2);
-        spinnerPersonalizzata.setBounds(161, 277, 63, 28);
+        spinnerPersonalizzata.setBounds(107, 274, 63, 28);
 
         lblNumeroPizze = new JLabel("Numero Pizze:");
         lblNumeroPizze.setBounds(8, 280, 142, 16);
@@ -199,13 +199,13 @@ public class UserAppletOrder extends JApplet {
         lblAggiunte.setBounds(8, 206, 61, 16);
 
         chckbxBaseKamutP = new JCheckBox("Base kamut + €2.50");
-        chckbxBaseKamutP.setBounds(71, 202, 128, 23);
+        chckbxBaseKamutP.setBounds(71, 202, 216, 23);
 
         chckbxGiganteP = new JCheckBox("Maxi");
         chckbxGiganteP.setBounds(71, 226, 128, 23);
 
         chckbxDoppiaMozzarellaP = new JCheckBox("Doppia mozzarella + €1.00");
-        chckbxDoppiaMozzarellaP.setBounds(71, 248, 153, 23);
+        chckbxDoppiaMozzarellaP.setBounds(71, 248, 203, 23);
 
         lblBase = new JLabel("Base:");
         lblBase.setBounds(8, 10, 61, 16);
@@ -223,16 +223,16 @@ public class UserAppletOrder extends JApplet {
         lblCondimento4.setBounds(7, 160, 93, 16);
 
         comboBoxCondimento1 = new JComboBox();
-        comboBoxCondimento1.setBounds(102, 58, 128, 27);
+        comboBoxCondimento1.setBounds(102, 58, 172, 27);
 
         comboBoxCondimento2 = new JComboBox();
-        comboBoxCondimento2.setBounds(102, 90, 128, 27);
+        comboBoxCondimento2.setBounds(102, 90, 172, 27);
 
         comboBoxCondimento3 = new JComboBox();
-        comboBoxCondimento3.setBounds(102, 123, 128, 27);
+        comboBoxCondimento3.setBounds(102, 123, 172, 27);
 
         comboBoxCondimento4 = new JComboBox();
-        comboBoxCondimento4.setBounds(102, 156, 128, 27);
+        comboBoxCondimento4.setBounds(102, 156, 172, 27);
 
         
         panelPersonalizzata.setLayout(null);
@@ -258,7 +258,7 @@ public class UserAppletOrder extends JApplet {
         panelPersonalizzata.add(lblCondimento4);
 
         btnConferma = new JButton("Conferma Ordine");
-        btnConferma.setBounds(427, 367, 141, 29);
+        btnConferma.setBounds(467, 367, 141, 29);
         btnConferma.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -272,11 +272,11 @@ public class UserAppletOrder extends JApplet {
         textPaneOrdinazione.setEditable(false);
         textPaneOrdinazione.setEnabled(false);
         textPaneOrdinazione.setBackground(new Color(255, 255, 204));
-        textPaneOrdinazione.setBounds(293, 25, 275, 332);
+        textPaneOrdinazione.setBounds(337, 26, 275, 332);
         cp.add(textPaneOrdinazione);
 
         btnAnnulla = new JButton("Annulla Ordine");
-        btnAnnulla.setBounds(293, 367, 135, 29);
+        btnAnnulla.setBounds(337, 367, 135, 29);
         btnAnnulla.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {

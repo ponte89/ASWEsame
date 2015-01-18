@@ -20,7 +20,7 @@
 
             <div class="content">
                 <h1>Registrazione nuovo utente</h1>
-
+                <%@ include file="/WEB-INF/jspf/message.jspf" %> 
                 <form id="reg" action="../LoginServlet?target=registration" method="post">
 
                     <fieldset>

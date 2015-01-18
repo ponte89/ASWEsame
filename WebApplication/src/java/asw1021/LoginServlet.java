@@ -145,15 +145,15 @@ public class LoginServlet extends HttpServlet {
                             session.setAttribute("login", user);
                  
                         }else{
-                            System.out.println("Utente già presente" + request.getContextPath() + "/jsp/register.jsp");
+                            System.out.println("Utente già presente" + request.getContextPath() + "/jsp/registrazione.jsp");
                             session.setAttribute("message","Username già presente");
                             
-                            url = request.getContextPath() + "/jsp/register.jsp";
+                            url = request.getContextPath() + "/jsp/registrazione.jsp";
                         }
                     }else{  
                         System.out.println("Errore");
                         session.setAttribute("message", error);
-                        url = request.getContextPath() + "/jsp/register.jsp";
+                        url = request.getContextPath() + "/jsp/registrazione.jsp";
                     }
                     break;
             }

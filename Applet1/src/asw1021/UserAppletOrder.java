@@ -1,5 +1,7 @@
 package asw1021;
 
+import asw1012.HTTPClient;
+import asw1012.ManageXML;
 import asw1021.pizze.pizza;
 import asw1021.pizze.pizzaPersonalizzata;
 import asw1021.pizze.pizzaStandard;
@@ -7,6 +9,7 @@ import java.awt.Color;
 import java.awt.Container;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 import javax.swing.ButtonGroup;
@@ -28,6 +31,8 @@ import javax.swing.SpinnerNumberModel;
 import javax.swing.SwingUtilities;
 import javax.swing.border.LineBorder;
 import javax.swing.border.TitledBorder;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
 
 /**
  *
@@ -325,7 +330,59 @@ public class UserAppletOrder extends JApplet {
         tabbedPane.setEnabled(false);
         panelStandard.setEnabled(false);
         panelPersonalizzata.setEnabled(false);
+        try{
+            HTTPClient httpClient = new HTTPClient();
+            httpClient.setBase(new URL(getCodeBase()+"../OrderServlet"));
+
+            ManageXML mngXML = new ManageXML();
+
+            Document data = mngXML.newDocument();
+            Element root = data.createElement("ordine_utente");
+            Element user = data.createElement("user");
+            user.setTextContent("ale");
+            Element state = data.createElement("done");
+            state.setTextContent("new");
+            
+            Element name = null;
+            Element number = null;
+            Element plus = null;
+            Element extra = null;
+                    
+            /*for(int i = 0; i < listaOrdinazione.size(); i++){  
+                pizza newPizza = listaOrdinazione.get(i);
+                name = data.createElement("name");
+                name.setTextContent(newPizza.getName());
+                number = data.createElement("number");
+                number.setTextContent(""+newPizza.getNPizze());
+                plus = data.createElement("plus");
+                plus.setTextContent(""+newPizza.getAggiunte());   
+                if (newPizza.getName().equals("personalizzata")){
+                   extra = data.createElement("extra");
+                   pizzaPersonalizzata pizzaP= (pizzaPersonalizzata)newPizza;
+                   plus.setTextContent(""+pizzaP.getCondimenti()); 
+                }
+            }*/
+            
+            root.appendChild(user);
+            root.appendChild(state);
+            root.appendChild(name);
+            root.appendChild(number);
+            root.appendChild(plus);
+            root.appendChild(extra);
+     
+            data.appendChild(root);
+            
+            Document answer = httpClient.execute("OrderServlet", data);
+                        
+            //per debug
+            textPaneOrdinazione.setText("Ordine confermato");
+
+        }catch(Exception e){
+            //per debug
+            textPaneOrdinazione.setText("Errore");
+        }
     }
+
     
     private void resetOrdinazione(){
         

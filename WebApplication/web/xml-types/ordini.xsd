@@ -1,0 +1,33 @@
+<?xml version="1.0"?>
+
+<xsd:schema version="1.0" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    
+    <xsd:element name="ordini" type="tipo_ordini"/>
+    <xsd:complexType name="ordine_utente">
+        <xsd:sequence>
+            <xsd:element name="user" type="xs:string"/>
+            <xsd:element name="done" type="xs:string"/>
+            <xsd:element name="pizzaS" type="pizza_standard" maxOccurs="unbounded" />
+            <xsd:element name="pizzaP" type="pizza_personalizzata" maxOccurs="unbounded" />
+        </xsd:sequence> 
+    </xsd:complexType>
+
+    <xsd:complexType name="pizza_standard">
+        <xsd:sequence>
+            <xsd:element name="name" type="xs:string"/>
+            <xsd:element name="number" type="xs:int"/>
+            <xsd:element name="plus" type="xs:string" maxOccurs="unbounded"/>
+        </xsd:sequence>
+    </xsd:complexType>
+    
+    <xsd:complexType name="pizza_personalizzata">
+        <xsd:complexContent>
+            <xs:extension base="pizza_standard">
+                <xsd:sequence>
+                    <xsd:element name="extra" type="xs:string" maxOccurs="unbounded"/>
+                </xsd:sequence>
+            </xs:extension>    
+        </xsd:complexContent>
+    </xsd:complexType>
+
+</xsd:schema>

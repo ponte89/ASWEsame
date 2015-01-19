@@ -18,9 +18,6 @@
             <%@ include file="/WEB-INF/jspf/sidebar.jspf" %>   
             <div class="content">
             </div>
-
-
-
         </section>
 
         <%@ include file="/WEB-INF/jspf/footer.jspf" %>

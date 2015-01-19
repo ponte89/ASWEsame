@@ -7,7 +7,6 @@ package asw1021;
 
 import asw1012.ManageXML;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -20,7 +19,6 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import org.w3c.dom.Element;
 import org.w3c.dom.Document;
-import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 /**
@@ -105,7 +103,6 @@ public class LoginServlet extends HttpServlet {
                         }
                         if(!found){
                         //inserisci il nuovo utente
-                            System.out.println("Sto registrando il nuovo utente");
                             Element newUser = doc.createElement("utente");
                             Element newName = doc.createElement("name");
                             newName.setTextContent(name);
@@ -171,12 +168,10 @@ public class LoginServlet extends HttpServlet {
         Document doc = manageXml.parse(is);
         NodeList users= doc.getDocumentElement().getElementsByTagName(type);
         Element user;
-        System.out.println(users.getLength());
         
         for (int i = 0; i < users.getLength(); i++) {
                user = (Element)users.item(i);
                if(user.getElementsByTagName("username").item(0).getTextContent().equals(us)){
-                    System.out.println("Trovato");
                     return (user.getElementsByTagName("password").item(0).getTextContent().equals(pwd));
                }
         }

@@ -17,9 +17,13 @@ import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
+import javax.swing.JScrollBar;
+import javax.swing.JScrollPane;
 import javax.swing.JSpinner;
 import javax.swing.JTabbedPane;
+import javax.swing.JTextArea;
 import javax.swing.JTextPane;
+import javax.swing.ScrollPaneConstants;
 import javax.swing.SpinnerNumberModel;
 import javax.swing.SwingUtilities;
 import javax.swing.border.LineBorder;
@@ -35,7 +39,9 @@ public class UserAppletOrder extends JApplet {
     
     private JTabbedPane tabbedPane;
     
-    private JTextPane textPaneOrdinazione;
+    private JScrollPane scroll;
+    private JTextArea textPaneOrdinazione;
+   
     
     private JPanel panelStandard;
     private JPanel panelPersonalizzata;
@@ -77,6 +83,11 @@ public class UserAppletOrder extends JApplet {
     private ButtonGroup buttonGroup;
     private JRadioButton rdbtnMargherita;
     private JRadioButton rdbtnBianca;
+    
+    private ButtonGroup buttonGroup2;
+    private JRadioButton rdbtnRitiro;
+    private JRadioButton rdbtnAsporto;
+    private JRadioButton rdbtnPrenotazione;
     
     private ArrayList<pizza> listaOrdinazione;
     
@@ -258,7 +269,7 @@ public class UserAppletOrder extends JApplet {
         panelPersonalizzata.add(lblCondimento4);
 
         btnConferma = new JButton("Conferma Ordine");
-        btnConferma.setBounds(467, 367, 141, 29);
+        btnConferma.setBounds(467, 380, 141, 29);
         btnConferma.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -266,17 +277,21 @@ public class UserAppletOrder extends JApplet {
             }
         });
         cp.add(btnConferma);
-
-        textPaneOrdinazione = new JTextPane();
-        textPaneOrdinazione.setBorder(new TitledBorder(new LineBorder(new Color(0, 0, 0), 1, true), "Ordinazione", TitledBorder.CENTER, TitledBorder.TOP, null, null));
-        textPaneOrdinazione.setEditable(false);
-        textPaneOrdinazione.setEnabled(false);
+        
+        textPaneOrdinazione = new JTextArea();
         textPaneOrdinazione.setBackground(new Color(255, 255, 204));
-        textPaneOrdinazione.setBounds(337, 26, 275, 332);
-        cp.add(textPaneOrdinazione);
+        textPaneOrdinazione.setEditable(false);
+        
+        scroll = new JScrollPane(textPaneOrdinazione); 
+        
+        scroll.setBorder(new TitledBorder(new LineBorder(new Color(0, 0, 0), 1, true), "Ordinazione", TitledBorder.CENTER, TitledBorder.TOP, null, null));
+        scroll.setEnabled(false);
+        scroll.setBackground(new Color(255, 255, 204));
+        scroll.setBounds(337, 26, 275, 332);
+        cp.add(scroll);
 
         btnAnnulla = new JButton("Annulla Ordine");
-        btnAnnulla.setBounds(337, 367, 135, 29);
+        btnAnnulla.setBounds(337, 380, 135, 29);
         btnAnnulla.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -284,6 +299,25 @@ public class UserAppletOrder extends JApplet {
             }
         });
         cp.add(btnAnnulla);
+        
+        rdbtnRitiro = new JRadioButton("Ritiro");
+        rdbtnRitiro.setBounds(340, 355, 70, 25);
+        rdbtnRitiro.setSelected(true);
+                
+        rdbtnAsporto = new JRadioButton("Asporto");
+        rdbtnAsporto.setBounds(405, 355, 85, 23);
+        
+        rdbtnPrenotazione = new JRadioButton("Prenotazione");
+        rdbtnPrenotazione.setBounds(490, 355, 130, 23);
+        
+        buttonGroup2 = new ButtonGroup();
+        buttonGroup2.add(rdbtnRitiro);
+        buttonGroup2.add(rdbtnAsporto);
+        buttonGroup2.add(rdbtnPrenotazione);
+        
+        cp.add(rdbtnRitiro);
+        cp.add(rdbtnAsporto);
+        cp.add(rdbtnPrenotazione);
 
     }
     
@@ -297,7 +331,7 @@ public class UserAppletOrder extends JApplet {
         
         listaOrdinazione.clear();
         
-        textPaneOrdinazione.setText("");
+        //textPaneOrdinazione.setText("");
     }
     
     private void aggiungiPizzaStandard(){

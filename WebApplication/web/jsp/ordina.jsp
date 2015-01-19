@@ -30,12 +30,12 @@
             <div class="content">
                 <h1>Fai la tua ordinazione</h1>
 
-                <div id="applet" align="center" style="margin:10px;">
+                <div id="applet" align="center" style="margin:5px;">
 
                     <applet code="asw1021.UserAppletOrder" 
                             codebase="../applet/" 
                             archive="Applet1.jar, Lib1.jar, Lib2.jar"
-                            width="750"
+                            width="800"
                             height="530">
                         Applet failed to run. No Java plug-in was found.
                     </applet>

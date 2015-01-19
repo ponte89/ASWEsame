@@ -25,7 +25,7 @@
       <div class="content">
         <h1>Il menu tradizionale</h1>
       </div>
-      <div class="Menù"><img src="./../multimedia/Menù.jpg">    
+      <div class="Menù"><img src="./../multimedia/Menu.jpg">    
       </div>
       
       

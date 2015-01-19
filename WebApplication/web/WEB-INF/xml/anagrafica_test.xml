@@ -23,27 +23,27 @@
         </cuoco>
         
         <utente>
-            <name>utente1</name>
-            <surname>utente1</surname>
-            <mail>utente1@utente.com</mail>
-            <tel>utente1 tel</tel>
-            <username>utente1</username>
-            <password>utente1</password>
-            <address>utente1 indirizzo</address>
-            <cap>utente1 cap</cap>
-            <country>utente1 country</country>
+            <name>cliente1</name>
+            <surname>cliente1</surname>
+            <mail>cliente1@utente.com</mail>
+            <tel>cliente1 tel</tel>
+            <username>cliente1</username>
+            <password>cliente1</password>
+            <address>cliente1 indirizzo</address>
+            <cap>cliente1 cap</cap>
+            <country>cliente1 country</country>
         </utente>
         
         <utente>
-            <name>utente2</name>
-            <surname>utente2</surname>
-            <mail>utente2@utente.com</mail>
-            <tel>utente2 tel</tel>
-            <username>utente2</username>
-            <password>utente2</password>
-            <address>utente2 indirizzo</address>
-            <cap>utente2 cap</cap>
-            <country>utente2 country</country>
+            <name>cliente2</name>
+            <surname>cliente2</surname>
+            <mail>cliente2@utente.com</mail>
+            <tel>cliente2 tel</tel>
+            <username>cliente2</username>
+            <password>cliente2</password>
+            <address>cliente2 indirizzo</address>
+            <cap>cliente2 cap</cap>
+            <country>cliente2 country</country>
         </utente>
     </utenti>
 </anagrafica>

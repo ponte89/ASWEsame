@@ -1,10 +1,7 @@
 package asw1021;
 
-import asw1012.HTTPClient;
-import asw1012.ManageXML;
-import asw1021.pizze.pizza;
-import asw1021.pizze.pizzaPersonalizzata;
-import asw1021.pizze.pizzaStandard;
+
+import asw1021.pizze.*;
 import java.awt.Color;
 import java.awt.Container;
 import java.awt.event.ActionEvent;

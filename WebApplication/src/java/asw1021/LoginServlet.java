@@ -5,7 +5,6 @@
  */
 package asw1021;
 
-import asw1012.ManageXML;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;

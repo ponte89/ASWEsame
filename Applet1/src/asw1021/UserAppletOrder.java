@@ -373,6 +373,8 @@ public class UserAppletOrder extends JApplet {
         tabbedPane.setEnabled(false);
         panelStandard.setEnabled(false);
         panelPersonalizzata.setEnabled(false);
+        btnAggiungiPersonalizzata.setEnabled(false);
+        btnAggiungiStandard.setEnabled(false);
         String typeDelivery = "";
         if (rdbtnRitiro.isSelected()){
            typeDelivery = "ritiro"; 

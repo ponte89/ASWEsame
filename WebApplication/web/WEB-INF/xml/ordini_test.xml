@@ -7,5 +7,46 @@ and open the template in the editor.
 
 
 <ordine_utente xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../xml-types/ordini.xsd">
+    <ordine_utente>
+        <id>00</id>
+        <user>user1</user>
+        <tipo_ordine>ritiro</tipo_ordine>
+        <pizzaS>
+            <nome>margherita</nome>
+            <numero>2</numero>
+            <plus></plus>
+        </pizzaS>
+        
+        <pizzaS>
+            <nome>wuster</nome>
+            <numero>4</numero>
+            <plus>
+                kamut
+            </plus>
+        </pizzaS>
+        
+        <pizzaS>
+            <nome>quattro stagioni</nome>
+            <numero>1</numero>
+            <plus>doppiaMoz</plus>
+        </pizzaS>
+        <done>false</done>
+    </ordine_utente>
     
+    <ordine_utente>
+        <id>01</id>
+        <user>utente2</user>
+        <tipo_ordine>ritiro</tipo_ordine>
+        
+        <pizzaP>
+            <base>
+                <margherita />
+            </base>
+            <condimento>olive</condimento>
+            <condimento>funghi</condimento>
+            <condimento>zucchine</condimento>
+            <condimento>prosciutto cotto</condimento>
+        </pizzaP>
+        <done></done>
+    </ordine_utente>
 </ordine_utente>

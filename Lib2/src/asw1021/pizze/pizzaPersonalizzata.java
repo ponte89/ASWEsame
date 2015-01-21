@@ -48,6 +48,10 @@ public class pizzaPersonalizzata implements pizza{
         this.base = base;
     }
     
+    public String getBase(){
+        return base;
+    } 
+    
     public void setCondimento(String cond){
         condimenti.add(cond);
     }

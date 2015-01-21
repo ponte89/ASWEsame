@@ -37,6 +37,7 @@
                             archive="Applet1.jar, Lib1.jar, Lib2.jar"
                             width="800"
                             height="530">
+                        <param name="user" value="<%= session.getAttribute("login") %>" />
                         Applet failed to run. No Java plug-in was found.
                     </applet>
 

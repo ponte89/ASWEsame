@@ -19,7 +19,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
-import org.w3c.dom.NodeList;
 
 /**
  *
@@ -54,6 +53,7 @@ public class OrderServlet extends HttpServlet {
             
         }catch(Exception e){
             e.printStackTrace();
+            System.out.println("Errore nella servlet per ordini");
         }
         
         try (PrintWriter out = response.getWriter()) {

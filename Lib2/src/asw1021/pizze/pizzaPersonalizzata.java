@@ -15,10 +15,10 @@ public class pizzaPersonalizzata implements pizza{
     ArrayList<String> condimenti = new ArrayList<String>();
     ArrayList<String> aggiunte = new ArrayList<String>();
     int nPizze;
-    String base;
+    String base, name;
     
     public pizzaPersonalizzata(){
-        
+        name = "personalizzata";
     }
     
     @Override
@@ -39,6 +39,10 @@ public class pizzaPersonalizzata implements pizza{
     public int getNPizze() {
         return nPizze;
     }
+    
+    public String getName(){
+        return name;
+    }    
     
     public void setBase(String base){
         this.base = base;

@@ -8,7 +8,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.ButtonGroup;
 import javax.swing.JApplet;
 import javax.swing.JButton;
@@ -17,13 +18,10 @@ import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
-import javax.swing.JScrollBar;
 import javax.swing.JScrollPane;
 import javax.swing.JSpinner;
 import javax.swing.JTabbedPane;
 import javax.swing.JTextArea;
-import javax.swing.JTextPane;
-import javax.swing.ScrollPaneConstants;
 import javax.swing.SpinnerNumberModel;
 import javax.swing.SwingUtilities;
 import javax.swing.border.LineBorder;
@@ -327,9 +325,11 @@ public class UserAppletOrder extends JApplet {
         tabbedPane.setEnabled(false);
         panelStandard.setEnabled(false);
         panelPersonalizzata.setEnabled(false);
+        String typeDelivery = "";
+        //if ( )
         try{
             HTTPClient httpClient = new HTTPClient();
-            httpClient.setBase(new URL(getCodeBase()+"../OrderServlet"));
+            httpClient.setBase(new URL("http://localhost:8080/WebApplication/OrderServlet"));
 
             ManageXML mngXML = new ManageXML();
 
@@ -339,43 +339,46 @@ public class UserAppletOrder extends JApplet {
             user.setTextContent("ale");
             Element state = data.createElement("done");
             state.setTextContent("new");
+            Element type = data.createElement(typeDelivery);
+            type.setTextContent("new");
+            root.appendChild(user);
+            root.appendChild(state);
             
             Element name = null;
             Element number = null;
-            Element plus = null;
-            Element extra = null;
+            //Element plus = null;
+            //Element extra = null;
                     
-            /*for(int i = 0; i < listaOrdinazione.size(); i++){  
+            for(int i = 0; i < listaOrdinazione.size(); i++){  
                 pizza newPizza = listaOrdinazione.get(i);
                 name = data.createElement("name");
                 name.setTextContent(newPizza.getName());
                 number = data.createElement("number");
                 number.setTextContent(""+newPizza.getNPizze());
-                plus = data.createElement("plus");
-                plus.setTextContent(""+newPizza.getAggiunte());   
-                if (newPizza.getName().equals("personalizzata")){
+                //plus = data.createElement("plus");
+                //plus.setTextContent(""+newPizza.getAggiunte());   
+                /*if (newPizza.getName().equals("personalizzata")){
                    extra = data.createElement("extra");
                    pizzaPersonalizzata pizzaP= (pizzaPersonalizzata)newPizza;
                    plus.setTextContent(""+pizzaP.getCondimenti()); 
-                }
-            }*/
+                }*/
+                root.appendChild(name);
+                root.appendChild(number);
+            }
             
-            root.appendChild(user);
-            root.appendChild(state);
-            root.appendChild(name);
-            root.appendChild(number);
-            root.appendChild(plus);
-            root.appendChild(extra);
+            //root.appendChild(plus);
+            //root.appendChild(extra);
      
             data.appendChild(root);
             
             Document answer = httpClient.execute("OrderServlet", data);
                         
             //per debug
-            textPaneOrdinazione.setText("Ordine confermato");
+            textPaneOrdinazione.setText("Ordine confermato" + listaOrdinazione.size());
 
         }catch(Exception e){
             //per debug
+            Logger.getLogger(UserAppletOrder.class.getName()).log(Level.SEVERE, null, e);
             textPaneOrdinazione.setText("Errore");
         }
     }
@@ -383,9 +386,8 @@ public class UserAppletOrder extends JApplet {
     
     private void resetOrdinazione(){
         
-        listaOrdinazione.clear();
-        
-        //textPaneOrdinazione.setText("");
+        listaOrdinazione.clear();    
+        textPaneOrdinazione.setText("");
     }
     
     private void aggiungiPizzaStandard(){

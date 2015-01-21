@@ -20,4 +20,7 @@ public interface pizza {
     
     public int getNPizze();
     
+    public String getName();
+    
+    
 }

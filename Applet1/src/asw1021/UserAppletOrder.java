@@ -326,7 +326,13 @@ public class UserAppletOrder extends JApplet {
         panelStandard.setEnabled(false);
         panelPersonalizzata.setEnabled(false);
         String typeDelivery = "";
-        //if ( )
+        if (rdbtnRitiro.isSelected()){
+           typeDelivery = "ritiro"; 
+        }else if(rdbtnAsporto.isSelected()){
+           typeDelivery = "asporto";         
+        }else if(rdbtnPrenotazione.isSelected()){
+           typeDelivery = "prenotazione";    
+        }
         try{
             HTTPClient httpClient = new HTTPClient();
             httpClient.setBase(new URL("http://localhost:8080/WebApplication/OrderServlet"));
@@ -336,45 +342,51 @@ public class UserAppletOrder extends JApplet {
             Document data = mngXML.newDocument();
             Element root = data.createElement("ordine_utente");
             Element user = data.createElement("user");
-            user.setTextContent("ale");
+            user.setTextContent("user");
             Element state = data.createElement("done");
             state.setTextContent("new");
-            Element type = data.createElement(typeDelivery);
-            type.setTextContent("new");
+            Element type = data.createElement("typeDelivery");
+            type.setTextContent(typeDelivery);
             root.appendChild(user);
             root.appendChild(state);
+            root.appendChild(type);
             
-            Element name = null;
-            Element number = null;
-            //Element plus = null;
-            //Element extra = null;
-                    
+            Element name, number, plus, extra;
+            String plusString, extraString;
+            
             for(int i = 0; i < listaOrdinazione.size(); i++){  
+                plusString = "";
                 pizza newPizza = listaOrdinazione.get(i);
                 name = data.createElement("name");
                 name.setTextContent(newPizza.getName());
                 number = data.createElement("number");
                 number.setTextContent(""+newPizza.getNPizze());
-                //plus = data.createElement("plus");
-                //plus.setTextContent(""+newPizza.getAggiunte());   
-                /*if (newPizza.getName().equals("personalizzata")){
-                   extra = data.createElement("extra");
-                   pizzaPersonalizzata pizzaP= (pizzaPersonalizzata)newPizza;
-                   plus.setTextContent(""+pizzaP.getCondimenti()); 
-                }*/
+                plus = data.createElement("plus");
+                for(int j = 0; j < newPizza.getAggiunte().size(); j++){
+                    plusString += " " + newPizza.getAggiunte().get(j);
+                }
+                plus.setTextContent(plusString);  
                 root.appendChild(name);
                 root.appendChild(number);
+                root.appendChild(plus);
+                if (newPizza.getName().equals("personalizzata")){
+                   extraString = ""; 
+                   extra = data.createElement("extra");
+                   pizzaPersonalizzata pizzaP= (pizzaPersonalizzata)newPizza;
+                   for(int k = 0; k < pizzaP.getCondimenti().size(); k++){
+                    extraString += pizzaP.getCondimenti().get(k);
+                   }
+                   extra.setTextContent(extraString);  
+                   root.appendChild(extra);
+                }
             }
-            
-            //root.appendChild(plus);
-            //root.appendChild(extra);
-     
+
             data.appendChild(root);
             
             Document answer = httpClient.execute("OrderServlet", data);
                         
             //per debug
-            textPaneOrdinazione.setText("Ordine confermato" + listaOrdinazione.size());
+            textPaneOrdinazione.setText("Ordine confermato");
 
         }catch(Exception e){
             //per debug

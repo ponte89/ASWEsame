@@ -7,6 +7,7 @@ package asw1021;
 
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -19,6 +20,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
 
 /**
  *
@@ -40,14 +43,30 @@ public class OrderServlet extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try{
+            /*System.out.println("Servlet per ordini");
+            InputStream is = request.getInputStream();
+            ManageXML manageXml = new ManageXML();
+            Document doc = manageXml.parse(is);
+            String ordine= doc.getElementsByTagName("ordine_utente").item(0).getTextContent();
+            
+            String context = getServletContext().getRealPath("") + "/WEB-INF/xml/ordini_test.xml";
+            FileInputStream in1 = new FileInputStream(context);
+            ManageXML mngXML = new ManageXML();
+            Document docOut = mngXML.parse(in1);
+            Element rootElement = docOut.getDocumentElement();
+            rootElement.setNodeValue(ordine);
+  
+            FileOutputStream out1 = new FileOutputStream(context);
+            manageXml.transform(out1, docOut);
+            out1.close();*/
+            
             System.out.println("Servlet per ordini");
             InputStream is = request.getInputStream();
             ManageXML manageXml = new ManageXML();
             Document doc = manageXml.parse(is);
             Element root = doc.getDocumentElement();
-            
             String path = getServletContext().getRealPath("")+"/WEB-INF/xml/ordini_test.xml";
-            OutputStream os = new FileOutputStream(new File(path));             
+            OutputStream os = new FileOutputStream(new File(path));
             manageXml.transform(os, doc);
             os.close();
             

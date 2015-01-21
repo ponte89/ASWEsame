@@ -133,10 +133,10 @@ public class LoginServlet extends HttpServlet {
                             newUser.appendChild(newCountry);
                             root.appendChild(newUser);
                             
-                            String path = getServletContext().getRealPath("")+"/WEB-INF/xml/anagrafica_test.xml";
+                            /*String path = getServletContext().getRealPath("")+"/WEB-INF/xml/anagrafica_test.xml";
                             OutputStream os = new FileOutputStream(new File(path));             
                             manageXml.transform(os, doc);
-                            os.close();
+                            os.close();*/
 
                             session.setAttribute("login", user);
                  

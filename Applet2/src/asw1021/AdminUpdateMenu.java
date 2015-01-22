@@ -176,36 +176,15 @@ public class AdminUpdateMenu extends JApplet {
                 
 
                 try {
-                    /*String txt = "";
-                    txt+="1";
-                    //textArea.setText("->" +txt);
-                    HTTPClient httpClient = new HTTPClient();
-                    txt+="2";
-                    //textArea.setText("->" +txt);
-                    httpClient.setBase(new URL("http://localhost:8080/WebApplication/MenuServlet"));
-                    txt+="3";
-                    //textArea.setText("->" +txt);
-                    ManageXML mngXML = new ManageXML();
-                    txt+="4";
-                    //textArea.setText("->" +txt);
-                    Document data = mngXML.newDocument();
-                    txt+="5";
-                    //textArea.setText("->" +txt);
-                    data.createElement("ordine_utente");
-                    Element user = data.createElement("user");
-                    user.setTextContent("pippo");
-                    txt+="6";
-                    textArea.setText("->" + new URL("http://localhost:8080/WebApplication/MenuServlet"));
-                    //Document answer = httpClient.execute("MenuServlet", data);
-                    txt+="7";
-                    //textArea.setText("->" +txt);
-                    //NodeList n = answer.getChildNodes();//getElementsByTagName("pizza standard");*/
+                    
                     HTTPClient httpClient = new HTTPClient();
                     httpClient.setBase(new URL("http://localhost:8080/WebApplication/MenuServlet"));
 
                     ManageXML mngXML = new ManageXML();
                     Document data = mngXML.newDocument();
                     Document answer = httpClient.execute("MenuServlet", data);
+                    
+                    answer.getElementsByTagName("pizza standard");
                     
                     textArea.setText("Applet OK");
                     
@@ -219,12 +198,7 @@ public class AdminUpdateMenu extends JApplet {
     }
 
     private void getListaPizze() {
-        try {/*
-        
-             System.out.println("lunghezza pizze: "+n.getLength());
-             String s = txtPrezzoPizza.getText();
-             s += n.getLength();
-             txtPrezzoPizza.setText(s);*/
+        try {
 
         } catch (Exception e) {
             System.err.println("--> " + e.getMessage());

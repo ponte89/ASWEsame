@@ -43,24 +43,21 @@ public class MenuServlet extends HttpServlet {
 
         try {
             System.out.println("Servlet per modifica menu");
-            /*ManageXML manageXml = new ManageXML();
-            System.out.println("1");
-            InputStream is = request.getInputStream();
-            System.out.println("2");
-            Document doc = manageXml.parse(is);
-            System.out.println("---->"+doc.getElementsByTagName("user").item(0).getTextContent());
+            ManageXML manageXml = new ManageXML();
             
-            System.out.println("3");
+            InputStream is = request.getInputStream();
+           
+            Document doc = manageXml.parse(is);
+           
             String path = getServletContext().getRealPath("") + "/WEB-INF/xml/pizze_standard_test.xml";
-            System.out.println("4");
+            
             OutputStream os = new FileOutputStream(new File(path));
-            System.out.println("5");
+            
             manageXml.transform(os, doc);
-            System.out.println("6");
+            
             os.close();
-            System.out.println("7");*/
-        } catch (Exception e) {
-            System.out.println("--> Servlet "+e.getMessage());
+            } catch (Exception e) {
+            System.out.println("--> Servlet " + e.getMessage());
         }
         
         try (PrintWriter out = response.getWriter()) {

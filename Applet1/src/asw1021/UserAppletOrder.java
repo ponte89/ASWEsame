@@ -32,12 +32,16 @@ import javax.swing.border.LineBorder;
 import javax.swing.border.TitledBorder;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
+import java.awt.Insets;
+import javax.swing.JTextField;
 
 /**
  *
  * @author Lorenzo
  */
 public class UserAppletOrder extends JApplet {
+	public UserAppletOrder() {
+	}
 
     private Container cp;
     
@@ -60,6 +64,7 @@ public class UserAppletOrder extends JApplet {
     private JLabel lblCondimento2;
     private JLabel lblCondimento3;
     private JLabel lblCondimento4;
+    private JLabel lblPosti;
     
     private JComboBox comboBoxStandard;
     private JComboBox comboBoxCondimento1;
@@ -74,8 +79,10 @@ public class UserAppletOrder extends JApplet {
     
     private SpinnerNumberModel model1;
     private SpinnerNumberModel model2;
+    private SpinnerNumberModel model3;
     private JSpinner spinnerStandard;
     private JSpinner spinnerPersonalizzata;
+    private JSpinner spinnerPosti;
     
     private JCheckBox chckbxBaseKamutS;
     private JCheckBox chckbxGiganteS;
@@ -92,6 +99,7 @@ public class UserAppletOrder extends JApplet {
     private JRadioButton rdbtnRitiro;
     private JRadioButton rdbtnAsporto;
     private JRadioButton rdbtnPrenotazione;
+    private int nPosti;
     
     private ArrayList<pizza> listaOrdinazione;
     
@@ -125,7 +133,7 @@ public class UserAppletOrder extends JApplet {
         cp.setLayout(null);
 
         tabbedPane = new JTabbedPane(JTabbedPane.TOP);
-        tabbedPane.setBounds(11, 6, 314, 390);
+        tabbedPane.setBounds(6, 6, 314, 390);
         cp.add(tabbedPane);
 
         panelStandard = new JPanel();
@@ -154,6 +162,8 @@ public class UserAppletOrder extends JApplet {
 
         model1 = new SpinnerNumberModel(1.0, 1.0, 100.0, 1.0);
         model2 = new SpinnerNumberModel(1.0, 1.0, 100.0, 1.0);
+        model3 = new SpinnerNumberModel(1.0, 1.0, 100.0, 1.0);
+        
         
         spinnerStandard = new JSpinner(model1);
         spinnerStandard.setBounds(102, 269, 86, 28);
@@ -291,7 +301,7 @@ public class UserAppletOrder extends JApplet {
         scroll.setBorder(new TitledBorder(new LineBorder(new Color(0, 0, 0), 1, true), "Ordinazione", TitledBorder.CENTER, TitledBorder.TOP, null, null));
         scroll.setEnabled(false);
         scroll.setBackground(new Color(255, 255, 204));
-        scroll.setBounds(337, 26, 275, 332);
+        scroll.setBounds(322, 21, 275, 231);
         cp.add(scroll);
 
         btnAnnulla = new JButton("Annulla Ordine");
@@ -305,14 +315,14 @@ public class UserAppletOrder extends JApplet {
         cp.add(btnAnnulla);
         
         rdbtnRitiro = new JRadioButton("Ritiro");
-        rdbtnRitiro.setBounds(340, 355, 70, 25);
+        rdbtnRitiro.setBounds(332, 320, 70, 25);
         rdbtnRitiro.setSelected(true);
                 
         rdbtnAsporto = new JRadioButton("Asporto");
-        rdbtnAsporto.setBounds(405, 355, 85, 23);
+        rdbtnAsporto.setBounds(332, 299, 85, 23);
         
         rdbtnPrenotazione = new JRadioButton("Prenotazione");
-        rdbtnPrenotazione.setBounds(490, 355, 130, 23);
+        rdbtnPrenotazione.setBounds(332, 280, 130, 23);
         
         buttonGroup2 = new ButtonGroup();
         buttonGroup2.add(rdbtnRitiro);
@@ -322,6 +332,15 @@ public class UserAppletOrder extends JApplet {
         cp.add(rdbtnRitiro);
         cp.add(rdbtnAsporto);
         cp.add(rdbtnPrenotazione);
+        
+        spinnerPosti = new JSpinner(model3);
+        spinnerPosti.setEnabled(false);
+        spinnerPosti.setBounds(484, 278, 37, 28);
+        getContentPane().add(spinnerPosti);
+        
+        lblPosti = new JLabel("Posti");
+        lblPosti.setBounds(484, 264, 61, 16);
+        getContentPane().add(lblPosti);
 
     }
     
@@ -335,7 +354,9 @@ public class UserAppletOrder extends JApplet {
         }else if(rdbtnAsporto.isSelected()){
            typeDelivery = "asporto";         
         }else if(rdbtnPrenotazione.isSelected()){
-           typeDelivery = "prenotazione";    
+           typeDelivery = "prenotazione"; 
+           spinnerPosti.setEnabled(true);
+           nPosti = ((Double)spinnerPersonalizzata.getValue()).intValue();
         }
         try{
             HTTPClient httpClient = new HTTPClient();
@@ -353,6 +374,13 @@ public class UserAppletOrder extends JApplet {
             Element id = data.createElement("id");
             id.setTextContent(idUser+new SimpleDateFormat("dd-M-yyyy hh:mm:ss").format(new Date()));
             Element type = data.createElement("tipo_ordine");
+            
+            if(typeDelivery.equals("prenotazione")){
+                Element posti = data.createElement("posti");
+                posti.setTextContent(""+nPosti);
+                type.appendChild(posti);
+            }
+            
             type.setTextContent(typeDelivery);
             root.appendChild(user);
             root.appendChild(id);
@@ -600,5 +628,4 @@ public class UserAppletOrder extends JApplet {
                 comboBoxStandard.addItem(s);
             }
     }
-    
 }

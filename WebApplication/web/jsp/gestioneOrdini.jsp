@@ -4,6 +4,8 @@
     Author     : Lorenzo
 --%>
 
+<%@page import="asw1021.ordini.Ordine"%>
+<%@page import="java.util.ArrayList"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -21,11 +23,11 @@
         <%
             if (session.getAttribute("login") != null) {
                 String us = session.getAttribute("type").toString();
+                ArrayList<Ordine> ordini = null;
+                if (us.equals("admin")) {  //admin 
+                    ordini = (ArrayList<Ordine>) request.getAttribute("allOrder");
                 
-                if (us.equals("admin")) {%>  <!-- admin -->   
-                    
                 
-                <%
                 }
             }
         %>    

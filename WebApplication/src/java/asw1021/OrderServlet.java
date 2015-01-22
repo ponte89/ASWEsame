@@ -7,7 +7,6 @@ package asw1021;
 
 
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -19,9 +18,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
 
 /**
  *
@@ -51,14 +47,19 @@ public class OrderServlet extends HttpServlet {
             
             
             //file ricevuto
-            /*InputStream is = request.getInputStream();
+            InputStream is = request.getInputStream();
             ManageXML manageXml = new ManageXML();
-            Document doc = manageXml.parse(is);
+            /*Document doc = manageXml.parse(is);
             Element root = doc.getDocumentElement();
             String path = getServletContext().getRealPath("")+"/WEB-INF/xml/ordini_test.xml";
             OutputStream os = new FileOutputStream(new File(path));*/
             
-            manageXml.transform(os, doc);
+            //manageXml.transform(os, doc);
+            manageXml = new ManageXML();
+            Document answer = manageXml.newDocument();
+            answer.appendChild(answer.createElement("ok"));
+            os = response.getOutputStream();
+            manageXml.transform(os, answer);
             os.close();
             
         }catch(Exception e){

@@ -1,6 +1,8 @@
 package asw1021;
 
 
+import asw1021.ordini.Ordine;
+import asw1021.ordini.OrdineCliente;
 import asw1021.pizze.*;
 import java.awt.Color;
 import java.awt.Container;
@@ -386,7 +388,6 @@ public class UserAppletOrder extends JApplet {
         try{
             HTTPClient httpClient = new HTTPClient();
             httpClient.setBase(new URL("http://localhost:8080/WebApplication/OrderServlet"));
-
             ManageXML mngXML = new ManageXML();
             String idUser = getParameter("user");
             Document data = mngXML.newDocument();
@@ -395,11 +396,12 @@ public class UserAppletOrder extends JApplet {
             Element user = data.createElement("user");
             user.setTextContent(idUser);
             Element done = data.createElement("done");
-            done.setTextContent("new");
+            String state = "da fare";
+            done.setTextContent(state);
             Element id = data.createElement("id");
-            id.setTextContent(idUser+new SimpleDateFormat("dd-M-yyyy hh:mm:ss").format(new Date()));
+            String idOrdine = new SimpleDateFormat("dd-M-yyyy hh:mm:ss").format(new Date());
+            id.setTextContent(idUser+idOrdine);
             Element type = data.createElement("tipo_ordine");
-            
             if(typeDelivery.equals("prenotazione")){
                
                 Element posti = data.createElement("posti");
@@ -413,12 +415,15 @@ public class UserAppletOrder extends JApplet {
             root.appendChild(type);
             root.appendChild(done);
             
+            Ordine ordine_cliente = new OrdineCliente(idUser, idOrdine, typeDelivery, state);
+            
             Element pizzaS, pizzaP, name, number, plus, extra, base, condimento;
             String plusString, extraString;
             
             for(int i = 0; i < listaOrdinazione.size(); i++){ 
                 plusString = "";
                 pizza newPizza = listaOrdinazione.get(i);
+                ordine_cliente.addPizza(newPizza);
                 if(!newPizza.getName().equals("personalizzata")){
                    pizzaS = data.createElement("pizzaS");
                 }else{
@@ -451,12 +456,13 @@ public class UserAppletOrder extends JApplet {
             data.appendChild(rootFile);
             
             Document answer = httpClient.execute("OrderServlet", data);
-                        
-            //per debug
-            textPaneOrdinazione.setText("Ordine confermato");
+            if (answer.getDocumentElement().getTagName().equals("ok")){
+               textPaneOrdinazione.setText("Ordine Confermato");
+            }else{
+               textPaneOrdinazione.setText("Ordine non effettuato"); 
+            }
 
         }catch(Exception e){
-            //per debug
             Logger.getLogger(UserAppletOrder.class.getName()).log(Level.SEVERE, null, e);
             textPaneOrdinazione.setText("Errore");
         }

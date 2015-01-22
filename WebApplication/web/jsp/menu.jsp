@@ -6,29 +6,28 @@
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <html>
-<head>
-<title>Pizzeria Interattiva</title>
-<link href="./../style-sheet/styles.css" rel="stylesheet" type="text/css">
-<%@ include file="/WEB-INF/jspf/header.jspf" %>
-</head>
+    <head>
+        <title>Pizzeria Interattiva</title>
+        <link href="./../style-sheet/styles.css" rel="stylesheet" type="text/css">
+        <%@ include file="/WEB-INF/jspf/header.jspf" %>
+    </head>
 
-<body>
-  <section class="container">
+    <body onload="func()">
+        <section class="container">
 
-      <%@ include file="/WEB-INF/jspf/sidebar.jspf" %>   
-      
-      
-     
-      
-      <div class="content">
-        <h1>Il menu tradizionale</h1>
-        
-        <%
-            if((session.getAttribute("login") != null)&&
-                (session.getAttribute("type").toString().equals("admin"))) { 
-        %>
-                
-            
+            <%@ include file="/WEB-INF/jspf/sidebar.jspf" %>   
+
+
+
+
+            <div class="content">
+                <h1>Il menu tradizionale</h1>
+
+                <%            if ((session.getAttribute("login") != null)
+                            && (session.getAttribute("type").toString().equals("admin"))) {
+                %>
+
+
                 <div id="applet" align="center" style="margin:5px;">
 
                     <applet code="asw1021.AdminUpdateMenu"
@@ -40,23 +39,41 @@
                     </applet>
 
                 </div>
-                
-        <%
-            }else{
-        %>  
-            <div class="Menù"><img src="./../multimedia/Menu.jpg"></div>
-        
-        <%
-            }
-        %>        
-        
-      </div>
-           <!--  -->
-      
-      
-      
-  </section>
-  
-  <%@ include file="/WEB-INF/jspf/footer.jspf" %> 
-</body>
+
+                <%
+                } else {
+                %>  
+                <input type="button" onClick="getMessages();" />
+
+                <%
+                    }
+                %>        
+
+            </div>
+
+        </section>
+
+        <script >
+                var xmlhttp2, answer, data;
+                function getMessages() {
+                    console.log("ancora!");
+                    xmlhttp2 = new XMLHttpRequest();
+                    
+                    var to = "http://localhost:8080/WebApplication/MenuServlet";
+                    
+                    xmlhttp2.open("POST", to, true);
+                    xmlhttp2.onreadystatechange = function () {
+                        if (xmlhttp2.readyState === 4 && xmlhttp2.status === 200) {
+                            answer = xmlhttp2.responseXML;
+                            alert("ho risposta");
+                        }
+                    };
+                    data = document.implementation.createDocument("", "pop", null);
+                    xmlhttp2.send(data);
+                }
+           
+        </script>
+
+        <%@ include file="/WEB-INF/jspf/footer.jspf" %> 
+    </body>
 </html>

@@ -85,9 +85,9 @@ public class AdminUpdateMenu extends JApplet {
             });
 
             getListaPizze();
+            
             getListaCondimenti();
-
-            // getListaCondimenti();
+            
         } catch (Exception ex) {
             System.err.println(ex);
         }
@@ -107,10 +107,23 @@ public class AdminUpdateMenu extends JApplet {
 
         btnAggiungiCond = new JButton("Aggiungi");
         btnAggiungiCond.setBounds(173, 207, 120, 29);
+        btnAggiungiCond.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                aggiungiCondimento();
+            }
+        });
+
         panelCondimenti.add(btnAggiungiCond);
 
         btnRimuoviCond = new JButton("Rimuovi");
         btnRimuoviCond.setBounds(291, 207, 120, 29);
+        btnRimuoviCond.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                rimuoviCondimento();
+            }
+        });
         panelCondimenti.add(btnRimuoviCond);
 
         panelPizze = new JPanel();
@@ -119,10 +132,23 @@ public class AdminUpdateMenu extends JApplet {
 
         btnAggiungiPiz = new JButton("Aggiungi");
         btnAggiungiPiz.setBounds(173, 207, 120, 29);
+        btnAggiungiPiz.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                aggiungiPizza();
+            }
+        });
+
         panelPizze.add(btnAggiungiPiz);
 
         btnRimuoviPiz = new JButton("Rimuovi");
         btnRimuoviPiz.setBounds(291, 207, 120, 29);
+        btnRimuoviPiz.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                rimuoviPizza();
+            }
+        });
         panelPizze.add(btnRimuoviPiz);
 
         txtNuovaPizza = new JTextField();
@@ -159,16 +185,6 @@ public class AdminUpdateMenu extends JApplet {
         panelCondimenti.add(lblPrezzoCondimento);
 
         listaCondimenti = new JList();
-       /* listaCondimenti.addListSelectionListener(new ListSelectionListener() {
-
-            @Override
-            public void valueChanged(ListSelectionEvent e) {
-                throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-            }
-
-        });*/
-        
-        
 
         scrollCondimenti = new JScrollPane(listaCondimenti);
         scrollCondimenti.setBounds(206, 6, 205, 191);
@@ -191,41 +207,7 @@ public class AdminUpdateMenu extends JApplet {
             @Override
             public void actionPerformed(ActionEvent e) {
 
-                try {
-                    /*HTTPClient httpClient = new HTTPClient();
-                     httpClient.setBase(new URL("http://localhost:8080/WebApplication/MenuServlet"));
-
-                     ManageXML mngXML = new ManageXML();
-                     Document data = mngXML.newDocument();
-                     Document answer = httpClient.execute("MenuServlet", data);
-                     NodeList l = answer.getElementsByTagName("pizza_standard");
-
-                     //textArea.setText("Applet OK " + l.getLength());
-                     // String tpm = "";
-                     ArrayList<String> strin = new ArrayList<String>();
-
-                     modelCondimenti = new DefaultListModel();
-
-                     //String[] strin = new String[l.getLength()];
-                     for (int i = 0; i < l.getLength(); i++) {
-                     Element n = (Element) l.item(i);
-                     String s = n.getElementsByTagName("nome").item(0).getTextContent();
-                     //strin[i] = s;
-                     strin.add(s);
-                     System.out.println("->" + s);
-
-                     }
-
-                     //modelCondimenti.addElement(strin);
-                     for (String s : strin) {
-                     modelCondimenti.addElement(s);
-                     }
-
-                     listaCondimenti.setModel(modelCondimenti);*/
-
-                } catch (Exception x) {
-                    //textArea.setText(x.getMessage());
-                }
+                salvaModificheMenu();
             }
 
         });
@@ -283,5 +265,40 @@ public class AdminUpdateMenu extends JApplet {
         } catch (Exception e) {
             System.err.println("--> " + e.getMessage());
         }
+    }
+
+    private void rimuoviCondimento() {
+        if (listaCondimenti.getSelectedIndex() != -1) {
+            modelCondimenti.remove(listaCondimenti.getSelectedIndex());
+            listaCondimenti.setModel(modelCondimenti);
+        }
+    }
+
+    private void aggiungiCondimento() {
+
+        if (!txtNuovoCondimento.getText().isEmpty()) {
+            String p = txtNuovoCondimento.getText();
+            modelCondimenti.addElement(p);
+            listaCondimenti.setModel(modelCondimenti);
+        }
+    }
+
+    private void rimuoviPizza() {
+        if (listaPizze.getSelectedIndex() != -1) {
+            modelPizze.remove(listaPizze.getSelectedIndex());
+            listaPizze.setModel(modelPizze);
+        }
+    }
+
+    private void aggiungiPizza() {
+        if (!txtNuovaPizza.getText().isEmpty()) {
+            String p = txtNuovaPizza.getText();
+            modelPizze.addElement(p);
+            listaPizze.setModel(modelPizze);
+        }
+    }
+    
+    private void salvaModificheMenu(){
+        
     }
 }

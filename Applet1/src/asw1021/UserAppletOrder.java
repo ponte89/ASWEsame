@@ -344,6 +344,7 @@ public class UserAppletOrder extends JApplet {
             ManageXML mngXML = new ManageXML();
             String idUser = getParameter("user");
             Document data = mngXML.newDocument();
+            Element rootFile = data.createElement("ordini_utente");
             Element root = data.createElement("ordine_utente");
             Element user = data.createElement("user");
             user.setTextContent(idUser);
@@ -392,7 +393,8 @@ public class UserAppletOrder extends JApplet {
                    }
                 }
             }
-            data.appendChild(root);
+            rootFile.appendChild(root);
+            data.appendChild(rootFile);
             
             Document answer = httpClient.execute("OrderServlet", data);
                         

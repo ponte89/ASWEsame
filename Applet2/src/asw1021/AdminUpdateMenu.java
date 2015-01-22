@@ -176,31 +176,39 @@ public class AdminUpdateMenu extends JApplet {
                 
 
                 try {
-                    String txt = "";
+                    /*String txt = "";
                     txt+="1";
-                    textArea.setText("->" +txt);
+                    //textArea.setText("->" +txt);
                     HTTPClient httpClient = new HTTPClient();
                     txt+="2";
-                    textArea.setText("->" +txt);
+                    //textArea.setText("->" +txt);
                     httpClient.setBase(new URL("http://localhost:8080/WebApplication/MenuServlet"));
                     txt+="3";
-                    textArea.setText("->" +txt);
+                    //textArea.setText("->" +txt);
                     ManageXML mngXML = new ManageXML();
                     txt+="4";
-                    textArea.setText("->" +txt);
+                    //textArea.setText("->" +txt);
                     Document data = mngXML.newDocument();
                     txt+="5";
-                    textArea.setText("->" +txt);
+                    //textArea.setText("->" +txt);
                     data.createElement("ordine_utente");
                     Element user = data.createElement("user");
                     user.setTextContent("pippo");
                     txt+="6";
-                    textArea.setText("->" +txt);
-                    Document answer = httpClient.execute("MenuServlet", data);
+                    textArea.setText("->" + new URL("http://localhost:8080/WebApplication/MenuServlet"));
+                    //Document answer = httpClient.execute("MenuServlet", data);
                     txt+="7";
-                    textArea.setText("->" +txt);
-                    NodeList n = answer.getChildNodes();//getElementsByTagName("pizza standard");
-                   
+                    //textArea.setText("->" +txt);
+                    //NodeList n = answer.getChildNodes();//getElementsByTagName("pizza standard");*/
+                    HTTPClient httpClient = new HTTPClient();
+                    httpClient.setBase(new URL("http://localhost:8080/WebApplication/MenuServlet"));
+
+                    ManageXML mngXML = new ManageXML();
+                    Document data = mngXML.newDocument();
+                    Document answer = httpClient.execute("MenuServlet", data);
+                    
+                    textArea.setText("Applet OK");
+                    
                 } catch (Exception x) {
                     textArea.setText(x.getMessage());
                     Logger.getLogger(AdminUpdateMenu.class.getName()).log(Level.SEVERE, null, e);

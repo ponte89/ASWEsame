@@ -60,7 +60,20 @@ public class MenuServlet extends HttpServlet {
             os.close();
             System.out.println("7");*/
         } catch (Exception e) {
-            System.out.println("-->"+e.getMessage());
+            System.out.println("--> Servlet "+e.getMessage());
+        }
+        
+        try (PrintWriter out = response.getWriter()) {
+            /* TODO output your page here. You may use following sample code. */
+            out.println("<!DOCTYPE html>");
+            out.println("<html>");
+            out.println("<head>");
+            out.println("<title>Servlet MenuServlet</title>");            
+            out.println("</head>");
+            out.println("<body>");
+            out.println("<h1>Servlet MenuServlet at " + request.getContextPath() + "</h1>");
+            out.println("</body>");
+            out.println("</html>");
         }
     }
 

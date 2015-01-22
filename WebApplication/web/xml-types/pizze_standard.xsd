@@ -5,8 +5,8 @@
     <xsd:element name="pizze_standard" type="xs:string"/>
     <xsd:complexType name="pizza_standard">
         <xsd:sequence>
-            <xsd:element name="nome" type="xs:string" maxOccurs="unbounded" />
-            <xsd:element name="costo" type="xs:string" maxOccurs="unbounded" />
+            <xsd:element name="nome" type="xs:string" />
+            <xsd:element name="costo" type="xs:string"  />
         </xsd:sequence> 
     </xsd:complexType>
     

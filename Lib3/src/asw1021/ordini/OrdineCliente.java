@@ -17,7 +17,7 @@ import java.util.ArrayList;
 public class OrdineCliente implements Ordine{
     
     String id, user, type;
-    Boolean state;
+    boolean state;
     ArrayList<pizza> elencoPizze;
     
     /** Setto il nome utente, l'identificativo dell'ordine, il tipo di richiesta
@@ -28,7 +28,7 @@ public class OrdineCliente implements Ordine{
      * @param state 
      */
     
-    public OrdineCliente(String user, String id, String type, Boolean state){
+    public OrdineCliente(String user, String id, String type, boolean state){
         this.user = user;
         this.id = id;
         this.type = type;
@@ -86,7 +86,7 @@ public class OrdineCliente implements Ordine{
      */
     
     @Override
-    public Boolean getState() {
+    public boolean getState() {
         return state;
     }
     
@@ -95,7 +95,7 @@ public class OrdineCliente implements Ordine{
      */
 
     @Override
-    public void setState(Boolean state) {
+    public void setState(boolean state) {
         this.state = state;
     }
     

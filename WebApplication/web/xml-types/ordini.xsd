@@ -9,7 +9,7 @@
             <xsd:element name="user" type="xs:string"/>
             <xsd:element name="id" type="xs:string" />
             <xsd:element name="tipo_ordine" type="tipo_ordine" />
-            <xsd:element name="done" type="xs:string"/>
+            <xsd:element name="done" type="xs:boolean"/>
             <xsd:element name="pizzaS" type="pizza_standard" maxOccurs="unbounded" />
             <xsd:element name="pizzaP" type="pizza_personalizzata" maxOccurs="unbounded" />
         </xsd:sequence> 

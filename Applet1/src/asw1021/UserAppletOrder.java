@@ -414,7 +414,7 @@ public class UserAppletOrder extends JApplet {
             Element user = data.createElement("user");
             user.setTextContent(idUser);
             Element done = data.createElement("done");
-            Boolean state = false;
+            boolean state = false;
             done.setTextContent(""+state);
             Element id = data.createElement("id");
             String idOrdine = new SimpleDateFormat("dd-M-yyyy hh:mm:ss").format(new Date());

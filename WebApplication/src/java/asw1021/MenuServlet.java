@@ -44,34 +44,27 @@ public class MenuServlet extends HttpServlet {
         try {
             System.out.println("Servlet per modifica menu");
             ManageXML manageXml = new ManageXML();
-            
-            InputStream is = request.getInputStream();
-           
-            Document doc = manageXml.parse(is);
-           
             String path = getServletContext().getRealPath("") + "/WEB-INF/xml/pizze_standard_test.xml";
-            
-            OutputStream os = new FileOutputStream(new File(path));
-            
+            Document doc = manageXml.parse(new File(path));
+            OutputStream os = response.getOutputStream();
             manageXml.transform(os, doc);
-            
             os.close();
-            } catch (Exception e) {
+        } catch (Exception e) {
             System.out.println("--> Servlet " + e.getMessage());
         }
-        
+        /*
         try (PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
+            /* TODO output your page here. You may use following sample code. 
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet MenuServlet</title>");            
+            out.println("<title>Servlet MenuServlet</title>");
             out.println("</head>");
             out.println("<body>");
             out.println("<h1>Servlet MenuServlet at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
-        }
+        }*/
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

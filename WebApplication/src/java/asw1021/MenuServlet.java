@@ -23,7 +23,7 @@ import org.w3c.dom.NodeList;
 
 /**
  *
- * @author Lorenzo
+ * @author Mezzapesa Beatrice, Papini Alessia, Pontellini Lorenzo
  */
 @WebServlet(name = "MenuServlet", urlPatterns = {"/MenuServlet"})
 public class MenuServlet extends HttpServlet {

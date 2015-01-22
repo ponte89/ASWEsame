@@ -1,6 +1,8 @@
 package asw1021;
 
 
+import asw1021.ordini.Ordine;
+import asw1021.ordini.OrdineCliente;
 import asw1021.pizze.*;
 import java.awt.Color;
 import java.awt.Container;
@@ -35,10 +37,17 @@ import org.w3c.dom.Element;
 import java.awt.Insets;
 import javax.swing.JTextField;
 
-/**
- *
- * @author Lorenzo
- */
+/** Applet per effettuare ordini.
+ *  Visualizzazione in base al pannello scelto, standard o personalizzata, delle possibili pizze da voler ordinare.
+ *  Nel pannello "Standard" posso selezionare le pizze tradizionali presenti e visibili all'interno della pagina menu;
+ *  mentre nel pannello "Personalizzata" posso riadattare la pizza a seconda delle mie preferenze partendo dalla base,
+ *  bianca o margherita, e dai possibili condimenti da aggiungere sopra.
+ *  In entrambi i pannelli in più ho la possibilità di scegliere se la mia pizza la volessi a base kamut o con doppia 
+ *  mozzarella o di dimensioni maxi; e nel caso in cui avessi più pizze dello stesso tipo è stato inserito appositamente
+ *  un contatore da incrementare per non dover compilare la stessa procedura n volte. 
+* @author Mezzapesa Beatrice, Papini Alessia, Pontellini Lorenzo
+* @version 1.0
+*/
 public class UserAppletOrder extends JApplet {
 	public UserAppletOrder() {
 	}
@@ -103,6 +112,9 @@ public class UserAppletOrder extends JApplet {
     
     private ArrayList<pizza> listaOrdinazione;
     
+    /** Inizializzazione dell' applet con creazione della GUI
+    */
+    
     @Override
     public void init() {
 
@@ -127,6 +139,12 @@ public class UserAppletOrder extends JApplet {
         }
     }
 
+    /** Definizione dell' interfaccia grafica con appropriati componenti grafici
+    *   per la visualizzazione di tutte le possibili informazioni riguardanti gli ordini.
+    *   Utilizziamo un Layout totalmente gestito da noi in cui a ogni componente inseriamo
+    *   le coordinate.
+    */
+    
     private void initializeGUI() {
 
         cp = getContentPane();
@@ -369,10 +387,16 @@ public class UserAppletOrder extends JApplet {
 
     }
     
+    /**Richiesta di salvataggio, tramite apposito xml passato alla servlet, dell'ordine, 
+     * al cui interno ci sono tutte le pizze aggiunte e confermate dal cliente.
+    */
+    
     private void salvaOrdinazione(){
         tabbedPane.setEnabled(false);
         panelStandard.setEnabled(false);
         panelPersonalizzata.setEnabled(false);
+        btnAggiungiPersonalizzata.setEnabled(false);
+        btnAggiungiStandard.setEnabled(false);
         String typeDelivery = "";
         if (rdbtnRitiro.isSelected()){
            typeDelivery = "ritiro"; 
@@ -386,19 +410,20 @@ public class UserAppletOrder extends JApplet {
         try{
             HTTPClient httpClient = new HTTPClient();
             httpClient.setBase(new URL("http://localhost:8080/WebApplication/OrderServlet"));
-
             ManageXML mngXML = new ManageXML();
             String idUser = getParameter("user");
             Document data = mngXML.newDocument();
+            Element rootFile = data.createElement("ordini_utente");
             Element root = data.createElement("ordine_utente");
             Element user = data.createElement("user");
             user.setTextContent(idUser);
             Element done = data.createElement("done");
-            done.setTextContent("new");
+            String state = "da fare";
+            done.setTextContent(state);
             Element id = data.createElement("id");
-            id.setTextContent(idUser+new SimpleDateFormat("dd-M-yyyy hh:mm:ss").format(new Date()));
+            String idOrdine = new SimpleDateFormat("dd-M-yyyy hh:mm:ss").format(new Date());
+            id.setTextContent(idUser+idOrdine);
             Element type = data.createElement("tipo_ordine");
-            
             if(typeDelivery.equals("prenotazione")){
                
                 Element posti = data.createElement("posti");
@@ -412,12 +437,15 @@ public class UserAppletOrder extends JApplet {
             root.appendChild(type);
             root.appendChild(done);
             
+            Ordine ordine_cliente = new OrdineCliente(idUser, idOrdine, typeDelivery, state);
+            
             Element pizzaS, pizzaP, name, number, plus, extra, base, condimento;
             String plusString, extraString;
             
             for(int i = 0; i < listaOrdinazione.size(); i++){ 
                 plusString = "";
                 pizza newPizza = listaOrdinazione.get(i);
+                ordine_cliente.addPizza(newPizza);
                 if(!newPizza.getName().equals("personalizzata")){
                    pizzaS = data.createElement("pizzaS");
                 }else{
@@ -446,26 +474,37 @@ public class UserAppletOrder extends JApplet {
                    }
                 }
             }
-            data.appendChild(root);
+            rootFile.appendChild(root);
+            data.appendChild(rootFile);
             
             Document answer = httpClient.execute("OrderServlet", data);
-                        
-            //per debug
-            textPaneOrdinazione.setText("Ordine confermato");
+            if (answer.getDocumentElement().getTagName().equals("ok")){
+               textPaneOrdinazione.setText("Ordine Confermato");
+            }else{
+               textPaneOrdinazione.setText("Ordine non effettuato"); 
+            }
 
         }catch(Exception e){
-            //per debug
             Logger.getLogger(UserAppletOrder.class.getName()).log(Level.SEVERE, null, e);
             textPaneOrdinazione.setText("Errore");
         }
     }
 
+    /** Nel momento in cui volessi annullare l'ordine per eventuali errori commessi,
+     *  basta premere il pulsante "Annulla Ordine" che mi resetta il contenuto della
+     *  mia JTextArea.
+     */
     
     private void resetOrdinazione(){
         
         listaOrdinazione.clear();    
         textPaneOrdinazione.setText("");
     }
+    
+    /** Una volta decisa la pizza da ordinare, premendo "Aggiungi", questa viene 
+     *  inserita nella JTextArea fino a che non ho completato l'ordine con tutte
+     *  le pizze richieste.
+     */
     
     private void aggiungiPizzaStandard(){
         
@@ -511,6 +550,11 @@ public class UserAppletOrder extends JApplet {
         
         listaOrdinazione.add(pizza);
     }
+    
+    /** Una volta decisa la pizza da ordinare, premendo "Aggiungi", questa viene 
+     *  inserita nella JTextArea fino a che non ho completato l'ordine con tutte
+     *  le pizze richieste.
+     */
     
     private void aggiungiPizzaPersonalizzata(){
         
@@ -590,9 +634,14 @@ public class UserAppletOrder extends JApplet {
         listaOrdinazione.add(pizza);
     }
     
+    /** Inizializzo i condimenti possibili da scegliere per la mia pizza 
+     *  personalizzata.
+     */
+    
     private void initializeListaCondimenti(){
         ArrayList<String> lista = new ArrayList<String>();
             
+            lista.add("nessuna selezione");
             lista.add("Patatine fritte");
             lista.add("Salsiccia");
             lista.add("Salame");
@@ -613,7 +662,6 @@ public class UserAppletOrder extends JApplet {
             lista.add("Cipolla");
             lista.add("Porcini");
             lista.add("Ricotta");
-            lista.add("nessuna selezione");
             
             for(String s : lista){
                 comboBoxCondimento1.addItem(s);
@@ -622,7 +670,11 @@ public class UserAppletOrder extends JApplet {
                 comboBoxCondimento4.addItem(s);
             }
     }
-
+    
+    /** Inizializzo le pizze standard presenti anche all'interno del nostro menu.
+     * 
+     */
+    
     private void initializeListaStandard(){
         ArrayList<String> lista = new ArrayList<String>();
             

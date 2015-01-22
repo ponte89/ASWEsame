@@ -5,26 +5,20 @@
  */
 package asw1021;
 
-
-import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
 import java.io.PrintWriter;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import org.w3c.dom.Document;
 
 /**
  *
- * @author Mezzapesa Beatrice, Papini Alessia, Pontellini Lorenzo
+ * @author Alessia
  */
-@WebServlet(name = "OrderServlet", urlPatterns = {"/OrderServlet"})
-public class OrderServlet extends HttpServlet {
+@WebServlet(name = "ManageOrderServlet", urlPatterns = {"/ManageOrderServlet"})
+public class ManageOrderServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -38,33 +32,11 @@ public class OrderServlet extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        try{
-            
-            System.out.println("Servlet per ordini");
-            //file in build
-            String path = getServletContext().getRealPath("")+"/WEB-INF/xml/ordini_test.xml";
-            OutputStream os = new FileOutputStream(new File(path));
-            
-            
-            //file ricevuto
-            InputStream is = request.getInputStream();
-            ManageXML manageXml = new ManageXML();
-            /*Document doc = manageXml.parse(is);
-            Element root = doc.getDocumentElement();
-            String path = getServletContext().getRealPath("")+"/WEB-INF/xml/ordini_test.xml";
-            OutputStream os = new FileOutputStream(new File(path));*/
-            
-            //manageXml.transform(os, doc);
-            manageXml = new ManageXML();
-            Document answer = manageXml.newDocument();
-            answer.appendChild(answer.createElement("ok"));
-            os = response.getOutputStream();
-            manageXml.transform(os, answer);
-            os.close();
-            
-        }catch(Exception e){
-            e.printStackTrace();
-            System.out.println("Errore nella servlet per ordini");
+        
+        
+        if(request.getParameter("getAllOrder")!=null){
+            request.setAttribute("allOrder", getAllOrders());
+            getServletContext().getRequestDispatcher("/jsp/gestioneOrdini.jsp").forward(request, response);
         }
         
         try (PrintWriter out = response.getWriter()) {
@@ -72,10 +44,10 @@ public class OrderServlet extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet OrderServlet</title>");            
+            out.println("<title>Servlet ManageOrderServlet</title>");            
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet OrderServlet at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet ManageOrderServlet at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }

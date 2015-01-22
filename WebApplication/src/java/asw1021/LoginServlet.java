@@ -22,7 +22,7 @@ import org.w3c.dom.NodeList;
 
 /**
  *
- * @author Alessia
+ * @author Mezzapesa Beatrice, Papini Alessia, Pontellini Lorenzo
  */
 @WebServlet(name = "LoginServlet", urlPatterns = {"/LoginServlet"})
 public class LoginServlet extends HttpServlet {
@@ -158,7 +158,14 @@ public class LoginServlet extends HttpServlet {
         }
         response.sendRedirect(url);
     }
-
+    
+    /** Controllo se l'utente è già registrato all'interno del mio file xml
+     * @param us è lo username dell'utente
+     * @param pwd è la password dell'utente
+     * @param type è il tipo di utente che si sta loggando: admin, cuoco o cliente 
+     * @return un boolean che mi dice se l'utente è già registrato o meno
+     */
+    
     private boolean checkUser(String us, String pwd,String type) {
        try{
             

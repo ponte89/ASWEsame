@@ -20,6 +20,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.DefaultListModel;
 import javax.swing.JFrame;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
@@ -29,6 +30,7 @@ import javax.swing.JTextArea;
 import javax.swing.SwingUtilities;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
+import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 /**
@@ -61,7 +63,9 @@ public class AdminUpdateMenu extends JApplet {
     private JTextField txtPrezzoCondimento;
 
     private JList<String> listaPizze;
+    private DefaultListModel modelPizze;
     private JList<String> listaCondimenti;
+    private DefaultListModel modelCondimenti;
     private JButton btnNewButton;
 
     @Override
@@ -151,9 +155,12 @@ public class AdminUpdateMenu extends JApplet {
         panelCondimenti.add(lblPrezzoCondimento);
 
         textArea = new JTextArea();
-        
-                
-        scroll = new JScrollPane(textArea); 
+
+        listaCondimenti = new JList();
+        listaCondimenti.setBounds(206, 6, 205, 191);
+        panelCondimenti.add(listaCondimenti);
+
+        scroll = new JScrollPane(textArea);
         scroll.setBounds(39, 128, 134, 69);
         panelCondimenti.add(scroll);
 
@@ -162,10 +169,6 @@ public class AdminUpdateMenu extends JApplet {
         panelCondimenti.add(txtPrezzoCondimento);
         txtPrezzoCondimento.setColumns(10);
 
-        listaCondimenti = new JList<String>();
-        listaCondimenti.setBounds(206, 6, 205, 191);
-        panelCondimenti.add(listaCondimenti);
-
         btnNewButton = new JButton("CONFERMA");
         btnNewButton.setBounds(16, 285, 415, 29);
         cp.add(btnNewButton);
@@ -173,24 +176,44 @@ public class AdminUpdateMenu extends JApplet {
 
             @Override
             public void actionPerformed(ActionEvent e) {
-                
 
                 try {
-                    
                     HTTPClient httpClient = new HTTPClient();
                     httpClient.setBase(new URL("http://localhost:8080/WebApplication/MenuServlet"));
 
                     ManageXML mngXML = new ManageXML();
                     Document data = mngXML.newDocument();
                     Document answer = httpClient.execute("MenuServlet", data);
+                    NodeList l = answer.getElementsByTagName("pizza_standard");
+
+                    //textArea.setText("Applet OK " + l.getLength());
+                   // String tpm = "";
+
+                    ArrayList<String> strin = new ArrayList<String>();
                     
-                    answer.getElementsByTagName("pizza standard");
+                    modelCondimenti = new DefaultListModel();
                     
-                    textArea.setText("Applet OK");
+                    //String[] strin = new String[l.getLength()];
                     
+                    for (int i = 0; i < l.getLength(); i++) {
+                        Element n = (Element) l.item(i);
+                        String s = n.getElementsByTagName("nome").item(0).getTextContent();
+                        //strin[i] = s;
+                        strin.add(s);
+                        System.out.println("->"+s);
+                        
+                        
+                    }
+                    
+                    //modelCondimenti.addElement(strin);
+                    
+                    for(String s : strin){
+                        modelCondimenti.addElement(s);
+                    }
+                    
+                    listaCondimenti.setModel(modelCondimenti);
                 } catch (Exception x) {
                     textArea.setText(x.getMessage());
-                    Logger.getLogger(AdminUpdateMenu.class.getName()).log(Level.SEVERE, null, e);
                 }
             }
 

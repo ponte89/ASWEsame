@@ -17,16 +17,41 @@
 
       <%@ include file="/WEB-INF/jspf/sidebar.jspf" %>   
       
-      <div class="content">
-        <h1>Consigli del giorno</h1
-        
-      </div>
+      
+     
       
       <div class="content">
         <h1>Il menu tradizionale</h1>
+        
+        <%
+            if((session.getAttribute("login") != null)&&
+                (session.getAttribute("type").toString().equals("admin"))) { 
+        %>
+                
+            
+                <div id="applet" align="center" style="margin:5px;">
+
+                    <applet code="asw1021.AdminUpdateMenu"
+                            codebase="../applet/" 
+                            archive="Applet2.jar, Lib1.jar"
+                            width="570"
+                            height="410">
+                        Applet failed to run. No Java plug-in was found.
+                    </applet>
+
+                </div>
+                
+        <%
+            }else{
+        %>  
+            <div class="Menù"><img src="./../multimedia/Menu.jpg"></div>
+        
+        <%
+            }
+        %>        
+        
       </div>
-      <div class="Menù"><img src="./../multimedia/Menu.jpg">    
-      </div>
+           <!--  -->
       
       
       

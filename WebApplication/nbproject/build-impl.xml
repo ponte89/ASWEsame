@@ -856,6 +856,9 @@ exists or setup the property manually. For example like this:
         <ant antfile="${project.Applet1}/build.xml" inheritall="false" target="jar">
             <property name="deploy.on.save" value="false"/>
         </ant>
+        <ant antfile="${project.Applet2}/build.xml" inheritall="false" target="jar">
+            <property name="deploy.on.save" value="false"/>
+        </ant>
         <ant antfile="${project.Lib1}/build.xml" inheritall="false" target="jar">
             <property name="deploy.on.save" value="false"/>
         </ant>
@@ -865,6 +868,9 @@ exists or setup the property manually. For example like this:
     </target>
     <target depends="init" if="dist.ear.dir" name="deps-ear-jar" unless="no.deps">
         <ant antfile="${project.Applet1}/build.xml" inheritall="false" target="jar">
+            <property name="deploy.on.save" value="false"/>
+        </ant>
+        <ant antfile="${project.Applet2}/build.xml" inheritall="false" target="jar">
             <property name="deploy.on.save" value="false"/>
         </ant>
         <ant antfile="${project.Lib1}/build.xml" inheritall="false" target="jar">
@@ -1022,6 +1028,7 @@ exists or setup the property manually. For example like this:
         <copyfiles files="${reference.Applet1.jar}" todir="${build.web.dir}//applet"/>
         <copyfiles files="${reference.Lib1.jar}" todir="${build.web.dir}//applet"/>
         <copyfiles files="${reference.Lib2.jar}" todir="${build.web.dir}//applet"/>
+        <copyfiles files="${reference.Applet2.jar}" todir="${build.web.dir}//applet"/>
         <mkdir dir="${build.web.dir}/META-INF"/>
         <manifest file="${build.web.dir}/META-INF/MANIFEST.MF" mode="update"/>
     </target>
@@ -1031,6 +1038,7 @@ exists or setup the property manually. For example like this:
         <copyfiles files="${reference.Applet1.jar}" todir="${build.web.dir}//applet"/>
         <copyfiles files="${reference.Lib1.jar}" todir="${build.web.dir}//applet"/>
         <copyfiles files="${reference.Lib2.jar}" todir="${build.web.dir}//applet"/>
+        <copyfiles files="${reference.Applet2.jar}" todir="${build.web.dir}//applet"/>
     </target>
     <target depends="init" if="dist.ear.dir" name="-clean-webinf-lib">
         <delete dir="${build.web.dir}/WEB-INF/lib"/>
@@ -1445,6 +1453,7 @@ exists or setup the property manually. For example like this:
             -->
     <target depends="init" name="deps-clean" unless="no.deps">
         <ant antfile="${project.Applet1}/build.xml" inheritall="false" target="clean"/>
+        <ant antfile="${project.Applet2}/build.xml" inheritall="false" target="clean"/>
         <ant antfile="${project.Lib1}/build.xml" inheritall="false" target="clean"/>
         <ant antfile="${project.Lib2}/build.xml" inheritall="false" target="clean"/>
     </target>

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<pizze_standard xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../xml-types/anagrafica.xsd">
+    <pizza_standard>
+        <nome>Margherita</nome>
+        <costo>4.00 €</costo>
+    </pizza_standard>
+    
+     <pizza_standard>
+        <nome>Wuster</nome>
+        <costo>5.00 €</costo>
+    </pizza_standard>
+    
+     <pizza_standard>
+        <nome>Quattro Stagioni</nome>
+        <costo>6.00 €</costo>
+    </pizza_standard>
+    
+     <pizza_standard>
+        <nome>Capricciosa</nome>
+        <costo>6.00 €</costo>
+    </pizza_standard>
+</pizze_standard>

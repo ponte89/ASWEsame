@@ -11,9 +11,7 @@ import java.awt.event.ActionListener;
 import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
-import java.util.GregorianCalendar;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.ButtonGroup;
@@ -34,8 +32,6 @@ import javax.swing.border.LineBorder;
 import javax.swing.border.TitledBorder;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
-import java.awt.Insets;
-import javax.swing.JTextField;
 
 /** Applet per effettuare ordini.
  *  Visualizzazione in base al pannello scelto, standard o personalizzata, delle possibili pizze da voler ordinare.

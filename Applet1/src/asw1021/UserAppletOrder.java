@@ -317,12 +317,37 @@ public class UserAppletOrder extends JApplet {
         rdbtnRitiro = new JRadioButton("Ritiro");
         rdbtnRitiro.setBounds(332, 320, 70, 25);
         rdbtnRitiro.setSelected(true);
+        rdbtnRitiro.addActionListener(new ActionListener(){
+            @Override
+            public void actionPerformed(ActionEvent e){
+                
+                    spinnerPosti.setEnabled(false);
+                
+            }
+        });
                 
         rdbtnAsporto = new JRadioButton("Asporto");
         rdbtnAsporto.setBounds(332, 299, 85, 23);
+        rdbtnAsporto.addActionListener(new ActionListener(){
+            @Override
+            public void actionPerformed(ActionEvent e){
+                
+                    spinnerPosti.setEnabled(false);
+                
+            }
+        });
         
         rdbtnPrenotazione = new JRadioButton("Prenotazione");
         rdbtnPrenotazione.setBounds(332, 280, 130, 23);
+        rdbtnPrenotazione.addActionListener(new ActionListener(){
+            @Override
+            public void actionPerformed(ActionEvent e){
+                
+                    spinnerPosti.setEnabled(true);
+                
+            }
+        });
+        
         
         buttonGroup2 = new ButtonGroup();
         buttonGroup2.add(rdbtnRitiro);
@@ -335,7 +360,7 @@ public class UserAppletOrder extends JApplet {
         
         spinnerPosti = new JSpinner(model3);
         spinnerPosti.setEnabled(false);
-        spinnerPosti.setBounds(484, 278, 37, 28);
+        spinnerPosti.setBounds(484, 278, 45, 28);
         getContentPane().add(spinnerPosti);
         
         lblPosti = new JLabel("Posti");
@@ -355,7 +380,7 @@ public class UserAppletOrder extends JApplet {
            typeDelivery = "asporto";         
         }else if(rdbtnPrenotazione.isSelected()){
            typeDelivery = "prenotazione"; 
-           spinnerPosti.setEnabled(true);
+           //spinnerPosti.setEnabled(true);
            nPosti = ((Double)spinnerPersonalizzata.getValue()).intValue();
         }
         try{
@@ -376,6 +401,7 @@ public class UserAppletOrder extends JApplet {
             Element type = data.createElement("tipo_ordine");
             
             if(typeDelivery.equals("prenotazione")){
+               
                 Element posti = data.createElement("posti");
                 posti.setTextContent(""+nPosti);
                 type.appendChild(posti);

@@ -21,7 +21,7 @@ import org.w3c.dom.Document;
 
 /**
  *
- * @author Alessia
+ * @author Mezzapesa Beatrice, Papini Alessia, Pontellini Lorenzo
  */
 @WebServlet(name = "OrderServlet", urlPatterns = {"/OrderServlet"})
 public class OrderServlet extends HttpServlet {

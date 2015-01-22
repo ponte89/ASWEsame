@@ -18,7 +18,7 @@
     <xs:complexType name="pizza">
         <xs:sequence>
             <xs:element name="numero_pizze" type="xs:string"/>
-            <xs:element name="plus" type=":string"/>
+            <xs:element name="plus" type="xs:string"/>
         </xs:sequence>
     </xs:complexType>
 

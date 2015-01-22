@@ -7,7 +7,11 @@ import java.awt.Container;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.net.URL;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.ButtonGroup;
@@ -338,28 +342,36 @@ public class UserAppletOrder extends JApplet {
             httpClient.setBase(new URL("http://localhost:8080/WebApplication/OrderServlet"));
 
             ManageXML mngXML = new ManageXML();
-
+            String idUser = getParameter("user");
             Document data = mngXML.newDocument();
             Element root = data.createElement("ordine_utente");
             Element user = data.createElement("user");
-            user.setTextContent("user");
-            Element state = data.createElement("done");
-            state.setTextContent("new");
-            Element type = data.createElement("typeDelivery");
+            user.setTextContent(idUser);
+            Element done = data.createElement("done");
+            done.setTextContent("new");
+            Element id = data.createElement("id");
+            id.setTextContent(idUser+new SimpleDateFormat("dd-M-yyyy hh:mm:ss").format(new Date()));
+            Element type = data.createElement("tipo_ordine");
             type.setTextContent(typeDelivery);
             root.appendChild(user);
-            root.appendChild(state);
+            root.appendChild(id);
             root.appendChild(type);
+            root.appendChild(done);
             
-            Element name, number, plus, extra;
+            Element pizzaS, pizzaP, name, number, plus, extra, base, condimento;
             String plusString, extraString;
             
-            for(int i = 0; i < listaOrdinazione.size(); i++){  
+            for(int i = 0; i < listaOrdinazione.size(); i++){ 
                 plusString = "";
                 pizza newPizza = listaOrdinazione.get(i);
-                name = data.createElement("name");
+                if(!newPizza.getName().equals("personalizzata")){
+                   pizzaS = data.createElement("pizzaS");
+                }else{
+                   pizzaP = data.createElement("pizzaP"); 
+                }
+                name = data.createElement("nome_pizza");
                 name.setTextContent(newPizza.getName());
-                number = data.createElement("number");
+                number = data.createElement("numero_pizze");
                 number.setTextContent(""+newPizza.getNPizze());
                 plus = data.createElement("plus");
                 for(int j = 0; j < newPizza.getAggiunte().size(); j++){
@@ -370,17 +382,16 @@ public class UserAppletOrder extends JApplet {
                 root.appendChild(number);
                 root.appendChild(plus);
                 if (newPizza.getName().equals("personalizzata")){
-                   extraString = ""; 
-                   extra = data.createElement("extra");
-                   pizzaPersonalizzata pizzaP= (pizzaPersonalizzata)newPizza;
-                   for(int k = 0; k < pizzaP.getCondimenti().size(); k++){
-                    extraString += pizzaP.getCondimenti().get(k);
+                   pizzaPersonalizzata pizzaPers = (pizzaPersonalizzata)newPizza;
+                   base = data.createElement("base");
+                   base.setTextContent(pizzaPers.getBase());
+                   for(int k = 0; k < pizzaPers.getCondimenti().size(); k++){
+                    condimento = data.createElement("condimento");
+                    condimento.setTextContent(pizzaPers.getCondimenti().get(k));
+                    root.appendChild(condimento);
                    }
-                   extra.setTextContent(extraString);  
-                   root.appendChild(extra);
                 }
             }
-
             data.appendChild(root);
             
             Document answer = httpClient.execute("OrderServlet", data);
@@ -469,22 +480,22 @@ public class UserAppletOrder extends JApplet {
         
         if(!select1.equals("nessuna selezione")){
             ordinazione += select1+" ";
-            pizza.setAggiunta(select1);
+            pizza.setCondimento(select1);
         }
         
         if(!select2.equals("nessuna selezione")){
             ordinazione += select2+" ";
-            pizza.setAggiunta(select2);
+            pizza.setCondimento(select2);
         }
         
         if(!select3.equals("nessuna selezione")){
             ordinazione += select3+" ";
-            pizza.setAggiunta(select3);
+            pizza.setCondimento(select3);
         }
         
         if(!select4.equals("nessuna selezione")){
             ordinazione += select4+" ";
-            pizza.setAggiunta(select4);
+            pizza.setCondimento(select4);
         }
         
         int n = ((Double)spinnerPersonalizzata.getValue()).intValue();

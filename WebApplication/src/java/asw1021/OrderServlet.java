@@ -55,7 +55,7 @@ public class OrderServlet extends HttpServlet {
             OutputStream os = new FileOutputStream(new File(path));*/
             
             //manageXml.transform(os, doc);
-            manageXml = new ManageXML();
+            //manageXml = new ManageXML();
             Document answer = manageXml.newDocument();
             answer.appendChild(answer.createElement("ok"));
             os = response.getOutputStream();

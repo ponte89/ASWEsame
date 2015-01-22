@@ -28,6 +28,8 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JTextArea;
 import javax.swing.SwingUtilities;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -51,9 +53,9 @@ public class AdminUpdateMenu extends JApplet {
     private JLabel lblPrezzoPizza;
     private JLabel lblPrezzoCondimento;
 
-    private JTextArea textArea;
-    private JScrollPane scroll;
-
+    //private JTextArea textArea;
+    private JScrollPane scrollCondimenti;
+    private JScrollPane scrollPizze;
     private JTabbedPane tabbedPane;
     private JPanel panelCondimenti;
     private JPanel panelPizze;
@@ -64,8 +66,10 @@ public class AdminUpdateMenu extends JApplet {
 
     private JList<String> listaPizze;
     private DefaultListModel modelPizze;
+
     private JList<String> listaCondimenti;
     private DefaultListModel modelCondimenti;
+
     private JButton btnNewButton;
 
     @Override
@@ -77,11 +81,13 @@ public class AdminUpdateMenu extends JApplet {
                 public void run() {
                     initializeGUI();
 
-                    getListaPizze();
-
                 }
             });
 
+            getListaPizze();
+            getListaCondimenti();
+
+            // getListaCondimenti();
         } catch (Exception ex) {
             System.err.println(ex);
         }
@@ -137,9 +143,7 @@ public class AdminUpdateMenu extends JApplet {
         txtPrezzoPizza.setColumns(10);
         panelPizze.add(txtPrezzoPizza);
 
-        listaPizze = new JList<String>();
-        listaPizze.setBounds(206, 6, 205, 191);
-        panelPizze.add(listaPizze);
+        listaPizze = new JList();
 
         txtNuovoCondimento = new JTextField();
         txtNuovoCondimento.setBounds(6, 24, 108, 28);
@@ -154,15 +158,25 @@ public class AdminUpdateMenu extends JApplet {
         lblPrezzoCondimento.setBounds(6, 65, 61, 16);
         panelCondimenti.add(lblPrezzoCondimento);
 
-        textArea = new JTextArea();
-
         listaCondimenti = new JList();
-        listaCondimenti.setBounds(206, 6, 205, 191);
-        panelCondimenti.add(listaCondimenti);
+       /* listaCondimenti.addListSelectionListener(new ListSelectionListener() {
 
-        scroll = new JScrollPane(textArea);
-        scroll.setBounds(39, 128, 134, 69);
-        panelCondimenti.add(scroll);
+            @Override
+            public void valueChanged(ListSelectionEvent e) {
+                throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+            }
+
+        });*/
+        
+        
+
+        scrollCondimenti = new JScrollPane(listaCondimenti);
+        scrollCondimenti.setBounds(206, 6, 205, 191);
+        panelCondimenti.add(scrollCondimenti);
+
+        scrollPizze = new JScrollPane(listaPizze);
+        scrollPizze.setBounds(206, 6, 205, 191);
+        panelPizze.add(scrollPizze);
 
         txtPrezzoCondimento = new JTextField();
         txtPrezzoCondimento.setBounds(6, 82, 108, 28);
@@ -178,42 +192,39 @@ public class AdminUpdateMenu extends JApplet {
             public void actionPerformed(ActionEvent e) {
 
                 try {
-                    HTTPClient httpClient = new HTTPClient();
-                    httpClient.setBase(new URL("http://localhost:8080/WebApplication/MenuServlet"));
+                    /*HTTPClient httpClient = new HTTPClient();
+                     httpClient.setBase(new URL("http://localhost:8080/WebApplication/MenuServlet"));
 
-                    ManageXML mngXML = new ManageXML();
-                    Document data = mngXML.newDocument();
-                    Document answer = httpClient.execute("MenuServlet", data);
-                    NodeList l = answer.getElementsByTagName("pizza_standard");
+                     ManageXML mngXML = new ManageXML();
+                     Document data = mngXML.newDocument();
+                     Document answer = httpClient.execute("MenuServlet", data);
+                     NodeList l = answer.getElementsByTagName("pizza_standard");
 
-                    //textArea.setText("Applet OK " + l.getLength());
-                   // String tpm = "";
+                     //textArea.setText("Applet OK " + l.getLength());
+                     // String tpm = "";
+                     ArrayList<String> strin = new ArrayList<String>();
 
-                    ArrayList<String> strin = new ArrayList<String>();
-                    
-                    modelCondimenti = new DefaultListModel();
-                    
-                    //String[] strin = new String[l.getLength()];
-                    
-                    for (int i = 0; i < l.getLength(); i++) {
-                        Element n = (Element) l.item(i);
-                        String s = n.getElementsByTagName("nome").item(0).getTextContent();
-                        //strin[i] = s;
-                        strin.add(s);
-                        System.out.println("->"+s);
-                        
-                        
-                    }
-                    
-                    //modelCondimenti.addElement(strin);
-                    
-                    for(String s : strin){
-                        modelCondimenti.addElement(s);
-                    }
-                    
-                    listaCondimenti.setModel(modelCondimenti);
+                     modelCondimenti = new DefaultListModel();
+
+                     //String[] strin = new String[l.getLength()];
+                     for (int i = 0; i < l.getLength(); i++) {
+                     Element n = (Element) l.item(i);
+                     String s = n.getElementsByTagName("nome").item(0).getTextContent();
+                     //strin[i] = s;
+                     strin.add(s);
+                     System.out.println("->" + s);
+
+                     }
+
+                     //modelCondimenti.addElement(strin);
+                     for (String s : strin) {
+                     modelCondimenti.addElement(s);
+                     }
+
+                     listaCondimenti.setModel(modelCondimenti);*/
+
                 } catch (Exception x) {
-                    textArea.setText(x.getMessage());
+                    //textArea.setText(x.getMessage());
                 }
             }
 
@@ -222,6 +233,52 @@ public class AdminUpdateMenu extends JApplet {
 
     private void getListaPizze() {
         try {
+
+            HTTPClient httpClient = new HTTPClient();
+            httpClient.setBase(new URL("http://localhost:8080/WebApplication/MenuServlet"));
+
+            ManageXML mngXML = new ManageXML();
+            Document data = mngXML.newDocument();
+            Element rootFile = data.createElement("tipo");
+            rootFile.setTextContent("pizze");
+            data.appendChild(rootFile);
+
+            Document answer = httpClient.execute("MenuServlet", data);
+            NodeList l = answer.getElementsByTagName("pizza_standard");
+
+            modelPizze = new DefaultListModel();
+            for (int i = 0; i < l.getLength(); i++) {
+                Element n = (Element) l.item(i);
+                modelPizze.addElement(n.getElementsByTagName("nome").item(0).getTextContent());
+            }
+            listaPizze.setModel(modelPizze);
+
+        } catch (Exception e) {
+            System.err.println("--> " + e.getMessage());
+        }
+    }
+
+    private void getListaCondimenti() {
+        try {
+            HTTPClient httpClient = new HTTPClient();
+            httpClient.setBase(new URL("http://localhost:8080/WebApplication/MenuServlet"));
+
+            ManageXML mngXML = new ManageXML();
+            Document data = mngXML.newDocument();
+            Element rootFile = data.createElement("tipo");
+            rootFile.setTextContent("condimenti");
+            data.appendChild(rootFile);
+
+            Document answer = httpClient.execute("MenuServlet", data);
+            NodeList l = answer.getElementsByTagName("condimento");
+
+            modelCondimenti = new DefaultListModel();
+            for (int i = 0; i < l.getLength(); i++) {
+                Element n = (Element) l.item(i);
+
+                modelCondimenti.addElement(n.getElementsByTagName("nome").item(0).getTextContent());
+            }
+            listaCondimenti.setModel(modelCondimenti);
 
         } catch (Exception e) {
             System.err.println("--> " + e.getMessage());

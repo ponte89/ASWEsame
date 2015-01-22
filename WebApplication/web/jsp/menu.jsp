@@ -34,8 +34,8 @@
                     <applet code="asw1021.AdminUpdateMenu"
                             codebase="../applet/" 
                             archive="Applet2.jar, Lib1.jar"
-                            width="570"
-                            height="410">
+                            width="450"
+                            height="325">
                         Applet failed to run. No Java plug-in was found.
                     </applet>
 

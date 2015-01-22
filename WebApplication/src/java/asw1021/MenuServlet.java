@@ -44,27 +44,42 @@ public class MenuServlet extends HttpServlet {
         try {
             System.out.println("Servlet per modifica menu");
             ManageXML manageXml = new ManageXML();
-            String path = getServletContext().getRealPath("") + "/WEB-INF/xml/pizze_standard_test.xml";
-            Document doc = manageXml.parse(new File(path));
-            OutputStream os = response.getOutputStream();
-            manageXml.transform(os, doc);
-            os.close();
+
+            InputStream is = request.getInputStream();
+            Document docin = manageXml.parse(is);
+            String s = docin.getElementsByTagName("tipo").item(0).getTextContent();
+
+            if (s.equals("pizze")) {
+                String path = getServletContext().getRealPath("") + "/WEB-INF/xml/pizze_standard_test.xml";
+                Document doc = manageXml.parse(new File(path));
+                OutputStream os = response.getOutputStream();
+                manageXml.transform(os, doc);
+                os.close();
+            } else if (s.equals("condimenti")) {
+                String path = getServletContext().getRealPath("") + "/WEB-INF/xml/condimenti_test.xml";
+                Document doc = manageXml.parse(new File(path));
+                OutputStream os = response.getOutputStream();
+                manageXml.transform(os, doc);
+                os.close();
+            }
+            //if(root.getAttribute("tipo"))
+
         } catch (Exception e) {
             System.out.println("--> Servlet " + e.getMessage());
         }
         /*
-        try (PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. 
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet MenuServlet</title>");
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet MenuServlet at " + request.getContextPath() + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
-        }*/
+         try (PrintWriter out = response.getWriter()) {
+         /* TODO output your page here. You may use following sample code. 
+         out.println("<!DOCTYPE html>");
+         out.println("<html>");
+         out.println("<head>");
+         out.println("<title>Servlet MenuServlet</title>");
+         out.println("</head>");
+         out.println("<body>");
+         out.println("<h1>Servlet MenuServlet at " + request.getContextPath() + "</h1>");
+         out.println("</body>");
+         out.println("</html>");
+         }*/
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

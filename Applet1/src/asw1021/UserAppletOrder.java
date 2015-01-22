@@ -641,6 +641,9 @@ public class UserAppletOrder extends JApplet {
     private void initializeListaCondimenti(){
         ArrayList<String> lista = new ArrayList<String>();
             
+        
+        
+        // questo in realta dovra leggere i dati da xml utilizzando la servlet
             lista.add("nessuna selezione");
             lista.add("Patatine fritte");
             lista.add("Salsiccia");

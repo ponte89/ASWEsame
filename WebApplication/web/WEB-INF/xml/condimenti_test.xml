@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<condimenti xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../xml-types/condimenti.xsd">
+    
+    <condimento>
+        <nome>Nessuna selezione</nome>
+    </condimento>
+    
+    <condimento>
+        <nome>Patatine fritte</nome>
+    </condimento>
+    
+    <condimento>
+        <nome>Salsiccia</nome>
+    </condimento>
+    
+    <condimento>
+        <nome>Salame</nome>
+    </condimento>
+    
+    <condimento>
+        <nome>Wurstel</nome>
+    </condimento>
+    
+    <condimento>
+        <nome>Peperoni</nome>
+    </condimento>
+    
+    <condimento>
+        <nome>Rucola</nome>
+    </condimento>
+    
+    <condimento>
+        <nome>Zucchine</nome>
+    </condimento>
+    
+    <condimento>
+        <nome>Melanzane</nome>
+    </condimento>
+    
+    <condimento>
+        <nome>Pancetta</nome>
+    </condimento>
+    
+    <condimento>
+        <nome>Zucca</nome>
+    </condimento>
+    
+    <condimento>
+        <nome>Prosciutto crudo</nome>
+    </condimento>
+    
+    <condimento>
+        <nome>Prosciutto cotto</nome>
+    </condimento>
+    
+    <condimento>
+        <nome>Parmigiano</nome>
+    </condimento>
+    
+    <condimento>
+        <nome>Speck</nome>
+    </condimento>
+    
+    <condimento>
+        <nome>Mais</nome>
+    </condimento>
+    
+    <condimento>
+        <nome>Carciofi</nome>
+    </condimento>
+    
+    <condimento>
+        <nome>Tonno</nome>
+    </condimento>
+    
+    <condimento>
+        <nome>Cipolla</nome>
+    </condimento>
+    
+    <condimento>
+        <nome>Porcini</nome>
+    </condimento>
+    
+    <condimento>
+        <nome>Ricotta</nome>
+    </condimento>
+    
+</condimenti>

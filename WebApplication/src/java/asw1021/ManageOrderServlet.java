@@ -35,7 +35,7 @@ public class ManageOrderServlet extends HttpServlet {
         
         
         if(request.getParameter("getAllOrder")!=null){
-            request.setAttribute("allOrder", getAllOrders());
+          //  request.setAttribute("allOrder", getAllOrders());
             getServletContext().getRequestDispatcher("/jsp/gestioneOrdini.jsp").forward(request, response);
         }
         

@@ -50,11 +50,11 @@ public interface Ordine {
      * @return Boolean che mi dice true o false
      */
     
-    public Boolean getState();
+    public boolean getState();
     
     /** Il cuoco setta lo stato dell'ordine, cioè se le pizze sono pronte o meno
      * @param state contiene al suo interno il valore true o false
      */
     
-    public void setState(Boolean state);
+    public void setState(boolean state);
 }

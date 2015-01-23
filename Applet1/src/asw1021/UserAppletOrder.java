@@ -1,8 +1,6 @@
 package asw1021;
 
 
-import asw1021.ordini.Ordine;
-import asw1021.ordini.OrdineCliente;
 import asw1021.pizze.*;
 import java.awt.Color;
 import java.awt.Container;
@@ -11,9 +9,7 @@ import java.awt.event.ActionListener;
 import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
-import java.util.GregorianCalendar;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.ButtonGroup;
@@ -34,8 +30,7 @@ import javax.swing.border.LineBorder;
 import javax.swing.border.TitledBorder;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
-import java.awt.Insets;
-import javax.swing.JTextField;
+import org.w3c.dom.Node;
 
 /** Applet per effettuare ordini.
  *  Visualizzazione in base al pannello scelto, standard o personalizzata, delle possibili pizze da voler ordinare.
@@ -418,7 +413,7 @@ public class UserAppletOrder extends JApplet {
             Element user = data.createElement("user");
             user.setTextContent(idUser);
             Element done = data.createElement("done");
-            Boolean state = false;
+            boolean state = false;
             done.setTextContent(""+state);
             Element id = data.createElement("id");
             String idOrdine = new SimpleDateFormat("dd-M-yyyy hh:mm:ss").format(new Date());
@@ -436,16 +431,13 @@ public class UserAppletOrder extends JApplet {
             root.appendChild(id);
             root.appendChild(type);
             root.appendChild(done);
-            
-            Ordine ordine_cliente = new OrdineCliente(idUser, idOrdine, typeDelivery, state);
-            
+                       
             Element pizzaS, pizzaP, name, number, plus, extra, base, condimento;
             String plusString, extraString;
             
             for(int i = 0; i < listaOrdinazione.size(); i++){ 
                 plusString = "";
                 pizza newPizza = listaOrdinazione.get(i);
-                ordine_cliente.addPizza(newPizza);
                 if(!newPizza.getName().equals("personalizzata")){
                    pizzaS = data.createElement("pizzaS");
                 }else{
@@ -474,10 +466,11 @@ public class UserAppletOrder extends JApplet {
                    }
                 }
             }
+            
             rootFile.appendChild(root);
             data.appendChild(rootFile);
             
-            Document answer = httpClient.execute("OrderServlet", data);
+            Document answer = httpClient.execute("OrderServlet?target=push", data);
             if (answer.getDocumentElement().getTagName().equals("ok")){
                textPaneOrdinazione.setText("Ordine Confermato");
             }else{

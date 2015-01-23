@@ -5,18 +5,106 @@
         <costo>4.00 €</costo>
     </pizza_standard>
     
-     <pizza_standard>
+    <pizza_standard>
         <nome>Wuster</nome>
         <costo>5.00 €</costo>
     </pizza_standard>
     
-     <pizza_standard>
+    <pizza_standard>
         <nome>Quattro Stagioni</nome>
         <costo>6.00 €</costo>
     </pizza_standard>
     
-     <pizza_standard>
+    <pizza_standard>
         <nome>Capricciosa</nome>
+        <costo>6.00 €</costo>
+    </pizza_standard>
+    
+    <pizza_standard>
+        <nome>Marinara</nome>
+        <costo>6.00 €</costo>
+    </pizza_standard>
+ 
+    <pizza_standard>
+        <nome>Siciliana</nome>
+        <costo>6.00 €</costo>
+    </pizza_standard>
+    
+    <pizza_standard>
+        <nome>Quattro Formaggi</nome>
+        <costo>6.00 €</costo>
+    </pizza_standard>
+    
+    <pizza_standard>
+        <nome>Rucola</nome>
+        <costo>6.00 €</costo>
+    </pizza_standard>
+    
+    <pizza_standard>
+        <nome>Prosciutto crudo</nome>
+        <costo>6.00 €</costo>
+    </pizza_standard>
+    
+    
+    <pizza_standard>
+        <nome>Carciofi</nome>
+        <costo>6.00 €</costo>
+    </pizza_standard>
+    
+    
+    <pizza_standard>
+        <nome>Funghi porcini</nome>
+        <costo>6.00 €</costo>
+    </pizza_standard>
+    
+    
+    <pizza_standard>
+        <nome>Funghi</nome>
+        <costo>6.00 €</costo>
+    </pizza_standard>
+    
+    <pizza_standard>
+        <nome>Peperoni</nome>
+        <costo>6.00 €</costo>
+    </pizza_standard>
+    
+    <pizza_standard>
+        <nome>Melanzane</nome>
+        <costo>6.00 €</costo>
+    </pizza_standard>
+    
+    <pizza_standard>
+        <nome>Tonno e cipolla</nome>
+        <costo>6.00 €</costo>
+    </pizza_standard>
+    
+    <pizza_standard>
+        <nome>Tonno</nome>
+        <costo>6.00 €</costo>
+    </pizza_standard>
+    
+    <pizza_standard>
+        <nome>Completa</nome>
+        <costo>6.00 €</costo>
+    </pizza_standard>
+    
+    <pizza_standard>
+        <nome>Reginella</nome>
+        <costo>6.00 €</costo>
+    </pizza_standard>
+    
+    <pizza_standard>
+        <nome>Calabrese</nome>
+        <costo>6.00 €</costo>
+    </pizza_standard>
+    
+    <pizza_standard>
+        <nome>Biancaneva</nome>
+        <costo>6.00 €</costo>
+    </pizza_standard>
+    
+    <pizza_standard>
+        <nome>Cardinale</nome>
         <costo>6.00 €</costo>
     </pizza_standard>
 </pizze_standard>

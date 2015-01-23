@@ -53,23 +53,20 @@ public class MenuServlet extends HttpServlet {
                 String path = getServletContext().getRealPath("") + "/WEB-INF/xml/pizze_standard_test.xml";
                 Document doc = manageXml.parse(new File(path));
                 OutputStream os = response.getOutputStream();
+                response.setContentType("text/xml");
                 manageXml.transform(os, doc);
+                
                 os.close();
             } else if (s.equals("condimenti")) {
                 String path = getServletContext().getRealPath("") + "/WEB-INF/xml/condimenti_test.xml";
                 Document doc = manageXml.parse(new File(path));
                 OutputStream os = response.getOutputStream();
+                response.setContentType("text/xml");
                 manageXml.transform(os, doc);
-                os.close();
-            }else { //ho fatto modifiche al menu devo aggiornarlo
-                String path = getServletContext().getRealPath("") + "/WEB-INF/xml/pizze_standard_test.xml";
-                Document doc = manageXml.parse(new File(path));
-                OutputStream os = response.getOutputStream();
-                manageXml.transform(os, doc);
+                
                 os.close();
             }
-            //if(root.getAttribute("tipo"))
-
+            
         } catch (Exception e) {
             System.out.println("--> Servlet " + e.getMessage());
         }

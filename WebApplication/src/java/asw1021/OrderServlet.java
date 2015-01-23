@@ -6,6 +6,8 @@
 package asw1021;
 
 
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -68,9 +70,16 @@ public class OrderServlet extends HttpServlet {
                     String target = "";
                     target = request.getParameter("target");
                     if(target != null){
+                       //scrivo il file xml
+                       String path = getServletContext().getRealPath("")+"/WEB-INF/xml/ordini_test.xml";
+                       OutputStream os = new FileOutputStream(new File(path));
+                       mngXML.transform(os, data);
+                       mngXML = new ManageXML();
+                       
                        data = mngXML.newDocument("push");
                     }
                 }
+                
                 operations(data, request, response, mngXML);
 
             } catch (Exception ex) {
@@ -111,6 +120,8 @@ public class OrderServlet extends HttpServlet {
         String user;
         Document answer = null;
         OutputStream os;
+       
+        
         switch (operation) {
             case "push":
                 System.out.println("push received");

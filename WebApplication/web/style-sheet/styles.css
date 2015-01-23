@@ -434,4 +434,14 @@ div#benvenuto{
     margin:5px;
     border-radius: 10px;
     box-shadow: 10px 10px 0px 1px rgba(0,0,0,0.37);
+
+}
+
+table#pizze{
+    background-image: url(./../multimedia/tab.jpg);
+    margin:10px;
+}
+table#condimenti{
+    background-image: url(./../multimedia/tab.jpg);
+    margin:10px;
 }

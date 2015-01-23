@@ -32,7 +32,7 @@ import org.w3c.dom.Text;
 public class OrderServlet extends HttpServlet {
     
     
-    private HashMap<String, Object> contexts = new HashMap<String, Object>();
+    private HashMap<String, Object> contexts;
     
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -108,7 +108,6 @@ public class OrderServlet extends HttpServlet {
         Element root = data.getDocumentElement();
         String operation = root.getTagName();
         ServletContext application = getServletContext();
-        contexts = (HashMap<String, Object>) application.getAttribute("cookList");
         String user;
         Document answer = null;
         OutputStream os;
@@ -117,14 +116,17 @@ public class OrderServlet extends HttpServlet {
                 System.out.println("push received");
                 synchronized (this) {
                        for (String destUser : contexts.keySet()) {
+                            System.out.println("Cuoco presente" + destUser);
                             Object value = contexts.get(destUser);
                             if (value instanceof AsyncContext) {
+                                System.out.println("Cuoco in attesa");
                                 OutputStream aos = ((AsyncContext) value).getResponse().getOutputStream();
                                 mngXML.transform(aos, data);
                                 aos.close();
                                 ((AsyncContext) value).complete();
                                 contexts.put(destUser, new LinkedList<Document>());
                             } else {
+                                System.out.println("Dati Accodati");
                                 ((LinkedList<Document>) value).addLast(data);
                             }
                         }
@@ -220,7 +222,7 @@ public class OrderServlet extends HttpServlet {
     @Override
     public void init() throws ServletException {
         ServletContext application = getServletContext();
-        application.setAttribute("cookList", contexts);
+        contexts = (HashMap<String, Object>) application.getAttribute("cookList");
     }
     
     /**

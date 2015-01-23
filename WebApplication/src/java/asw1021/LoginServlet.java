@@ -10,6 +10,7 @@ import java.io.InputStream;
 import java.util.HashMap;
 import java.util.LinkedList;
 import javax.servlet.RequestDispatcher;
+import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -191,6 +192,12 @@ public class LoginServlet extends HttpServlet {
        return false;
     }
     
+    @Override
+    public void init() throws ServletException {
+        ServletContext application = getServletContext();
+        HashMap<String,Object> cooks = new HashMap<String,Object>();
+        application.setAttribute("cookList", cooks);
+    }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**

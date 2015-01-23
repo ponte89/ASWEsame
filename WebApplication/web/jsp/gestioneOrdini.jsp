@@ -30,15 +30,15 @@
                 xmlhttp2 = new XMLHttpRequest();
                 xmlhttp2.open("POST", "../OrderServlet", true);
                 xmlhttp2.onreadystatechange=function(){
-                if (xmlhttp2.readyState == 4 && xmlhttp2.status==200) {                            
+                //if (xmlhttp2.readyState == 4 && xmlhttp2.status==200) {                            
                     answer = xmlhttp2.responseXML;
                     //if (answer.documentElement.tagName == "push") {
-                    //msg= answer.documentElement.childNodes.item(0).data;     
-                    msg = "prova";
-                    contentElement.value = msg; 
+                        console.log("Cerco di leggere i dati");
+                        msg= answer.documentElement.childNodes.item(0).data;
+                        document.getElementById("content").value = msg; 
                     //}
                     getMessages();
-                }
+                //}
                };
             data = document.implementation.createDocument("", "pop", null);                     
             xmlhttp2.send(data);
@@ -52,17 +52,13 @@
             </div>
         <%
             if (session.getAttribute("login") != null) {
+                String user = (String) session.getAttribute("login");
                 String us = session.getAttribute("type").toString();
                 ArrayList<Ordine> ordini = null;
                 if (us.equals("cuoco")) {  //cuoco
                     application = getServletContext();
                     HashMap<String, Object> contexts = (HashMap<String, Object>) application.getAttribute("cookList");
-                    System.out.println("Cuoco aggiunto2");
-                    contexts.put(us, new LinkedList<Document>());
-                    System.out.println("Cuoco aggiunto3");
-                    application.setAttribute("cookList", contexts);
-                    //ordini = (ArrayList<Ordine>) request.getAttribute("allOrder");
-                    System.out.println("Cuoco aggiunto");
+                    contexts.put(user, new LinkedList<Document>());
 
                 }
             }

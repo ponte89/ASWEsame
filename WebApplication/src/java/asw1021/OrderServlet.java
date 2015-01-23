@@ -6,26 +6,34 @@
 package asw1021;
 
 
-import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.io.PrintWriter;
+import java.util.HashMap;
+import java.util.LinkedList;
+import javax.servlet.AsyncContext;
+import javax.servlet.AsyncEvent;
+import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import javax.servlet.annotation.WebServlet;
+import org.w3c.dom.Text;
 
 /**
  *
  * @author Mezzapesa Beatrice, Papini Alessia, Pontellini Lorenzo
  */
-@WebServlet(name = "OrderServlet", urlPatterns = {"/OrderServlet"})
+@WebServlet(name = "OrderServlet",  asyncSupported = true, urlPatterns = {"/OrderServlet"})
 public class OrderServlet extends HttpServlet {
-
+    
+    
+    private HashMap<String, Object> contexts = new HashMap<String, Object>();
+    
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -35,52 +43,151 @@ public class OrderServlet extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
+    
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try{
             
             System.out.println("Servlet per ordini");
+            
+            //comet
+            InputStream is = request.getInputStream();
+            response.setContentType("text/xml;charset=UTF-8");
+            
+            try {
+                ManageXML mngXML = new ManageXML();
+                Document data;
+                String action = "";
+                action = request.getParameter("action");
+                if(action != null){
+                   data = mngXML.newDocument("login");
+                }else{
+                    data = mngXML.parse(is);
+                    is.close();
+                    String target = "";
+                    target = request.getParameter("target");
+                    if(target != null){
+                       data = mngXML.newDocument("push");
+                    }
+                }
+                operations(data, request, response, mngXML);
+
+            } catch (Exception ex) {
+                System.out.println(ex);
+            }
+            
+            
             //file in build
-            String path = getServletContext().getRealPath("")+"/WEB-INF/xml/ordini_test.xml";
+            /*String path = getServletContext().getRealPath("")+"/WEB-INF/xml/ordini_test.xml";
             OutputStream os = new FileOutputStream(new File(path));
             
             
             //file ricevuto
             InputStream is = request.getInputStream();
             ManageXML manageXml = new ManageXML();
-            /*Document doc = manageXml.parse(is);
+            Document doc = manageXml.parse(is);
             Element root = doc.getDocumentElement();
             String path = getServletContext().getRealPath("")+"/WEB-INF/xml/ordini_test.xml";
             OutputStream os = new FileOutputStream(new File(path));*/
             
             //manageXml.transform(os, doc);
             //manageXml = new ManageXML();
-            Document answer = manageXml.newDocument();
-            answer.appendChild(answer.createElement("ok"));
-            os = response.getOutputStream();
-            manageXml.transform(os, answer);
-            os.close();
+            
             
         }catch(Exception e){
             e.printStackTrace();
             System.out.println("Errore nella servlet per ordini");
         }
-        
-        try (PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet OrderServlet</title>");            
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet OrderServlet at " + request.getContextPath() + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
-        }
+
     }
 
+    private void operations(Document data, HttpServletRequest request, HttpServletResponse response, ManageXML mngXML) throws Exception {
+
+        HttpSession session = request.getSession();
+        Element root = data.getDocumentElement();
+        String operation = root.getTagName();
+        ServletContext application = getServletContext();
+        contexts = (HashMap<String, Object>) application.getAttribute("cookList");
+        String user;
+        Document answer = null;
+        OutputStream os;
+        switch (operation) {
+            case "push":
+                System.out.println("push received");
+                synchronized (this) {
+                       for (String destUser : contexts.keySet()) {
+                            Object value = contexts.get(destUser);
+                            if (value instanceof AsyncContext) {
+                                OutputStream aos = ((AsyncContext) value).getResponse().getOutputStream();
+                                mngXML.transform(aos, data);
+                                aos.close();
+                                ((AsyncContext) value).complete();
+                                contexts.put(destUser, new LinkedList<Document>());
+                            } else {
+                                ((LinkedList<Document>) value).addLast(data);
+                            }
+                        }
+                }
+                answer = mngXML.newDocument("ok");
+                os = response.getOutputStream();
+                mngXML.transform(os, answer);
+                os.close();
+                break;
+            case "pop":
+                user = (String) session.getAttribute("login");
+                System.out.println("pop received from: " + user);
+
+                boolean async;
+                synchronized (this) {
+                    LinkedList<Document> list = (LinkedList<Document>) contexts.get(user);
+                    if (async = list.isEmpty()) {
+                        AsyncContext asyncContext = request.startAsync();
+                        asyncContext.setTimeout(10 * 1000);
+                        asyncContext.addListener(new AsyncAdapter() {
+                            @Override
+                            public void onTimeout(AsyncEvent e) {
+                                try {
+                                    ManageXML mngXML = new ManageXML();
+
+                                    AsyncContext asyncContext = e.getAsyncContext();
+                                    HttpServletRequest reqAsync = (HttpServletRequest) asyncContext.getRequest();
+                                    String user = (String) reqAsync.getSession().getAttribute("login");
+                                    System.out.println("timeout event launched for: " + user);
+
+                                    Document answer = mngXML.newDocument("timeout");
+                                    boolean confirm;
+                                    synchronized (OrderServlet.this) {
+                                        if (confirm = (contexts.get(user) instanceof AsyncContext)) {
+                                            contexts.put(user, new LinkedList<Document>());
+                                        }
+                                    }
+                                    if (confirm) {
+                                        OutputStream tos = asyncContext.getResponse().getOutputStream();
+                                        mngXML.transform(tos, answer);
+                                        tos.close();
+                                        asyncContext.complete();
+                                    }
+                                } catch (Exception ex) {
+                                    System.out.println(ex);
+                                }
+                            }
+                        });
+                        contexts.put(user, asyncContext);
+                    } else {
+                        answer = list.removeFirst();
+                    }
+                }
+                if (!async) {
+                    os = response.getOutputStream();
+                    mngXML.transform(os, answer);
+                    os.close();
+                }
+                break;
+        }
+    }
+    
+    
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.
@@ -109,7 +216,13 @@ public class OrderServlet extends HttpServlet {
             throws ServletException, IOException {
         processRequest(request, response);
     }
-
+    
+    @Override
+    public void init() throws ServletException {
+        ServletContext application = getServletContext();
+        application.setAttribute("cookList", contexts);
+    }
+    
     /**
      * Returns a short description of the servlet.
      *

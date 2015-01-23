@@ -7,6 +7,9 @@ package asw1021;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.HashMap;
+import java.util.LinkedList;
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -21,8 +24,9 @@ import org.w3c.dom.NodeList;
  *
  * @author Mezzapesa Beatrice, Papini Alessia, Pontellini Lorenzo
  */
-@WebServlet(name = "LoginServlet", urlPatterns = {"/LoginServlet"})
+@WebServlet(name = "LoginServlet", asyncSupported = true, urlPatterns = {"/LoginServlet"})
 public class LoginServlet extends HttpServlet {
+            
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -47,10 +51,10 @@ public class LoginServlet extends HttpServlet {
                     password = request.getParameter("password");
                     type = request.getParameter("type");
                     
-                    
                     if(checkUser(user, password,type)){
                          session.setAttribute("login", user);
                          session.setAttribute("type",type);
+                         request.setAttribute("user", user);
                     } else {
                          session.setAttribute("message", "Attenzione! I dati inseriti non sono corretti");   
                     }

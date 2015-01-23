@@ -30,22 +30,22 @@
                 xmlhttp2 = new XMLHttpRequest();
                 xmlhttp2.open("POST", "../OrderServlet", true);
                 xmlhttp2.onreadystatechange=function(){
-                //if (xmlhttp2.readyState == 4 && xmlhttp2.status==200) {                            
+                if (xmlhttp2.readyState == 4 && xmlhttp2.status==200) {                            
                     answer = xmlhttp2.responseXML;
-                    //if (answer.documentElement.tagName == "push") {
+                    if (answer.documentElement.tagName == "push") {
                         console.log("Cerco di leggere i dati");
                         msg= answer.documentElement.childNodes.item(0).data;
                         document.getElementById("content").value = msg; 
-                    //}
+                    }
                     getMessages();
-                //}
+                }
                };
             data = document.implementation.createDocument("", "pop", null);                     
             xmlhttp2.send(data);
             }
         </script>
         <div><input type="button" onClick="getMessages();" value="SEND" /></div>
-        <div><input type="text" id="content" readonly="readonly"/><span id="timeout"><b>not started</b></span></div>
+        <div><input type="text" id="content" readonly="readonly"/></div>
         <section class="container">
             <%@ include file="/WEB-INF/jspf/sidebar.jspf" %>   
             <div class="content">

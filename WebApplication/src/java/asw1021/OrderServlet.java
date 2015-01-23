@@ -35,6 +35,7 @@ public class OrderServlet extends HttpServlet {
     
     
     private HashMap<String, Object> contexts;
+    private Document dataInput;
     
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -60,49 +61,27 @@ public class OrderServlet extends HttpServlet {
             try {
                 ManageXML mngXML = new ManageXML();
                 Document data;
-                String action = "";
-                action = request.getParameter("action");
-                if(action != null){
-                   data = mngXML.newDocument("login");
-                }else{
-                    data = mngXML.parse(is);
-                    is.close();
-                    String target = "";
-                    target = request.getParameter("target");
-                    if(target != null){
-                       //scrivo il file xml
-                       String path = getServletContext().getRealPath("")+"/WEB-INF/xml/ordini_test.xml";
-                       OutputStream os = new FileOutputStream(new File(path));
-                       mngXML.transform(os, data);
-                       mngXML = new ManageXML();
-                       
-                       data = mngXML.newDocument("push");
-                    }
-                }
                 
+                data = mngXML.parse(is);
+                dataInput = data;
+                is.close();
+                String target = "";
+                target = request.getParameter("target");
+                if(target != null){
+                   //scrivo il file xml
+                   String path = getServletContext().getRealPath("")+"/WEB-INF/xml/ordini_test.xml";
+                   OutputStream os = new FileOutputStream(new File(path));
+                   mngXML.transform(os, data);
+                   mngXML = new ManageXML();
+
+                   data = mngXML.newDocument("push");
+                }
+                                
                 operations(data, request, response, mngXML);
 
             } catch (Exception ex) {
                 System.out.println(ex);
-            }
-            
-            
-            //file in build
-            /*String path = getServletContext().getRealPath("")+"/WEB-INF/xml/ordini_test.xml";
-            OutputStream os = new FileOutputStream(new File(path));
-            
-            
-            //file ricevuto
-            InputStream is = request.getInputStream();
-            ManageXML manageXml = new ManageXML();
-            Document doc = manageXml.parse(is);
-            Element root = doc.getDocumentElement();
-            String path = getServletContext().getRealPath("")+"/WEB-INF/xml/ordini_test.xml";
-            OutputStream os = new FileOutputStream(new File(path));*/
-            
-            //manageXml.transform(os, doc);
-            //manageXml = new ManageXML();
-            
+            }            
             
         }catch(Exception e){
             e.printStackTrace();
@@ -120,7 +99,6 @@ public class OrderServlet extends HttpServlet {
         String user;
         Document answer = null;
         OutputStream os;
-       
         
         switch (operation) {
             case "push":
@@ -132,13 +110,13 @@ public class OrderServlet extends HttpServlet {
                             if (value instanceof AsyncContext) {
                                 System.out.println("Cuoco in attesa");
                                 OutputStream aos = ((AsyncContext) value).getResponse().getOutputStream();
-                                mngXML.transform(aos, data);
+                                mngXML.transform(aos, dataInput);
                                 aos.close();
                                 ((AsyncContext) value).complete();
                                 contexts.put(destUser, new LinkedList<Document>());
                             } else {
                                 System.out.println("Dati Accodati");
-                                ((LinkedList<Document>) value).addLast(data);
+                                ((LinkedList<Document>) value).addLast(dataInput);
                             }
                         }
                 }

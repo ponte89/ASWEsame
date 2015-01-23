@@ -32,11 +32,15 @@
                 xmlhttp2.onreadystatechange=function(){
                 if (xmlhttp2.readyState == 4 && xmlhttp2.status==200) {                            
                     answer = xmlhttp2.responseXML;
-                    if (answer.documentElement.tagName == "push") {
+                    //if (answer.documentElement.tagName == "push") {
                         console.log("Cerco di leggere i dati");
-                        msg= answer.documentElement.childNodes.item(0).data;
-                        document.getElementById("content").value = msg; 
-                    }
+                        //answer.setContentType("text/xml");
+                        var xmlDoc=document.implementation.createDocument("","",null);
+                        xmlDoc.async=false;
+                        xmlDoc.load(answer.documentElement.childNodes.item(0).data);
+                        var root = xmlDoc.documentElement;
+                        document.getElementById("content").value = root.nodeName; 
+                    //}
                     getMessages();
                 }
                };
@@ -59,7 +63,6 @@
                     application = getServletContext();
                     HashMap<String, Object> contexts = (HashMap<String, Object>) application.getAttribute("cookList");
                     contexts.put(user, new LinkedList<Document>());
-
                 }
             }
         %>    

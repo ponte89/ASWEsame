@@ -9,6 +9,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.io.PrintWriter;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -43,7 +44,11 @@ public class MenuServlet extends HttpServlet {
             InputStream is = request.getInputStream();
             Document docin = manageXml.parse(is);
             String s = docin.getElementsByTagName("tipo").item(0).getTextContent();
-
+            is.close();
+            //System.out.println("contenuto: "+docin.getElementsByTagName("pizza_standard").getLength());
+            
+            
+            
             if (s.equals("pizze")) {
                 String path = getServletContext().getRealPath("") + "/WEB-INF/xml/pizze_standard_test.xml";
                 Document doc = manageXml.parse(new File(path));
@@ -60,24 +65,24 @@ public class MenuServlet extends HttpServlet {
                 manageXml.transform(os, doc);
                 
                 os.close();
+            }else if(s.equals("nuovePizze")){
+                //String path = getServletContext().getRealPath("") + "/WEB-INF/xml/pizze_standard_test.xml";
+                //Document doc = manageXml.parse(new File(path));
+                //Document doc = 
+                System.out.println("Richiesta sostituzione pizze");
+                
+               // docin.replaceChild(doc, docin);
+            }else if(s.equals("condimenti")){
+                String path = getServletContext().getRealPath("") + "/WEB-INF/xml/condimenti_test.xml";
+                Document doc = manageXml.parse(new File(path));
+                
             }
             
         } catch (Exception e) {
             System.out.println("--> Servlet " + e.getMessage());
         }
-        /*
-         try (PrintWriter out = response.getWriter()) {
-         /* TODO output your page here. You may use following sample code. 
-         out.println("<!DOCTYPE html>");
-         out.println("<html>");
-         out.println("<head>");
-         out.println("<title>Servlet MenuServlet</title>");
-         out.println("</head>");
-         out.println("<body>");
-         out.println("<h1>Servlet MenuServlet at " + request.getContextPath() + "</h1>");
-         out.println("</body>");
-         out.println("</html>");
-         }*/
+        
+         
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

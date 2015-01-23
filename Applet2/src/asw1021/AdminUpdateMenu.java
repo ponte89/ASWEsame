@@ -20,19 +20,22 @@ import javax.swing.DefaultListModel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 import javax.swing.JLabel;
+import javax.swing.JTextArea;
 import javax.swing.SwingUtilities;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
+import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 /**
  *
  * @author Mezzapesa Beatrice, Papini Alessia, Pontellini Lorenzo
  */
-/** Applet per modificare il menu
- *  In base al pannello che si va a scegliere, condimenti o pizze, posso modificare il mio
- *  menu aggiungendoci all'interno condimenti o pizze differenti da quelli
- *  già presenti; ma posso anche rimuovere ciò che è già presente nel menu.
+/**
+ * Applet per modificare il menu In base al pannello che si va a scegliere,
+ * condimenti o pizze, posso modificare il mio menu aggiungendoci all'interno
+ * condimenti o pizze differenti da quelli già presenti; ma posso anche
+ * rimuovere ciò che è già presente nel menu.
  */
 public class AdminUpdateMenu extends JApplet {
 
@@ -66,10 +69,12 @@ public class AdminUpdateMenu extends JApplet {
     private DefaultListModel modelCondimenti;
 
     private JButton btnNewButton;
-
-    /** Inizializzazione dell' applet con creazione della GUI
-    */
     
+    private JTextArea textArea;
+
+    /**
+     * Inizializzazione dell' applet con creazione della GUI
+     */
     @Override
     public void init() {
 
@@ -83,20 +88,20 @@ public class AdminUpdateMenu extends JApplet {
             });
 
             getListaPizze();
-            
+
             getListaCondimenti();
-            
+
         } catch (Exception ex) {
             System.err.println(ex);
         }
     }
 
-    /** Definizione dell' interfaccia grafica con appropriati componenti grafici
-    *   per l'aggiunta e la rimozione di condimenti o pizze.
-    *   Utilizziamo un Layout totalmente gestito da noi in cui a ogni componente inseriamo
-    *   le coordinate.
-    */
-    
+    /**
+     * Definizione dell' interfaccia grafica con appropriati componenti grafici
+     * per l'aggiunta e la rimozione di condimenti o pizze. Utilizziamo un
+     * Layout totalmente gestito da noi in cui a ogni componente inseriamo le
+     * coordinate.
+     */
     private void initializeGUI() {
         cp = getContentPane();
         cp.setLayout(null);
@@ -173,6 +178,15 @@ public class AdminUpdateMenu extends JApplet {
         txtPrezzoPizza.setColumns(10);
         panelPizze.add(txtPrezzoPizza);
 
+        
+        
+		textArea = new JTextArea();
+		textArea.setBounds(6, 64, 188, 172);
+		panelPizze.add(textArea);
+                
+        
+        
+        
         listaPizze = new JList();
 
         txtNuovoCondimento = new JTextField();
@@ -217,10 +231,10 @@ public class AdminUpdateMenu extends JApplet {
         });
     }
 
-    /** Nella pannello "Pizze" e precisamente nel riquadro sulla destra 
-     * ottengo tutta la lista di pizze che in quell'istante è visibile dalla voce menù
+    /**
+     * Nella pannello "Pizze" e precisamente nel riquadro sulla destra ottengo
+     * tutta la lista di pizze che in quell'istante è visibile dalla voce menù
      */
-    
     private void getListaPizze() {
         try {
 
@@ -247,12 +261,12 @@ public class AdminUpdateMenu extends JApplet {
             System.err.println("--> " + e.getMessage());
         }
     }
-    
-    /** Nella pannello "Condimenti" e precisamente nel riquadro sulla destra 
+
+    /**
+     * Nella pannello "Condimenti" e precisamente nel riquadro sulla destra
      * ottengo tutta la lista di condimenti che in quell'istante sono visibili
      * una volta che richiedo una pizza personalizzata.
      */
-
     private void getListaCondimenti() {
         try {
             HTTPClient httpClient = new HTTPClient();
@@ -279,24 +293,24 @@ public class AdminUpdateMenu extends JApplet {
             System.err.println("--> " + e.getMessage());
         }
     }
-    
-    /** Nel pannello "Condimenti" sulla destra trovo i condimenti già visibili al cliente 
-     * e selezionandone uno, basta premere il pulsante "rimuovi" per eliminarlo 
-     * dalla lista visibile all'utente.
-     */
 
+    /**
+     * Nel pannello "Condimenti" sulla destra trovo i condimenti già visibili al
+     * cliente e selezionandone uno, basta premere il pulsante "rimuovi" per
+     * eliminarlo dalla lista visibile all'utente.
+     */
     private void rimuoviCondimento() {
         if (listaCondimenti.getSelectedIndex() != -1) {
             modelCondimenti.remove(listaCondimenti.getSelectedIndex());
             listaCondimenti.setModel(modelCondimenti);
         }
     }
-    
-    /** Nel pannello "Condimenti" all'interno della text area "nuovo condimento" 
-     * posso inserirne uno e aggiungerlo con visibilità anche ai clienti 
+
+    /**
+     * Nel pannello "Condimenti" all'interno della text area "nuovo condimento"
+     * posso inserirne uno e aggiungerlo con visibilità anche ai clienti
      * premendo il pulsante "aggiungi".
      */
-
     private void aggiungiCondimento() {
 
         if (!txtNuovoCondimento.getText().isEmpty()) {
@@ -305,11 +319,12 @@ public class AdminUpdateMenu extends JApplet {
             listaCondimenti.setModel(modelCondimenti);
         }
     }
-    
-    /** Nel pannelo "pizze" sulla destra trovo le pizze già visibili al cliente e selezionandone una, 
-     * basta premere il pulsante "rimuovi" per eliminarla dalla lista visibile all'utente.
-     */
 
+    /**
+     * Nel pannelo "pizze" sulla destra trovo le pizze già visibili al cliente e
+     * selezionandone una, basta premere il pulsante "rimuovi" per eliminarla
+     * dalla lista visibile all'utente.
+     */
     private void rimuoviPizza() {
         if (listaPizze.getSelectedIndex() != -1) {
             modelPizze.remove(listaPizze.getSelectedIndex());
@@ -317,11 +332,11 @@ public class AdminUpdateMenu extends JApplet {
         }
     }
 
-    /** Nel pannello "pizze" all'interno della text area "nuova pizza" 
-     * posso inserirne una e aggiungerla con visibilità anche ai clienti 
-     * premendo il pulsante "aggiungi".
+    /**
+     * Nel pannello "pizze" all'interno della text area "nuova pizza" posso
+     * inserirne una e aggiungerla con visibilità anche ai clienti premendo il
+     * pulsante "aggiungi".
      */
-    
     private void aggiungiPizza() {
         if (!txtNuovaPizza.getText().isEmpty()) {
             String p = txtNuovaPizza.getText();
@@ -329,12 +344,67 @@ public class AdminUpdateMenu extends JApplet {
             listaPizze.setModel(modelPizze);
         }
     }
-    
-    /**Richiesta di salvataggio, tramite apposito xml passato alla servlet, dell'ordine, 
-     * al cui interno ci sono tutte le modifiche e le aggiunte alle pizze e ai condimenti.
-    */
-    
-    private void salvaModificheMenu(){
-        
+
+    /**
+     * Richiesta di salvataggio, tramite apposito xml passato alla servlet,
+     * dell'ordine, al cui interno ci sono tutte le modifiche e le aggiunte alle
+     * pizze e ai condimenti.
+     */
+    private void salvaModificheMenu() {
+
+        creaXML("pizze");
+
+        creaXML("condimenti");
+
+        invia();
+    }
+
+    private void creaXML(String value) {
+        try {
+            if (value.equals("pizze")) {
+
+                HTTPClient httpClient = new HTTPClient();
+                httpClient.setBase(new URL("http://localhost:8080/WebApplication/MenuServlet"));
+                
+                ManageXML mngXML = new ManageXML();
+                Document data = mngXML.newDocument();
+                
+                Element rootFile = data.createElement("tipo");
+                rootFile.setTextContent("nuovePizze");
+                
+                Element pizze = data.createElement("pizze_standard");
+                
+                String s=""+listaPizze.getModel().getSize();
+                Element pizza;
+                Element nome;
+                //
+                for (int i = 0; i < listaPizze.getModel().getSize(); i++) {
+                    //s+="c";
+                    pizza = data.createElement("pizza_standard");
+                    nome = data.createElement("nome");
+                    nome.setTextContent(listaPizze.getModel().getElementAt(i));
+                    pizza.appendChild(nome);
+                    pizze.appendChild(pizza);
+                    s+=i;
+                }
+                //textArea.setText(s);
+                //pizza= data.createElement("pippo");
+                //pizze.appendChild(pizza);
+                rootFile.appendChild(pizze);
+                //rootFile.appendChild(pizze);
+                data.appendChild(rootFile);
+                
+                
+
+                httpClient.execute("MenuServlet", data);
+
+            } else if (value.equals("condimenti")) {
+
+            }
+        } catch (Exception e) {
+            textArea.setText("nnnn" + e.getMessage());
+        }
+    }
+    private void invia() {
     }
 }

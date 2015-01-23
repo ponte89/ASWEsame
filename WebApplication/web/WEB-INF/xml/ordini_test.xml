@@ -6,7 +6,7 @@ and open the template in the editor.
 -->
 
 
-<ordine_utente xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../xml-types/ordini.xsd">
+<ordini_utente xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../xml-types/ordini.xsd">
     <ordine_utente>
         <id>00</id>
         <user>user1</user>
@@ -49,4 +49,4 @@ and open the template in the editor.
         </pizzaP>
         <done></done>
     </ordine_utente>
-</ordine_utente>
+</ordini_utente>

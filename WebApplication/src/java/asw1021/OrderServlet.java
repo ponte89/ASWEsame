@@ -74,7 +74,7 @@ public class OrderServlet extends HttpServlet {
                    mngXML.transform(os, data);
                    mngXML = new ManageXML();
 
-                   data = mngXML.newDocument("push");
+                   //data = mngXML.newDocument("push");
                 }
                                 
                 operations(data, request, response, mngXML);
@@ -120,7 +120,7 @@ public class OrderServlet extends HttpServlet {
                             }
                         }
                 }
-                answer = mngXML.newDocument("ok");
+               // answer = mngXML.newDocument("ok");
                 os = response.getOutputStream();
                 mngXML.transform(os, answer);
                 os.close();
@@ -146,7 +146,7 @@ public class OrderServlet extends HttpServlet {
                                     String user = (String) reqAsync.getSession().getAttribute("login");
                                     System.out.println("timeout event launched for: " + user);
 
-                                    Document answer = mngXML.newDocument("timeout");
+                                  //  Document answer = mngXML.newDocument("timeout");
                                     boolean confirm;
                                     synchronized (OrderServlet.this) {
                                         if (confirm = (contexts.get(user) instanceof AsyncContext)) {
@@ -155,7 +155,7 @@ public class OrderServlet extends HttpServlet {
                                     }
                                     if (confirm) {
                                         OutputStream tos = asyncContext.getResponse().getOutputStream();
-                                        mngXML.transform(tos, answer);
+                                      //  mngXML.transform(tos, answer);
                                         tos.close();
                                         asyncContext.complete();
                                     }

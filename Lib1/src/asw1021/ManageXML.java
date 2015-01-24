@@ -21,7 +21,13 @@ public class ManageXML {
     public Document newDocument() {
         return builder.newDocument();
     }
-
+    
+    public Document newDocument(String rootTag) {
+        Document newDoc = builder.newDocument(); 
+        newDoc.appendChild(newDoc.createElement(rootTag));
+        return newDoc;
+    }
+    
     public void transform(OutputStream out, Document document) throws TransformerException, IOException {
         transformer.transform(new DOMSource(document), new StreamResult(out));
     }

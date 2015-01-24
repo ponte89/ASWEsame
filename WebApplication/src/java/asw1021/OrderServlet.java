@@ -73,8 +73,9 @@ public class OrderServlet extends HttpServlet {
                    OutputStream os = new FileOutputStream(new File(path));
                    mngXML.transform(os, data);
                    mngXML = new ManageXML();
+                   os.close();
 
-                   data = mngXML.newDocument("push");
+                   data = mngXML.newDocument("push");    
                 }
                                 
                 operations(data, request, response, mngXML);
@@ -171,6 +172,7 @@ public class OrderServlet extends HttpServlet {
                 }
                 if (!async) {
                     os = response.getOutputStream();
+                    response.setContentType("text/xml");
                     mngXML.transform(os, answer);
                     os.close();
                 }

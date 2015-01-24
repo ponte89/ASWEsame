@@ -17,7 +17,7 @@
         <link href="./../style-sheet/styles.css" rel="stylesheet" type="text/css">
         <%@ include file="/WEB-INF/jspf/header.jspf" %>
     </head>
-    <body>
+    <body onLoad="getMessages()">
              
         <section class="container">
             <%@ include file="/WEB-INF/jspf/sidebar.jspf" %>   
@@ -33,8 +33,6 @@
         %>  
         
         <div class="content">
-                <div><input type="button" onClick="getMessages();" value="SEND" /></div>
-                <div><input type="text" id="content1" value = ""/></div>  
                 <table id="riepilgo_ordini" border="1"></table>
         </div>
         </section>

@@ -115,6 +115,7 @@ function getMessages(){
                 xmlhttp2.onreadystatechange=function(){
                 if (xmlhttp2.readyState == 4 && xmlhttp2.status==200) {   
                     answer = xmlhttp2.responseXML;
+                    if( answer.documentElement.tagName == "ordini_utente"){
                         var tableOrdini = document.getElementById("ordini");
                         var dati = answer.documentElement;
                         var ordine = dati.getElementsByTagName("ordini_utente");
@@ -128,8 +129,18 @@ function getMessages(){
                         var doneLog = done[0].childNodes[0].nodeValue;
                         var title = "<caption align='center' style='font-size:36px'>Ordini:</caption>";
                         table += "<tr><td>" + userLog + " " + idLog + " " + tipo_ordineLog + " " + doneLog;
-                        ordiniElement.innerHTML = title + table; 
-                        getMessages();
+                        
+                        var pizzeS = dati.getElementsByTagName("pizzaS");
+                        var pizzeP = dati.getElementsByTagName("pizzaP");
+                        for (i = 0; i < pizzeS.length; i++) {
+
+                            var nome = pizze[i].childNodes[0].nodeValue;
+
+                        }
+                        
+                        ordiniElement.innerHTML = title + table;    
+                    }
+                    getMessages();
                 }
                };
             data = document.implementation.createDocument("", "pop", null);                     

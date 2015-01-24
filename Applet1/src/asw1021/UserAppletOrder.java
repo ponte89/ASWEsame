@@ -470,6 +470,7 @@ public class UserAppletOrder extends JApplet {
             rootFile.appendChild(root);
             data.appendChild(rootFile);
             
+            
             Document answer = httpClient.execute("OrderServlet?target=push", data);
             if (answer.getDocumentElement().getTagName().equals("ok")){
                textPaneOrdinazione.setText("Ordine Confermato");

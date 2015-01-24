@@ -33,6 +33,7 @@
         %>  
         
         <div class="content">
+                <h1>Ordini: </h1>
                 <table id="riepilgo_ordini" border="1"></table>
         </div>
         </section>

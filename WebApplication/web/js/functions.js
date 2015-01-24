@@ -127,7 +127,6 @@ function getMessages(){
                         var tipo_ordineLog = tipo_ordine[0].childNodes[0].nodeValue;
                         var done = dati.getElementsByTagName("done");
                         var doneLog = done[0].childNodes[0].nodeValue;
-                        var title = "<caption align='center' style='font-size:36px'>Ordini:</caption>";
                         table += "<tr><td>" + userLog + " " + idLog + " " + tipo_ordineLog + " " + doneLog;
                         
                         var pizzeS = dati.getElementsByTagName("pizzaS");
@@ -138,7 +137,7 @@ function getMessages(){
 
                         }
                         
-                        ordiniElement.innerHTML = title + table;    
+                        ordiniElement.innerHTML = table;    
                     }
                     getMessages();
                 }

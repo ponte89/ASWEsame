@@ -445,3 +445,14 @@ table#condimenti{
     background-image: url(./../multimedia/tab.jpg);
     margin:10px;
 }
+
+table#riepilgo_ordini{
+    margin: 10px;
+    border: 2px solid black;
+    padding: 5px;
+}
+
+table td#riepilogo_ordini{
+    border: 1px solid black;  
+}
+

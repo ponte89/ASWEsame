@@ -30,8 +30,8 @@ import org.w3c.dom.Text;
  *
  * @author Mezzapesa Beatrice, Papini Alessia, Pontellini Lorenzo
  */
-@WebServlet(name = "OrderServlet",  asyncSupported = true, urlPatterns = {"/OrderServlet"})
-public class OrderServlet extends HttpServlet {
+@WebServlet(name = "ManageOrderService",  asyncSupported = true, urlPatterns = {"/ManageOrderService"})
+public class ManageOrderService extends HttpServlet {
     
     
     private HashMap<String, Object> contexts;
@@ -73,8 +73,9 @@ public class OrderServlet extends HttpServlet {
                    OutputStream os = new FileOutputStream(new File(path));
                    mngXML.transform(os, data);
                    mngXML = new ManageXML();
+                   os.close();
 
-                   //data = mngXML.newDocument("push");
+                   data = mngXML.newDocument("push");    
                 }
                                 
                 operations(data, request, response, mngXML);
@@ -120,7 +121,7 @@ public class OrderServlet extends HttpServlet {
                             }
                         }
                 }
-               // answer = mngXML.newDocument("ok");
+                answer = mngXML.newDocument("ok");
                 os = response.getOutputStream();
                 mngXML.transform(os, answer);
                 os.close();
@@ -146,16 +147,16 @@ public class OrderServlet extends HttpServlet {
                                     String user = (String) reqAsync.getSession().getAttribute("login");
                                     System.out.println("timeout event launched for: " + user);
 
-                                  //  Document answer = mngXML.newDocument("timeout");
+                                    Document answer = mngXML.newDocument("timeout");
                                     boolean confirm;
-                                    synchronized (OrderServlet.this) {
+                                    synchronized (ManageOrderService.this) {
                                         if (confirm = (contexts.get(user) instanceof AsyncContext)) {
                                             contexts.put(user, new LinkedList<Document>());
                                         }
                                     }
                                     if (confirm) {
                                         OutputStream tos = asyncContext.getResponse().getOutputStream();
-                                      //  mngXML.transform(tos, answer);
+                                        mngXML.transform(tos, answer);
                                         tos.close();
                                         asyncContext.complete();
                                     }
@@ -171,9 +172,18 @@ public class OrderServlet extends HttpServlet {
                 }
                 if (!async) {
                     os = response.getOutputStream();
+                    response.setContentType("text/xml");
                     mngXML.transform(os, answer);
                     os.close();
                 }
+                break;
+            case "getOrdini":
+                String path = getServletContext().getRealPath("") + "/WEB-INF/xml/ordini_test.xml";
+                Document doc = mngXML.parse(new File(path));
+                OutputStream osOrdini = response.getOutputStream();
+                response.setContentType("text/xml");
+                mngXML.transform(osOrdini, doc);
+                osOrdini.close();
                 break;
         }
     }

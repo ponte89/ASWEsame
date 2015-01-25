@@ -10,12 +10,16 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.PrintWriter;
+import java.net.URI;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
 
 /**
  *
@@ -40,13 +44,11 @@ public class MenuServlet extends HttpServlet {
         try {
             System.out.println("Servlet per modifica menu");
             ManageXML manageXml = new ManageXML();
-
             InputStream is = request.getInputStream();
             Document docin = manageXml.parse(is);
             String s = docin.getElementsByTagName("tipo").item(0).getTextContent();
-            is.close();
-            //System.out.println("contenuto: "+docin.getElementsByTagName("pizza_standard").getLength());
-            
+            System.out.println("contenuto: "+docin.getElementsByTagName("nome").getLength());
+            System.out.println("tipo: "+s);
             
             
             if (s.equals("pizze")) {
@@ -55,7 +57,7 @@ public class MenuServlet extends HttpServlet {
                 OutputStream os = response.getOutputStream();
                 response.setContentType("text/xml");
                 manageXml.transform(os, doc);
-                
+                os.flush();
                 os.close();
             } else if (s.equals("condimenti")) {
                 String path = getServletContext().getRealPath("") + "/WEB-INF/xml/condimenti_test.xml";
@@ -63,18 +65,27 @@ public class MenuServlet extends HttpServlet {
                 OutputStream os = response.getOutputStream();
                 response.setContentType("text/xml");
                 manageXml.transform(os, doc);
-                
+                os.flush();
                 os.close();
-            }else if(s.equals("nuovePizze")){
-                //String path = getServletContext().getRealPath("") + "/WEB-INF/xml/pizze_standard_test.xml";
-                //Document doc = manageXml.parse(new File(path));
-                //Document doc = 
-                System.out.println("Richiesta sostituzione pizze");
-                
-               // docin.replaceChild(doc, docin);
-            }else if(s.equals("condimenti")){
-                String path = getServletContext().getRealPath("") + "/WEB-INF/xml/condimenti_test.xml";
+            }else if(s.contains("nuovePizze")){
+                String path = getServletContext().getRealPath("") + "/WEB-INF/xml/pizze_standard_test.xml";
                 Document doc = manageXml.parse(new File(path));
+                
+                Element root = doc.createElement("pizza_stardard");
+                //doc.adoptNode(root);
+                
+                //Element prova = doc.createElement("prova");
+                Element prova2 = doc.createElement("nome");
+                prova2.setTextContent("nuova pizza");
+                
+                //prova.appendChild(prova2);
+                root.appendChild(prova2);
+                doc.appendChild(root);
+                System.out.println("prova: "+doc.getElementsByTagName("prova").getLength());
+                System.out.println("Fatto!");
+                
+            }else if(s.equals("nuoviCondimenti")){
+                String path = getServletContext().getRealPath("") + "/WEB-INF/xml/condimenti_test.xml";
                 
             }
             

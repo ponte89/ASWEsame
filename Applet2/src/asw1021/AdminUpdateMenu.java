@@ -15,6 +15,7 @@ import javax.swing.JButton;
 
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import static java.lang.System.console;
 import java.net.URL;
 import javax.swing.DefaultListModel;
 import javax.swing.JScrollPane;
@@ -69,7 +70,7 @@ public class AdminUpdateMenu extends JApplet {
     private DefaultListModel modelCondimenti;
 
     private JButton btnNewButton;
-    
+
     private JTextArea textArea;
 
     /**
@@ -178,15 +179,10 @@ public class AdminUpdateMenu extends JApplet {
         txtPrezzoPizza.setColumns(10);
         panelPizze.add(txtPrezzoPizza);
 
-        
-        
-		textArea = new JTextArea();
-		textArea.setBounds(6, 64, 188, 172);
-		panelPizze.add(textArea);
-                
-        
-        
-        
+        textArea = new JTextArea();
+        textArea.setBounds(6, 64, 188, 172);
+        panelPizze.add(textArea);
+
         listaPizze = new JList();
 
         txtNuovoCondimento = new JTextField();
@@ -365,46 +361,45 @@ public class AdminUpdateMenu extends JApplet {
 
                 HTTPClient httpClient = new HTTPClient();
                 httpClient.setBase(new URL("http://localhost:8080/WebApplication/MenuServlet"));
-                
+
                 ManageXML mngXML = new ManageXML();
+
                 Document data = mngXML.newDocument();
                 
-                Element rootFile = data.createElement("tipo");
-                rootFile.setTextContent("nuovePizze");
+                Element rootNode = data.createElement("tipo");
+                rootNode.setTextContent("nuovePizze");
+               // data.appendChild(rootNode);
                 
-                Element pizze = data.createElement("pizze_standard");
-                
-                String s=""+listaPizze.getModel().getSize();
-                Element pizza;
+                //Element pizze = data.createElement("pizze_standard");
+
+                //Element pizza;
                 Element nome;
-                //
+
                 for (int i = 0; i < listaPizze.getModel().getSize(); i++) {
-                    //s+="c";
-                    pizza = data.createElement("pizza_standard");
+
+                    //pizza = data.createElement("pizza_standard");
                     nome = data.createElement("nome");
                     nome.setTextContent(listaPizze.getModel().getElementAt(i));
-                    pizza.appendChild(nome);
-                    pizze.appendChild(pizza);
-                    s+=i;
-                }
-                //textArea.setText(s);
-                //pizza= data.createElement("pippo");
-                //pizze.appendChild(pizza);
-                rootFile.appendChild(pizze);
-                //rootFile.appendChild(pizze);
-                data.appendChild(rootFile);
-                
-                
+                    //pizza.appendChild(nome);
+                    rootNode.appendChild(nome);
 
+                }
+
+                //data.appendChild(pizze);
+                data.appendChild(rootNode);
+
+                /*CAMBIARE LA SERVLET ALLA QUALE INVIARE LE INFORMAZIONI
+                        */
                 httpClient.execute("MenuServlet", data);
 
             } else if (value.equals("condimenti")) {
 
             }
         } catch (Exception e) {
-            textArea.setText("nnnn" + e.getMessage());
+            textArea.setText("eccezione" + e.getMessage());
         }
     }
+
     private void invia() {
     }
 }

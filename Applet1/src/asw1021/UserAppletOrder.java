@@ -404,7 +404,7 @@ public class UserAppletOrder extends JApplet {
         }
         try{
             HTTPClient httpClient = new HTTPClient();
-            httpClient.setBase(new URL("http://localhost:8080/WebApplication/OrderServlet"));
+            httpClient.setBase(new URL("http://localhost:8080/WebApplication/ManageOrderService"));
             ManageXML mngXML = new ManageXML();
             String idUser = getParameter("user");
             Document data = mngXML.newDocument();
@@ -436,7 +436,7 @@ public class UserAppletOrder extends JApplet {
             String plusString, extraString;
             pizza newPizza = null;
             for(int i = 0; i < listaOrdinazione.size(); i++){ 
-                plusString = "";
+                plusString = " ";
                 newPizza = listaOrdinazione.get(i);
                 if(!newPizza.getName().equals("personalizzata")){
                    typePizza = data.createElement("pizzaS");
@@ -451,6 +451,9 @@ public class UserAppletOrder extends JApplet {
                 for(int j = 0; j < newPizza.getAggiunte().size(); j++){
                     plusString += " " + newPizza.getAggiunte().get(j);
                 }
+                if(plusString.equals("")){
+                    plusString = "Nessuna selezione";
+                }
                 plus.setTextContent(plusString);
                 
                 typePizza.appendChild(name);
@@ -460,6 +463,7 @@ public class UserAppletOrder extends JApplet {
                    pizzaPersonalizzata pizzaPers = (pizzaPersonalizzata)newPizza;
                    base = data.createElement("base");
                    base.setTextContent(pizzaPers.getBase());
+                   typePizza.appendChild(base);
                    for(int k = 0; k < pizzaPers.getCondimenti().size(); k++){
                     condimento = data.createElement("condimento");
                     condimento.setTextContent(pizzaPers.getCondimenti().get(k));
@@ -474,7 +478,7 @@ public class UserAppletOrder extends JApplet {
             data.appendChild(rootFile);
             
             
-            Document answer = httpClient.execute("OrderServlet?target=push", data);
+            Document answer = httpClient.execute("ManageOrderService?target=push", data);
             if (answer.getDocumentElement().getTagName().equals("ok")){
                textPaneOrdinazione.setText("Ordine Confermato");
             }else{

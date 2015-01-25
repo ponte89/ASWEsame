@@ -17,7 +17,7 @@
         <link href="./../style-sheet/styles.css" rel="stylesheet" type="text/css">
         <%@ include file="/WEB-INF/jspf/header.jspf" %>
     </head>
-    <body onLoad="getMessages()">
+    <body onLoad="getOrdini();getMessages()">
              
         <section class="container">
             <%@ include file="/WEB-INF/jspf/sidebar.jspf" %>   
@@ -34,7 +34,7 @@
         
         <div class="content">
                 <h1>Ordini: </h1>
-                <table id="riepilgo_ordini" border="1"></table>
+                <table id="riepilgo_ordini"></table>
         </div>
         </section>
         <%

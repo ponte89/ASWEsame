@@ -31,7 +31,7 @@ import org.w3c.dom.Text;
  * @author Mezzapesa Beatrice, Papini Alessia, Pontellini Lorenzo
  */
 @WebServlet(name = "OrderServlet",  asyncSupported = true, urlPatterns = {"/OrderServlet"})
-public class OrderServlet extends HttpServlet {
+public class ManageOrderService extends HttpServlet {
     
     
     private HashMap<String, Object> contexts;
@@ -149,7 +149,7 @@ public class OrderServlet extends HttpServlet {
 
                                     Document answer = mngXML.newDocument("timeout");
                                     boolean confirm;
-                                    synchronized (OrderServlet.this) {
+                                    synchronized (ManageOrderService.this) {
                                         if (confirm = (contexts.get(user) instanceof AsyncContext)) {
                                             contexts.put(user, new LinkedList<Document>());
                                         }

@@ -103,70 +103,98 @@ function stampaDati(data, value) {
     }
 }
 
+//GESTIONE ORDINI
 function getMessages(){      
                 var ordiniElement = document.getElementById("riepilgo_ordini");  
                 var xmlhttp2,answer,data;
                 console.log("Richiesta ordini");
                 xmlhttp2 = new XMLHttpRequest();
-                xmlhttp2.open("POST", "../OrderServlet", true);
+                xmlhttp2.open("POST", "../ManageOrderService", true);
                 xmlhttp2.setRequestHeader("Content-Type", "text/xml");
                 xmlhttp2.onreadystatechange=function(){
-                if (xmlhttp2.readyState == 4 && xmlhttp2.status==200) {   
+                if (xmlhttp2.readyState === 4 && xmlhttp2.status===200) {   
                     answer = xmlhttp2.responseXML;
-                    if( answer.documentElement.tagName == "ordini_utente"){
-                        var tableOrdini = document.getElementById("ordini");
-                        var dati = answer.documentElement;
-                        var ordine = dati.getElementsByTagName("ordini_utente");
-                        var user = dati.getElementsByTagName("user");
-                        var userLog = user[0].childNodes[0].nodeValue;
-                        var id = dati.getElementsByTagName("id");
-                        var idLog = id[0].childNodes[0].nodeValue;
-                        var tipo_ordine = dati.getElementsByTagName("tipo_ordine");
-                        var tipo_ordineLog = tipo_ordine[0].childNodes[0].nodeValue;
-                        var done = dati.getElementsByTagName("done");
-                        var doneLog = done[0].childNodes[0].nodeValue;
-                        table += "<tr><td>" + userLog + " " + idLog + " " + tipo_ordineLog + " " + doneLog + " ";
+                    if( answer.documentElement.tagName === "ordini_utente"){
                         
-                        var pizzeS = dati.getElementsByTagName("pizzaS");
-                        var pizzeP = dati.getElementsByTagName("pizzaP");
-                        var pizza, numeroLog, plusLog, nomeLog;
-                        for (i = 0; i < pizzeS.length; i++) {
-                            
-                            var nome = pizzeS[i].getElementsByTagName("nome_pizza");
-                            nomeLog = nome[0].childNodes[0].nodeValue;
-                            var numero = pizzeS[i].getElementsByTagName("numero_pizze");
-                            numeroLog = numero[0].childNodes[0].nodeValue;
-                            var plus = pizzeS[i].getElementsByTagName("plus");
-                            if(plus !== null){
-                                plusLog = plus[0].childNodes[0].nodeValue;
-                            }
-                            
-                            table += "Nome: " + nomeLog + " Numero: " + numeroLog + " Aggiunte: " + plusLog + " ";
-                        }
-                        
-                        for (i = 0; i < pizzeP.length; i++) {
-                            
-                            var nome = pizzeP[i].getElementsByTagName("nome_pizza");
-                            nomeLog = nome[0].childNodes[0].nodeValue;
-                            var numero = pizzeP[i].getElementsByTagName("numero_pizze");
-                            numeroLog = numero[0].childNodes[0].nodeValue;
-                            var plus = pizzeP[i].getElementsByTagName("plus");
-                            if(plus !== null){
-                                plusLog = plus[0].childNodes[0].nodeValue;
-                            }
-                            var base = pizzeP[i].getElementsByTagName("base");
-                            baseLog = numero[0].childNodes[0].nodeValue;
-                            
-                            table += "Nome: " + nomeLog + " Numero: " + numeroLog + " Aggiunte: " + plusLog + " Base: " + baseLog ;
-                        }
-                        
-                        
-                        
-                        ordiniElement.innerHTML = table;    
+                        stampaOrdini(answer);   
                     }
                     getMessages();
                 }
                };
             data = document.implementation.createDocument("", "pop", null);                     
             xmlhttp2.send(data);
+}
+
+function stampaOrdini(answer){
+        var tableOrdini = document.getElementById("ordini");
+        var dati = answer.documentElement;
+        var ordine = dati.getElementsByTagName("ordini_utente");
+        var user = dati.getElementsByTagName("user");
+        var userLog = user[0].childNodes[0].nodeValue;
+        var id = dati.getElementsByTagName("id");
+        var idLog = id[0].childNodes[0].nodeValue;
+        var tipo_ordine = dati.getElementsByTagName("tipo_ordine");
+        var tipo_ordineLog = tipo_ordine[0].childNodes[0].nodeValue;
+        var done = dati.getElementsByTagName("done");
+        var doneLog = done[0].childNodes[0].nodeValue;
+        if(doneLog === "false"){
+            doneLog = "da fare";
+        }else{
+            doneLog = "fatto";
+        }
+        table += "<tr><td><b>Utente: </b>" + userLog + " <b>IdOrdine: </b>" + idLog + " <b>Consegna: </b>" + tipo_ordineLog + " <b>Stato: </b>" + doneLog + " </td></tr>";
+
+        var pizzeS = dati.getElementsByTagName("pizzaS");
+        var pizzeP = dati.getElementsByTagName("pizzaP");
+        var pizza, numeroLog, plusLog, nomeLog, baseLog;
+        var condimentiLog = "";
+        for (i = 0; i < pizzeS.length; i++) {
+
+            var nome = pizzeS[i].getElementsByTagName("nome_pizza");
+            nomeLog = nome[0].childNodes[0].nodeValue;
+            var numero = pizzeS[i].getElementsByTagName("numero_pizze");
+            numeroLog = numero[0].childNodes[0].nodeValue;
+            var plus = pizzeS[i].getElementsByTagName("plus");
+            plusLog = plus[0].childNodes[0].nodeValue;
+
+            table += "<tr><td><b> Pizza: </b>" + nomeLog + "<b> Numero: </b>" + numeroLog + "<b> Aggiunte: </b>" + plusLog + " </td></tr>";
+        }
+
+        for (i = 0; i < pizzeP.length; i++) {
+
+            var nome = pizzeP[i].getElementsByTagName("nome_pizza");
+            nomeLog = nome[0].childNodes[0].nodeValue;
+            var numero = pizzeP[i].getElementsByTagName("numero_pizze");
+            numeroLog = numero[0].childNodes[0].nodeValue;
+            var plus = pizzeP[i].getElementsByTagName("plus");
+            plusLog = plus[0].childNodes[0].nodeValue;
+            var base = pizzeP[i].getElementsByTagName("base");
+            baseLog = base[0].childNodes[0].nodeValue;
+            var condimenti = pizzeP[i].getElementsByTagName("condimento");
+            for(j = 0; j < condimenti.length; j++){
+                if(j === condimenti.length - 1){
+                   condimentiLog += condimenti[j].childNodes[0].nodeValue + " ";
+                }else{
+                   condimentiLog += " " + condimenti[j].childNodes[0].nodeValue + ", ";
+                }
+            }
+
+            table += "<tr><td><b> Pizza: </b>" + nomeLog + "<b> Numero: </b>" + numeroLog + "<b> Aggiunte: </b>" + plusLog + "<b> Base: </b>" + baseLog + "<b> Condimenti: </b>" + condimentiLog +" </td></tr>";
+        }
+        ordiniElement.innerHTML = table; 
+}
+
+function getOrdini(){
+        var xmlhttp2 = new XMLHttpRequest();
+        xmlhttp2.onreadystatechange = function () {
+            if (xmlhttp2.readyState === 4 && xmlhttp2.status === 200) {
+                var answer = xmlhttp2.responseXML;
+                stampaOrdini(answer);
+            }
+        };
+        xmlhttp2.open("POST", "../ManageOrderService", true);
+        xmlhttp2.setRequestHeader("Content-Type", "text/xml");
+
+        dataOrdini = document.implementation.createDocument("", "getOrdini", null);
+        xmlhttp2.send(dataOrdini);
 }

@@ -13,7 +13,7 @@ import java.util.ArrayList;
 /** Classe usata per la gestione delle pizze di tipo personalizzata e successivamente
  *  anche per la gestione degli ordini.
  */
-public class pizzaPersonalizzata implements pizza{
+public class pizzaPersonalizzata extends pizzaStandard{
 
     ArrayList<String> condimenti = new ArrayList<String>();
     ArrayList<String> aggiunte = new ArrayList<String>();
@@ -23,7 +23,7 @@ public class pizzaPersonalizzata implements pizza{
     public pizzaPersonalizzata(){
         name = "personalizzata";
     }
-    
+    /*
     /** Il cliente setta il numero delle pizze dello stesso tipo, che vuole ordinare
      * @param n dove n è il numero settato
      */

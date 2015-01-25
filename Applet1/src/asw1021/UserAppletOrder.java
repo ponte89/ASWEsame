@@ -432,16 +432,16 @@ public class UserAppletOrder extends JApplet {
             root.appendChild(type);
             root.appendChild(done);
                        
-            Element pizzaS, pizzaP, name, number, plus, extra, base, condimento;
+            Element typePizza, name, number, plus, extra, base, condimento;
             String plusString, extraString;
-            
+            pizza newPizza = null;
             for(int i = 0; i < listaOrdinazione.size(); i++){ 
                 plusString = "";
-                pizza newPizza = listaOrdinazione.get(i);
+                newPizza = listaOrdinazione.get(i);
                 if(!newPizza.getName().equals("personalizzata")){
-                   pizzaS = data.createElement("pizzaS");
+                   typePizza = data.createElement("pizzaS");
                 }else{
-                   pizzaP = data.createElement("pizzaP"); 
+                   typePizza = data.createElement("pizzaP"); 
                 }
                 name = data.createElement("nome_pizza");
                 name.setTextContent(newPizza.getName());
@@ -451,10 +451,11 @@ public class UserAppletOrder extends JApplet {
                 for(int j = 0; j < newPizza.getAggiunte().size(); j++){
                     plusString += " " + newPizza.getAggiunte().get(j);
                 }
-                plus.setTextContent(plusString);  
-                root.appendChild(name);
-                root.appendChild(number);
-                root.appendChild(plus);
+                plus.setTextContent(plusString);
+                
+                typePizza.appendChild(name);
+                typePizza.appendChild(number);
+                typePizza.appendChild(plus);
                 if (newPizza.getName().equals("personalizzata")){
                    pizzaPersonalizzata pizzaPers = (pizzaPersonalizzata)newPizza;
                    base = data.createElement("base");
@@ -462,9 +463,11 @@ public class UserAppletOrder extends JApplet {
                    for(int k = 0; k < pizzaPers.getCondimenti().size(); k++){
                     condimento = data.createElement("condimento");
                     condimento.setTextContent(pizzaPers.getCondimenti().get(k));
-                    root.appendChild(condimento);
+                    typePizza.appendChild(condimento);
                    }
                 }
+                
+                root.appendChild(typePizza);
             }
             
             rootFile.appendChild(root);

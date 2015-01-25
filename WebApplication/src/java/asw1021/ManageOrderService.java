@@ -30,7 +30,7 @@ import org.w3c.dom.Text;
  *
  * @author Mezzapesa Beatrice, Papini Alessia, Pontellini Lorenzo
  */
-@WebServlet(name = "OrderServlet",  asyncSupported = true, urlPatterns = {"/OrderServlet"})
+@WebServlet(name = "ManageOrderService",  asyncSupported = true, urlPatterns = {"/ManageOrderService"})
 public class ManageOrderService extends HttpServlet {
     
     
@@ -176,6 +176,14 @@ public class ManageOrderService extends HttpServlet {
                     mngXML.transform(os, answer);
                     os.close();
                 }
+                break;
+            case "getOrdini":
+                String path = getServletContext().getRealPath("") + "/WEB-INF/xml/ordini_test.xml";
+                Document doc = mngXML.parse(new File(path));
+                OutputStream osOrdini = response.getOutputStream();
+                response.setContentType("text/xml");
+                mngXML.transform(osOrdini, doc);
+                osOrdini.close();
                 break;
         }
     }

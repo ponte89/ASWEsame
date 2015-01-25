@@ -6,47 +6,26 @@ and open the template in the editor.
 -->
 
 
-<ordine_utente xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../xml-types/ordini.xsd">
+ <ordini_utente xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../xml-types/ordini.xsd">>
     <ordine_utente>
-        <id>00</id>
-        <user>user1</user>
+        <user>cliente1</user>
+        <id>cliente125-1-2015 03:19:09</id>
         <tipo_ordine>ritiro</tipo_ordine>
-        <pizzaS>
-            <nome>margherita</nome>
-            <numero>2</numero>
-            <plus></plus>
-        </pizzaS>
-        
-        <pizzaS>
-            <nome>wuster</nome>
-            <numero>4</numero>
-            <plus>
-                kamut
-            </plus>
-        </pizzaS>
-        
-        <pizzaS>
-            <nome>quattro stagioni</nome>
-            <numero>1</numero>
-            <plus>doppiaMoz</plus>
-        </pizzaS>
         <done>false</done>
+        <pizzaS>
+            <nome_pizza>Cardinale</nome_pizza>
+            <numero_pizze>1</numero_pizze>
+            <plus> </plus>
+        </pizzaS>
+        <pizzaS>
+            <nome_pizza>4 Stagioni</nome_pizza>
+            <numero_pizze>1</numero_pizze>
+            <plus> </plus>
+        </pizzaS>
+        <pizzaS>
+            <nome_pizza>Calabrese</nome_pizza>
+            <numero_pizze>2</numero_pizze>
+            <plus>  Maxi Doppia Mozzarella</plus>
+        </pizzaS>
     </ordine_utente>
-    
-    <ordine_utente>
-        <id>01</id>
-        <user>utente2</user>
-        <tipo_ordine>ritiro</tipo_ordine>
-        
-        <pizzaP>
-            <base>
-                <margherita />
-            </base>
-            <condimento>olive</condimento>
-            <condimento>funghi</condimento>
-            <condimento>zucchine</condimento>
-            <condimento>prosciutto cotto</condimento>
-        </pizzaP>
-        <done></done>
-    </ordine_utente>
-</ordine_utente>
+</ordini_utente>

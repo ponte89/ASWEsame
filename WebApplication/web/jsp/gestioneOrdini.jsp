@@ -7,7 +7,6 @@
 <%@page import="java.util.LinkedList"%>
 <%@page import="org.w3c.dom.Document"%>
 <%@page import="java.util.HashMap"%>
-<%@page import="asw1021.ordini.Ordine"%>
 <%@page import="java.util.ArrayList"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -25,7 +24,6 @@
             if (session.getAttribute("login") != null) {
                 String user = (String) session.getAttribute("login");
                 String us = session.getAttribute("type").toString();
-                ArrayList<Ordine> ordini = null;
                 if (us.equals("cuoco")) {  //cuoco
                     application = getServletContext();
                     HashMap<String, Object> contexts = (HashMap<String, Object>) application.getAttribute("cookList");
@@ -34,7 +32,7 @@
         
         <div class="content">
                 <h1>Ordini: </h1>
-                <table id="riepilgo_ordini"></table>
+                <table id="riepilgo_ordini" border="2"></table>
         </div>
         </section>
         <%

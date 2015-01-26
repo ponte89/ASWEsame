@@ -448,11 +448,7 @@ table#condimenti{
 
 table#riepilgo_ordini{
     margin: 10px;
-    border: 2px solid black;
     padding: 5px;
 }
 
-table td#riepilogo_ordini{
-    border: 1px solid black;  
-}
 

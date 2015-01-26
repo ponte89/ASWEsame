@@ -143,7 +143,7 @@ function stampaOrdini(data){
                 }else{
                     doneLog = "fatto";
                 }
-                tableOrdini += "<tr><td><b>Utente: </b>" + userLog + " <b>IdOrdine: </b>" + idLog + " <b>Consegna: </b>" + tipo_ordineLog + " <b>Stato: </b>" + doneLog + " </td></tr>";
+                tableOrdini += "<tr><td><b>Utente: </b>" + userLog + " <b>IdOrdine: </b>" + idLog + " <b>Consegna: </b>" + tipo_ordineLog + " <b>Stato: </b>" + doneLog + " </br>";
 
                 var pizzeS = ordini[k].getElementsByTagName("pizzaS");
                 var pizzeP = ordini[k].getElementsByTagName("pizzaP");
@@ -158,7 +158,7 @@ function stampaOrdini(data){
                     var plus = pizzeS[i].getElementsByTagName("plus");
                     plusLog = plus[0].childNodes[0].nodeValue;
 
-                    tableOrdini += "<tr><td><b> Pizza: </b>" + nomeLog + "<b> Numero: </b>" + numeroLog + "<b> Aggiunte: </b>" + plusLog + " </td></tr>";
+                    tableOrdini += "<b> Pizza: </b>" + nomeLog + "<b> Numero: </b>" + numeroLog + "<b> Aggiunte: </b>" + plusLog + " </br>";
                 }
 
                 for (i = 0; i < pizzeP.length; i++) {
@@ -180,7 +180,7 @@ function stampaOrdini(data){
                         }
                     }
 
-                    tableOrdini += "<tr><td><b> Pizza: </b>" + nomeLog + "<b> Numero: </b>" + numeroLog + "<b> Aggiunte: </b>" + plusLog + "<b> Base: </b>" + baseLog + "<b> Condimenti: </b>" + condimentiLog +" </td></tr>";
+                    tableOrdini += "<b> Pizza: </b>" + nomeLog + "<b> Numero: </b>" + numeroLog + "<b> Aggiunte: </b>" + plusLog + "<b> Base: </b>" + baseLog + "<b> Condimenti: </b>" + condimentiLog +" </br></td></tr>";
                 }
          }
         ordiniElement.innerHTML = tableOrdini; 
@@ -191,7 +191,7 @@ function getOrdini(){
         xmlhttp2.onreadystatechange = function () {
             if (xmlhttp2.readyState === 4 && xmlhttp2.status === 200) {
                 var answer = xmlhttp2.responseXML;
-                console.log("Stampo gli ordini nel DB");
+                console.log("Stampo gli ordini del DB");
                 stampaOrdini(answer);
             }
         };

@@ -113,7 +113,7 @@ function stampaDati(data, value) {
     }
 }
 
-//GESTIONE ORDINI
+//GESTIONE ORDINI e PRENOTAZIONI
 function getMessages(value){      
                 var xmlhttp2,answer,data;
                 console.log("Richiesta ordini");
@@ -142,13 +142,15 @@ function stampaOrdini(data, value){
         var ordiniElement = document.getElementById("riepilgo_ordini");
         var dati = data.documentElement;
         var ordini = dati.getElementsByTagName("ordine_utente");
-
+        var done, doneLog, nOrdine, idLog;
+        
         for(k = 0; k < ordini.length; k++){
+                nOrdine = k;
                 var prenotazioneLog = "";
                 var user = ordini[k].getElementsByTagName("user");
                 var userLog = user[0].childNodes[0].nodeValue;
                 var id = ordini[k].getElementsByTagName("id");
-                var idLog = id[0].childNodes[0].nodeValue;
+                idLog = id[0].childNodes[0].nodeValue;
                 var tipo_ordine = ordini[k].getElementsByTagName("tipo_ordine");
                 var tipo_ordineLog = tipo_ordine[0].childNodes[0].nodeValue;
                 if (tipo_ordineLog === null){
@@ -157,17 +159,17 @@ function stampaOrdini(data, value){
                     var nPosti = tipo_ordine[0].getElementsByTagName("posti");
                     var nPostiLog = nPosti[0].childNodes[0].nodeValue;
                 }
-                var done = ordini[k].getElementsByTagName("done");
-                var doneLog = done[0].childNodes[0].nodeValue;
+                done = ordini[k].getElementsByTagName("done");
+                doneLog = done[0].childNodes[0].nodeValue;
                 if(doneLog === "false"){
                     doneLog = "da fare";
                 }else{
                     doneLog = "fatto";
                 }
                 if(prenotazioneLog === "prenotazione"){
-                  tableOrdini += "<tr><td><b>Utente: </b>" + userLog + " <b>IdOrdine: </b>" + idLog + " <b>Prenotazione per: </b>" + nPostiLog + " <b>Stato: </b>" + doneLog + " </br>";    
+                  tableOrdini += "<tr><td><b>Utente: </b>" + userLog + " <b>IdOrdine: </b>" + idLog + " <b>Prenotazione per: </b>" + nPostiLog + "</br>";    
                 }else if(prenotazioneLog === ""){
-                  tableOrdini += "<tr><td><b>Utente: </b>" + userLog + " <b>IdOrdine: </b>" + idLog + " <b>Consegna: </b>" + tipo_ordineLog + " <b>Stato: </b>" + doneLog + " </br>";  
+                  tableOrdini += "<tr><td><b>Utente: </b>" + userLog + " <b>IdOrdine: </b>" + idLog + " <b>Consegna: </b>" + tipo_ordineLog + " </br>";  
                 }
 
 
@@ -206,12 +208,12 @@ function stampaOrdini(data, value){
                         }
                     }
 
-                    tableOrdini += "<b> Pizza: </b>" + nomeLog + "<b> Numero: </b>" + numeroLog + "<b> Aggiunte: </b>" + plusLog + "<b> Base: </b>" + baseLog + "<b> Condimenti: </b>" + condimentiLog +" </br></td></tr>";
+                    tableOrdini += "<b> Pizza: </b>" + nomeLog + "<b> Numero: </b>" + numeroLog + "<b> Aggiunte: </b>" + plusLog + "<b> Base: </b>" + baseLog + "<b> Condimenti: </b>" + condimentiLog +" </br></td>";
                 }
          }
-    ordiniElement.innerHTML = tableOrdini; 
+    ordiniElement.innerHTML = tableOrdini + "<td width=50px align='center'><b>Stato: </b>" + "<input id='"+ nOrdine +"' type='text' size='10' value='"+ doneLog + "'>" + "</br><input type='button' value='Completato' onclick='ordineCompletato('"+nOrdine+"','"+idLog+"');'></td></tr>"; 
     }else if(value === "prenotazioni"){
-        var prenotazioniElement = document.getElementById("riepilgo_prenotazioni");
+        var prenotazioniElement = document.getElementById("riepilogo_prenotazioni");
         var dati = data.documentElement;
         var ordini = dati.getElementsByTagName("ordine_utente");
 
@@ -225,8 +227,6 @@ function stampaOrdini(data, value){
                 var userLog = user[0].childNodes[0].nodeValue;
                 var id = ordini[k].getElementsByTagName("id");
                 var idLog = id[0].childNodes[0].nodeValue;
-                //var tipo_ordine = ordini[k].getElementsByTagName("tipo_ordine");
-                //var tipo_ordineLog = tipo_ordine[0].childNodes[0].nodeValue;
                 if (tipo_ordineLog === null){
                     var prenotazione = tipo_ordine[0].getElementsByTagName("prenotazione");
                     prenotazioneLog = prenotazione[0].childNodes[0].nodeValue;
@@ -291,7 +291,10 @@ function stampaOrdini(data, value){
 
 }
 
-//GESTIONE PRENOTAZIONI
+function ordineCompletato(nOrdine, idOrdine){
+    document.getElementById(nOrdine).value = 'fatto';
+    
+}
 
 function getOrdini(value){
         var xmlhttp2 = new XMLHttpRequest();

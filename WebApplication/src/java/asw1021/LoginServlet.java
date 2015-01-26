@@ -5,11 +5,12 @@
  */
 package asw1021;
 
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.HashMap;
-import java.util.LinkedList;
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -135,10 +136,10 @@ public class LoginServlet extends HttpServlet {
                             newUser.appendChild(newCountry);
                             root.appendChild(newUser);
                             
-                            /*String path = getServletContext().getRealPath("")+"/WEB-INF/xml/anagrafica_test.xml";
+                            String path = getServletContext().getRealPath("")+"/WEB-INF/xml/anagrafica_test.xml";
                             OutputStream os = new FileOutputStream(new File(path));             
                             manageXml.transform(os, doc);
-                            os.close();*/
+                            os.close();
 
                             session.setAttribute("login", user);
                  

@@ -31,7 +31,7 @@
         
         <div class="content">
                 <h1>Prenotazioni: </h1>
-                <table id="riepilgo_prenotazioni" border="2"></table>
+                <table id="riepilogo_prenotazioni" border="2"></table>
         </div>
         </section>
         <%

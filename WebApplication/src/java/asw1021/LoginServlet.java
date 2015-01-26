@@ -195,8 +195,8 @@ public class LoginServlet extends HttpServlet {
     @Override
     public void init() throws ServletException {
         ServletContext application = getServletContext();
-        HashMap<String,Object> cooks = new HashMap<String,Object>();
-        application.setAttribute("cookList", cooks);
+        HashMap<String,Object> login = new HashMap<String,Object>();
+        application.setAttribute("loginList", login);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

@@ -448,11 +448,12 @@ table#condimenti{
 
 table#riepilgo_ordini{
     margin: 10px;
-    border: 2px solid black;
     padding: 5px;
 }
 
-table td#riepilogo_ordini{
-    border: 1px solid black;  
+table#riepilgo_prenotazioni{
+    margin: 10px;
+    padding: 5px;
 }
+
 

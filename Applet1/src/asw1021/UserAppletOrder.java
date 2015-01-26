@@ -400,7 +400,7 @@ public class UserAppletOrder extends JApplet {
         }else if(rdbtnPrenotazione.isSelected()){
            typeDelivery = "prenotazione"; 
            //spinnerPosti.setEnabled(true);
-           nPosti = ((Double)spinnerPersonalizzata.getValue()).intValue();
+           nPosti = ((Double)spinnerPosti.getValue()).intValue();
         }
         try{
             HTTPClient httpClient = new HTTPClient();
@@ -419,14 +419,18 @@ public class UserAppletOrder extends JApplet {
             String idOrdine = new SimpleDateFormat("dd-M-yyyy hh:mm:ss").format(new Date());
             id.setTextContent(idUser+idOrdine);
             Element type = data.createElement("tipo_ordine");
+            
             if(typeDelivery.equals("prenotazione")){
-               
+                Element typePren = data.createElement("prenotazione");
+                typePren.setTextContent(typeDelivery);
                 Element posti = data.createElement("posti");
                 posti.setTextContent(""+nPosti);
+                type.appendChild(typePren);
                 type.appendChild(posti);
+            }else{
+                type.setTextContent(typeDelivery); 
             }
             
-            type.setTextContent(typeDelivery);
             root.appendChild(user);
             root.appendChild(id);
             root.appendChild(type);

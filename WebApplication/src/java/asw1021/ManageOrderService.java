@@ -24,7 +24,6 @@ import javax.servlet.http.HttpSession;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import javax.servlet.annotation.WebServlet;
-import org.w3c.dom.Text;
 
 /**
  *
@@ -221,7 +220,7 @@ public class ManageOrderService extends HttpServlet {
     @Override
     public void init() throws ServletException {
         ServletContext application = getServletContext();
-        contexts = (HashMap<String, Object>) application.getAttribute("cookList");
+        contexts = (HashMap<String, Object>) application.getAttribute("loginList");
     }
     
     /**

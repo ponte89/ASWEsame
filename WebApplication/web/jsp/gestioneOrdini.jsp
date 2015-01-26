@@ -16,7 +16,7 @@
         <link href="./../style-sheet/styles.css" rel="stylesheet" type="text/css">
         <%@ include file="/WEB-INF/jspf/header.jspf" %>
     </head>
-    <body onLoad="getOrdini();getMessages()">
+    <body onLoad="getOrdini(ordini);getMessages(ordini)">
              
         <section class="container">
             <%@ include file="/WEB-INF/jspf/sidebar.jspf" %>   
@@ -26,7 +26,7 @@
                 String us = session.getAttribute("type").toString();
                 if (us.equals("cuoco")) {  //cuoco
                     application = getServletContext();
-                    HashMap<String, Object> contexts = (HashMap<String, Object>) application.getAttribute("cookList");
+                    HashMap<String, Object> contexts = (HashMap<String, Object>) application.getAttribute("loginList");
                     contexts.put(user, new LinkedList<Document>());
         %>  
         

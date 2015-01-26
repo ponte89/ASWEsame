@@ -129,13 +129,19 @@ function stampaOrdini(data){
         var ordini = dati.getElementsByTagName("ordine_utente");
 
         for(k = 0; k < ordini.length; k++){
-                
+                var prenotazioneLog = "";
                 var user = ordini[k].getElementsByTagName("user");
                 var userLog = user[0].childNodes[0].nodeValue;
                 var id = ordini[k].getElementsByTagName("id");
                 var idLog = id[0].childNodes[0].nodeValue;
                 var tipo_ordine = ordini[k].getElementsByTagName("tipo_ordine");
                 var tipo_ordineLog = tipo_ordine[0].childNodes[0].nodeValue;
+                if (tipo_ordineLog === null){
+                    var prenotazione = tipo_ordine[0].getElementsByTagName("prenotazione");
+                    prenotazioneLog = prenotazione[0].childNodes[0].nodeValue;
+                    var nPosti = tipo_ordine[0].getElementsByTagName("posti");
+                    var nPostiLog = nPosti[0].childNodes[0].nodeValue;
+                }
                 var done = ordini[k].getElementsByTagName("done");
                 var doneLog = done[0].childNodes[0].nodeValue;
                 if(doneLog === "false"){
@@ -143,7 +149,12 @@ function stampaOrdini(data){
                 }else{
                     doneLog = "fatto";
                 }
-                tableOrdini += "<tr><td><b>Utente: </b>" + userLog + " <b>IdOrdine: </b>" + idLog + " <b>Consegna: </b>" + tipo_ordineLog + " <b>Stato: </b>" + doneLog + " </br>";
+                if(prenotazioneLog === "prenotazione"){
+                  tableOrdini += "<tr><td><b>Utente: </b>" + userLog + " <b>IdOrdine: </b>" + idLog + " <b>Prenotazione per: </b>" + nPostiLog + " <b>Stato: </b>" + doneLog + " </br>";    
+                }else if(prenotazioneLog === ""){
+                  tableOrdini += "<tr><td><b>Utente: </b>" + userLog + " <b>IdOrdine: </b>" + idLog + " <b>Consegna: </b>" + tipo_ordineLog + " <b>Stato: </b>" + doneLog + " </br>";  
+                }
+                
 
                 var pizzeS = ordini[k].getElementsByTagName("pizzaS");
                 var pizzeP = ordini[k].getElementsByTagName("pizzaP");

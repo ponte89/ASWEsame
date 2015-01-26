@@ -6,6 +6,7 @@
 package asw1021;
 
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -47,10 +48,9 @@ public class MenuServlet extends HttpServlet {
             InputStream is = request.getInputStream();
             Document docin = manageXml.parse(is);
             String s = docin.getElementsByTagName("tipo").item(0).getTextContent();
-            System.out.println("contenuto: "+docin.getElementsByTagName("nome").getLength());
-            System.out.println("tipo: "+s);
-            
-            
+            System.out.println("contenuto: " + docin.getElementsByTagName("nome").getLength());
+            System.out.println("tipo: " + s);
+
             if (s.equals("pizze")) {
                 String path = getServletContext().getRealPath("") + "/WEB-INF/xml/pizze_standard_test.xml";
                 Document doc = manageXml.parse(new File(path));
@@ -67,38 +67,64 @@ public class MenuServlet extends HttpServlet {
                 manageXml.transform(os, doc);
                 os.flush();
                 os.close();
-            }else if(s.contains("nuovePizze")){
+            } else if (s.contains("nuovePizze")) {
+
                 String path = getServletContext().getRealPath("") + "/WEB-INF/xml/pizze_standard_test.xml";
                 Document doc = manageXml.parse(new File(path));
-                System.out.println("numero pizze standard->prima: "+doc.getElementsByTagName("pizza_standard").getLength());
-                
-                Element pizze = (Element)doc.getElementsByTagName("pizze_standard").item(0);
-                
-                Element pizza = doc.createElement("pizza_standard");
-                Element nome = doc.createElement("nome");
-                nome.setTextContent("blabla");
-                pizza.appendChild(nome);
-                pizze.appendChild(pizza);
-                
-                OutputStream out = response.getOutputStream();
-                manageXml.transform(out, doc);
-                
-                System.out.println("numero pizze standard->dopo: "+doc.getElementsByTagName("pizza_standard").getLength());
-                
-                
-                //System.out.println("prova: "+doc.getElementsByTagName("prova").getLength());
-                System.out.println("Fatto!");
-                
-            }else if(s.equals("nuoviCondimenti")){
-                String path = getServletContext().getRealPath("") + "/WEB-INF/xml/condimenti_test.xml";
-                
+
+                NodeList pizzeinput = docin.getElementsByTagName("nome");
+                Document document = manageXml.newDocument();
+
+                Node pizze = document.createElement("pizze_standard");
+                Node pizza;
+                Element nome;
+
+                for (int i = 0; i < pizzeinput.getLength(); i++) {
+                    pizza = document.createElement("pizza_standard");
+                    nome = document.createElement("nome");
+                    nome.setTextContent(pizzeinput.item(i).getTextContent());
+                    pizza.appendChild(nome);
+                    pizze.appendChild(pizza);
+
+                }
+                document.appendChild(pizze);
+
+                OutputStream out = new FileOutputStream(path);
+                manageXml.transform(out, document);
+
+                out.close();
+
+            } else if (s.equals("nuoviCondimenti")) {
+                String path = getServletContext().getRealPath("") + "/WEB-INF/xml/pizze_standard_test.xml";
+                Document doc = manageXml.parse(new File(path));
+
+                NodeList pizzeinput = docin.getElementsByTagName("nome");
+                Document document = manageXml.newDocument();
+
+                Node pizze = document.createElement("condimenti_standard");
+                Node pizza;
+                Element nome;
+
+                for (int i = 0; i < pizzeinput.getLength(); i++) {
+                    pizza = document.createElement("condimento");
+                    nome = document.createElement("nome");
+                    nome.setTextContent(pizzeinput.item(i).getTextContent());
+                    pizza.appendChild(nome);
+                    pizze.appendChild(pizza);
+
+                }
+                document.appendChild(pizze);
+
+                OutputStream out = new FileOutputStream(path);
+                manageXml.transform(out, document);
+
+                out.close();
             }
-            
+
         } catch (Exception e) {
             System.out.println("--> Servlet " + e.getMessage());
         }
-        
-         
+
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

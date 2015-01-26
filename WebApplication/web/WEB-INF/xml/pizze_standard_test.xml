@@ -22,7 +22,6 @@
  
     <pizza_standard>
         <nome>Siciliana</nome>
-        <costo>6.00 €</costo>
     </pizza_standard>
     
     <pizza_standard>
@@ -37,16 +36,13 @@
         <nome>Prosciutto crudo</nome>
     </pizza_standard>
     
-    
     <pizza_standard>
         <nome>Carciofi</nome>
     </pizza_standard>
     
-    
     <pizza_standard>
         <nome>Funghi porcini</nome>
     </pizza_standard>
-    
     
     <pizza_standard>
         <nome>Funghi</nome>

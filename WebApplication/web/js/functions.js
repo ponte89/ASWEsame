@@ -71,8 +71,15 @@ function creaRichiestaDati(value) {
 function stampaDati(data, value) {
     if (value === "pizze") {
         var con = document.getElementById("pizze");
-        var dati = data.documentElement;
-        var pizze = dati.getElementsByTagName("nome");
+        
+        //var dati = data.documentElement;
+        var pizze = data.getElementsByTagName("nome");
+        
+        
+        var prova = data.getElementsByTagName("pizza_standard");
+        console.log("dimensione pizza standard: "+prova.length);
+        
+        
         var sopra = "<caption align='attributo' style='font-size:36px'>Le nostre Pizze</caption>";
         var table = "";
 

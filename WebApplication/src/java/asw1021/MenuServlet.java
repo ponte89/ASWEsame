@@ -70,18 +70,23 @@ public class MenuServlet extends HttpServlet {
             }else if(s.contains("nuovePizze")){
                 String path = getServletContext().getRealPath("") + "/WEB-INF/xml/pizze_standard_test.xml";
                 Document doc = manageXml.parse(new File(path));
+                System.out.println("numero pizze standard->prima: "+doc.getElementsByTagName("pizza_standard").getLength());
                 
-                Element root = doc.createElement("pizza_stardard");
-                //doc.adoptNode(root);
+                Element pizze = (Element)doc.getElementsByTagName("pizze_standard").item(0);
                 
-                //Element prova = doc.createElement("prova");
-                Element prova2 = doc.createElement("nome");
-                prova2.setTextContent("nuova pizza");
+                Element pizza = doc.createElement("pizza_standard");
+                Element nome = doc.createElement("nome");
+                nome.setTextContent("blabla");
+                pizza.appendChild(nome);
+                pizze.appendChild(pizza);
                 
-                //prova.appendChild(prova2);
-                root.appendChild(prova2);
-                doc.appendChild(root);
-                System.out.println("prova: "+doc.getElementsByTagName("prova").getLength());
+                OutputStream out = response.getOutputStream();
+                manageXml.transform(out, doc);
+                
+                System.out.println("numero pizze standard->dopo: "+doc.getElementsByTagName("pizza_standard").getLength());
+                
+                
+                //System.out.println("prova: "+doc.getElementsByTagName("prova").getLength());
                 System.out.println("Fatto!");
                 
             }else if(s.equals("nuoviCondimenti")){

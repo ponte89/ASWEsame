@@ -5,6 +5,7 @@
  */
 var datiPizze;
 var datiCondimenti;
+var datiMessaggi;
 var tableOrdini = "";
 var tablePrenotazioni = "";
 var ordini = "ordini";
@@ -50,6 +51,33 @@ function getDati(value) {
         creaRichiestaDati("condimenti");
 
         xmlhttp2.send(datiCondimenti);
+    }else if(value === "messaggi"){
+        var xmlhttp2 = new XMLHttpRequest();
+        var to = "http://localhost:8080/WebApplication/MessageServlet?target=manage";
+
+        xmlhttp2.onreadystatechange = function () {
+            if (xmlhttp2.readyState === 4 && xmlhttp2.status === 200) {
+                var answer = xmlhttp2.responseXML;
+                
+                //console.log(answer);
+                
+                stampaDati(answer, "messaggi");
+            }
+        };
+
+        xmlhttp2.open("POST", to, true);
+        xmlhttp2.setRequestHeader("Content-Type", "text/xml");
+
+        //creaRichiestaDati("condimenti");
+        datiMessaggi = document.implementation.createDocument("", "", null);
+        var rootData = datiMessaggi.createElement("tipo");
+        var text = datiMessaggi.createTextNode("text");
+        text.nodeValue = "messaggi";
+        rootData.appendChild(text);
+        datiMessaggi.appendChild(rootData);
+
+
+        xmlhttp2.send(datiMessaggi);
     }
 }
 
@@ -106,6 +134,25 @@ function stampaDati(data, value) {
             var nome = pizze[i].childNodes[0].nodeValue;
             if (nome != "Nessuna selezione")
                 table += "<tr><td width=25px align='center'>" + (i) + "</td><td width=400>&nbsp;&nbsp;" + nome + "</td></tr>";
+
+        }
+
+        con.innerHTML = sopra + table;
+    }else if (value === "messaggi") {
+        
+        var con = document.getElementById("tabMessaggi");
+        
+        var dati = data.documentElement;
+        var nome = dati.getElementsByTagName("nome");
+        var messaggio = dati.getElementsByTagName("contenuto");
+        var sopra = "<caption align='attributo' style='font-size:36px; margin:10px;'>Messaggi Utenti</caption>";
+        var table = "<tr><th>Utente</th><th>Messaggio</th></tr>";
+
+        for (i = 0; i < messaggio.length; i++) {
+
+            var name = nome[i].childNodes[0].nodeValue;
+            var mess = messaggio[i].childNodes[0].nodeValue;
+            table += "<tr><td width=100px align='center'>"+name+"</td><td width=400>&nbsp;&nbsp;" + mess + "</td></tr>";
 
         }
 
@@ -318,5 +365,7 @@ function getOrdini(value){
 
 function getMessaggi(){
     
-    alert("messaggi");
+    //alert("messaggi");
+    
+    getDati("messaggi");
 }

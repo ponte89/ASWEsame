@@ -25,7 +25,7 @@
 
                             <div class="contact">
                                 <%@ include file="/WEB-INF/jspf/message.jspf"%> 
-                                <form action="../MessageServlet" method="post">
+                                <form action="../MessageServlet?target=new" method="post">
                                     <fieldset class="contact">
                                         
                                         <label class="contact" for="name">Nome:</label>

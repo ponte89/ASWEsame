@@ -39,7 +39,7 @@
                 }
             }
         %>  
-        <script  src="./../js/functions.js"></script>
+        <script src="./../js/functions.js"></script>
         <%@ include file="/WEB-INF/jspf/footer.jspf" %>
     </body>
 </html>

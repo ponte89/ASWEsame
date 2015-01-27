@@ -15,29 +15,24 @@ import javax.swing.JButton;
 
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
-import static java.lang.System.console;
 import java.net.URL;
 import java.util.ArrayList;
 import javax.swing.DefaultListModel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 import javax.swing.JLabel;
-import javax.swing.JTextArea;
 import javax.swing.SwingUtilities;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
-import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 /**
- *
- * @author Mezzapesa Beatrice, Papini Alessia, Pontellini Lorenzo
- */
-/**
- * Applet per modificare il menu In base al pannello che si va a scegliere,
- * condimenti o pizze, posso modificare il mio menu aggiungendoci all'interno
+ * Applet per modificare il menu 
+ * In base al pannello che si va a scegliere,condimenti o pizze, 
+ * posso modificare il mio menu aggiungendoci all'interno
  * condimenti o pizze differenti da quelli già presenti; ma posso anche
  * rimuovere ciò che è già presente nel menu.
+ * @author Mezzapesa Beatrice, Papini Alessia, Pontellini Lorenzo
  */
 public class AdminUpdateMenu extends JApplet {
 
@@ -99,9 +94,9 @@ public class AdminUpdateMenu extends JApplet {
 
     /**
      * Definizione dell' interfaccia grafica con appropriati componenti grafici
-     * per l'aggiunta e la rimozione di condimenti o pizze. Utilizziamo un
-     * Layout totalmente gestito da noi in cui a ogni componente inseriamo le
-     * coordinate.
+     * per l'aggiunta e la rimozione di condimenti o pizze. 
+     * Utilizziamo un layout totalmente gestito da noi in cui a ogni 
+     * componente inseriamo le coordinate.
      */
     private void initializeGUI() {
         cp = getContentPane();
@@ -318,7 +313,7 @@ public class AdminUpdateMenu extends JApplet {
     }
 
     /**
-     * Nel pannelo "pizze" sulla destra trovo le pizze già visibili al cliente e
+     * Nel pannelo "Pizze" sulla destra trovo le pizze già visibili al cliente e
      * selezionandone una, basta premere il pulsante "rimuovi" per eliminarla
      * dalla lista visibile all'utente.
      */
@@ -330,7 +325,7 @@ public class AdminUpdateMenu extends JApplet {
     }
 
     /**
-     * Nel pannello "pizze" all'interno della text area "nuova pizza" posso
+     * Nel pannello "Pizze" all'interno della text area "nuova pizza" posso
      * inserirne una e aggiungerla con visibilità anche ai clienti premendo il
      * pulsante "aggiungi".
      */
@@ -343,9 +338,9 @@ public class AdminUpdateMenu extends JApplet {
     }
 
     /**
-     * Richiesta di salvataggio, tramite apposito xml passato alla servlet,
-     * dell'ordine, al cui interno ci sono tutte le modifiche e le aggiunte alle
-     * pizze e ai condimenti.
+     * Richiesta di salvataggio, richiamando il metodo inviaDatiXML. 
+     * Per gestire la comet "Pizza novità" abbiamo creato un nuovo xml a cui
+     * vengono inviati i dati solo nel caso in cui l'admin ha inserito nuove pizze.
      */
     private void salvaModificheMenu() {
 
@@ -356,6 +351,15 @@ public class AdminUpdateMenu extends JApplet {
         inviaDatiXML("condimenti");
         
     }
+    
+    /**
+     * Salvo i dati tramite apposito xml (pizze_standard_test.xml & condimenti_test.xml)
+     * passato alla servlet, dell'ordine, al cui interno ci sono tutte le 
+     * modifiche e le aggiunte alle pizze e ai condimenti.
+     * Inoltre per gestire la comet delle pizze novità, le nuove pizze aggiunte
+     * dall'admin verranno inserite anche nel file xml pizze_novita.
+     * @param value che rappresenta i dati che elabora in quella chiamata.
+     */
 
     private void inviaDatiXML(String value) {
         try {
@@ -441,6 +445,10 @@ public class AdminUpdateMenu extends JApplet {
         }
 
     }
+    
+    /** Metodo che mi serve a capire quando l'admin ha aggiunto nuove pizze
+     * così da poter aggiornare la comet pizza novità.
+     */
 
     private void aggiungiPizzaNuova() {
         pizzeNuove.add(txtNuovaPizza.getText());

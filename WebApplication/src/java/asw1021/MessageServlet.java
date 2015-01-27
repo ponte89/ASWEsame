@@ -40,34 +40,53 @@ public class MessageServlet extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        
-        String name = request.getParameter("nome");
-        String message = request.getParameter("messaggio");
         try {
-            ManageXML manageXml = new ManageXML();
-            String path = getServletContext().getRealPath("") + "/WEB-INF/xml/messaggi.xml";
-            Document doc = manageXml.parse(new File(path));
+            String name = request.getParameter("nome");
+            String message = request.getParameter("messaggio");
 
-            Node messaggi = doc.getElementsByTagName("messaggi").item(0);
+            String target = request.getParameter("target");
 
-            Node messaggio = doc.createElement("messaggio");
-            Element nome = doc.createElement("nome");
-            nome.setTextContent(name);
-            Element testo = doc.createElement("testo");
-            testo.setTextContent(message);
+            if (target.equals("new")) {
+                ManageXML manageXml = new ManageXML();
 
-            messaggio.appendChild(nome);
-            messaggio.appendChild(testo);
+                String path = getServletContext().getRealPath("") + "/WEB-INF/xml/messaggi.xml";
+                Document doc = manageXml.parse(new File(path));
 
-            messaggi.appendChild(messaggio);
+                Node messaggi = doc.getElementsByTagName("messaggi").item(0);
+
+                Node messaggio = doc.createElement("messaggio");
+                Element nome = doc.createElement("nome");
+                nome.setTextContent(name);
+                Element testo = doc.createElement("contenuto");
+                testo.setTextContent(message);
+
+                messaggio.appendChild(nome);
+                messaggio.appendChild(testo);
+
+                messaggi.appendChild(messaggio);
+
+                OutputStream os = new FileOutputStream(path);
+                response.setContentType("text/xml");
+                manageXml.transform(os, doc);
+
+                os.flush();
+                os.close();
+            } else if (target.equals("manage")) {
+                System.out.println("richiesta manage");
+                
+                ManageXML manageXml = new ManageXML();
+                String path = getServletContext().getRealPath("") + "/WEB-INF/xml/messaggi.xml";
+                Document doc = manageXml.parse(new File(path));
+                
+                OutputStream os = response.getOutputStream();
+                response.setContentType("text/xml");
+                manageXml.transform(os, doc);
+
+                os.flush();
+                os.close();
+            }
+
            
-            OutputStream os = new FileOutputStream(path);
-            response.setContentType("text/xml");
-            manageXml.transform(os, doc);
-            
-            os.flush();
-            os.close();
-
         } catch (Exception ex) {
             System.out.println(ex.getMessage());
         }

@@ -18,8 +18,8 @@
      <%@ include file="/WEB-INF/jspf/sidebar.jspf" %>   
 
             <div class="content">
-                <table id="tabContatti">
-                    
+                <table id="tabMessaggi" border="3" frame="border" style="margin:10px;">
+                   
                 </table>
             </div>
         </section>

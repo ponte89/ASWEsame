@@ -105,5 +105,6 @@
         </section>
 
     <%@ include file="/WEB-INF/jspf/footer.jspf" %>
+    <script  src="./../js/functions.js"></script>
     </body>
 </html>

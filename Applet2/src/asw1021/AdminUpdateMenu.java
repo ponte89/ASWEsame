@@ -17,6 +17,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import static java.lang.System.console;
 import java.net.URL;
+import java.util.ArrayList;
 import javax.swing.DefaultListModel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
@@ -69,6 +70,8 @@ public class AdminUpdateMenu extends JApplet {
     private DefaultListModel modelCondimenti;
 
     private JButton btnNewButton;
+    
+    private ArrayList<String> pizzeNuove;
 
     /**
      * Inizializzazione dell' applet con creazione della GUI
@@ -142,6 +145,7 @@ public class AdminUpdateMenu extends JApplet {
         btnAggiungiPiz.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                aggiungiPizzaNuova();
                 aggiungiPizza();
             }
         });
@@ -178,6 +182,8 @@ public class AdminUpdateMenu extends JApplet {
 
         listaPizze = new JList();
 
+        pizzeNuove = new ArrayList<String>();
+        
         txtNuovoCondimento = new JTextField();
         txtNuovoCondimento.setBounds(6, 24, 108, 28);
         panelCondimenti.add(txtNuovoCondimento);
@@ -273,9 +279,10 @@ public class AdminUpdateMenu extends JApplet {
             modelCondimenti = new DefaultListModel();
             for (int i = 0; i < l.getLength(); i++) {
                 Element n = (Element) l.item(i);
-                
-                if(!(n.getElementsByTagName("nome").item(0).getTextContent()).equals("Nessuna selezione"))
+
+                if (!(n.getElementsByTagName("nome").item(0).getTextContent()).equals("Nessuna selezione")) {
                     modelCondimenti.addElement(n.getElementsByTagName("nome").item(0).getTextContent());
+                }
             }
             listaCondimenti.setModel(modelCondimenti);
 
@@ -344,7 +351,10 @@ public class AdminUpdateMenu extends JApplet {
 
         inviaDatiXML("pizze");
 
+        inviaDatiXML("nuovePizze");
+        
         inviaDatiXML("condimenti");
+        
     }
 
     private void inviaDatiXML(String value) {
@@ -357,13 +367,13 @@ public class AdminUpdateMenu extends JApplet {
                 ManageXML mngXML = new ManageXML();
 
                 Document data = mngXML.newDocument();
-                
+
                 Element rootNode = data.createElement("tipo");
                 rootNode.setTextContent("nuovePizze");
                 Element nome;
 
                 for (int i = 0; i < listaPizze.getModel().getSize(); i++) {
-                    
+
                     nome = data.createElement("nome");
                     nome.setTextContent(listaPizze.getModel().getElementAt(i));
                     rootNode.appendChild(nome);
@@ -376,20 +386,20 @@ public class AdminUpdateMenu extends JApplet {
                 httpClient.execute("MenuServlet", data);
 
             } else if (value.equals("condimenti")) {
-                
+
                 HTTPClient httpClient = new HTTPClient();
                 httpClient.setBase(new URL("http://localhost:8080/WebApplication/MenuServlet"));
 
                 ManageXML mngXML = new ManageXML();
 
                 Document data = mngXML.newDocument();
-                
+
                 Element rootNode = data.createElement("tipo");
                 rootNode.setTextContent("nuoviCondimenti");
                 Element nome;
 
                 for (int i = 0; i < listaCondimenti.getModel().getSize(); i++) {
-                    
+
                     nome = data.createElement("nome");
                     nome.setTextContent(listaCondimenti.getModel().getElementAt(i));
                     rootNode.appendChild(nome);
@@ -401,9 +411,38 @@ public class AdminUpdateMenu extends JApplet {
 
                 httpClient.execute("MenuServlet", data);
 
+            }else if(value.equals("nuovePizze")){
+                HTTPClient httpClient = new HTTPClient();
+                httpClient.setBase(new URL("http://localhost:8080/WebApplication/MenuServlet"));
+
+                ManageXML mngXML = new ManageXML();
+
+                Document data = mngXML.newDocument();
+
+                Element rootNode = data.createElement("tipo");
+                rootNode.setTextContent("pizzeNovita");
+                Element nome;
+
+                for (int i = 0; i < pizzeNuove.size();i++){
+
+                    nome = data.createElement("nome");
+                    nome.setTextContent(pizzeNuove.get(i));
+                    rootNode.appendChild(nome);
+
+                }
+
+                //data.appendChild(pizze);
+                data.appendChild(rootNode);
+
+                httpClient.execute("MenuServlet", data);
             }
         } catch (Exception e) {
             //textArea.setText("eccezione" + e.getMessage());
         }
+
+    }
+
+    private void aggiungiPizzaNuova() {
+        pizzeNuove.add(txtNuovaPizza.getText());
     }
 }

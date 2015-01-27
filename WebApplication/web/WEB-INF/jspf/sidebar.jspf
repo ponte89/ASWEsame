@@ -1,6 +1,15 @@
 <%-- any content can be specified here e.g.: --%>
+<%@page import="java.io.PrintWriter"%>
+<%@page import="org.w3c.dom.NodeList"%>
+<%@page import="org.w3c.dom.Element"%>
+<%@page import="org.w3c.dom.Document"%>
+<%@page import="asw1021.ManageXML"%>
+<%@page import="asw1021.ManageXML"%>
+<%@page import="java.net.URL"%>
+<%@page import="asw1021.HTTPClient"%>
 <%@ page contentType="text/html" pageEncoding="UTF-8" %>
 <div class="sidebar1">
+    
     <h2>Area riservata</h2>
     <br/>                
     <div class="login">
@@ -45,7 +54,53 @@
 
     </div>
 
-    <div id="consigli">
+        <div id="consigli" >
         <h2>Pizze Novità </h2>
+        
+        <div id="news">
+            <%
+            //richiesta a ManageNewsService....
+            HTTPClient httpClient = new HTTPClient();
+            httpClient.setBase(new URL("http://localhost:8080/WebApplication/ManageNewsService"));
+
+            ManageXML mngXML = new ManageXML();
+            Document data = mngXML.newDocument();
+            Element rootFile = data.createElement("tipo");
+            rootFile.setTextContent("news");
+            data.appendChild(rootFile);
+
+            Document risposta = httpClient.execute("ManageNewsService", data);
+            System.out.println("inviata richiesta news");
+            
+            NodeList lista = risposta.getElementsByTagName("nome");
+            
+            
+            %>
+            <table id="news" border="3" frame="border" style="margin:5px; width:80%;">
+                    <%
+                    PrintWriter printa = response.getWriter();
+                    
+                    for(int i =0;i<lista.getLength();i++){ 
+                    %>
+                        <tr>
+                            <td>
+                                <%=lista.item(i).getTextContent()%>
+                            </td>
+                        </tr>
+                
+                        <%
+                    }
+                    %>
+            </table>
+            
+            
+            <%
+            System.out.println("lunghezza: "+lista.getLength());
+            
+            %>
+            
+        </div>
+        
+        
     </div>
 </div>

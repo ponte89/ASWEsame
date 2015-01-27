@@ -61,6 +61,7 @@
 
 
         </section>
-        <%@ include file="/WEB-INF/jspf/footer.jspf" %>
+        <%@ include file="/WEB-INF/jspf/footer.jspf" %>s
+        <script  src="./../js/functions.js"></script>
     </body>
 </html>

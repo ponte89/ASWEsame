@@ -70,7 +70,7 @@ public class MenuServlet extends HttpServlet {
             } else if (s.contains("nuovePizze")) {
 
                 String path = getServletContext().getRealPath("") + "/WEB-INF/xml/pizze_standard_test.xml";
-                Document doc = manageXml.parse(new File(path));
+                //Document doc = manageXml.parse(new File(path));
 
                 NodeList pizzeinput = docin.getElementsByTagName("nome");
                 Document document = manageXml.newDocument();
@@ -96,7 +96,7 @@ public class MenuServlet extends HttpServlet {
 
             } else if (s.equals("nuoviCondimenti")) {
                 String path = getServletContext().getRealPath("") + "/WEB-INF/xml/pizze_standard_test.xml";
-                Document doc = manageXml.parse(new File(path));
+               // Document doc = manageXml.parse(new File(path));
 
                 NodeList pizzeinput = docin.getElementsByTagName("nome");
                 Document document = manageXml.newDocument();
@@ -119,6 +119,34 @@ public class MenuServlet extends HttpServlet {
                 manageXml.transform(out, document);
 
                 out.close();
+            }else if (s.contains("pizzeNovita")) {
+                System.out.println("ricevuta richiesta pizze novita");
+                String path = getServletContext().getRealPath("") + "/WEB-INF/xml/pizze_novita.xml";
+               // Document doc = manageXml.parse(new File(path));
+
+                NodeList pizzeinput = docin.getElementsByTagName("nome");
+                Document document = manageXml.newDocument();
+
+               // Node pizze = document.createElement("pizze_novita");
+               // Node pizza;
+                Element nome;
+
+                for (int i = 0; i < pizzeinput.getLength(); i++) {
+                   // pizza = document.createElement("pizza_standard");
+                    nome = document.createElement("nome");
+                    nome.setTextContent(pizzeinput.item(i).getTextContent());
+                    //pizza.appendChild(nome);
+                    //pizze.appendChild(pizza);
+                    document.appendChild(nome);
+
+                }
+                //document.appendChild(pizze);
+
+                OutputStream out = new FileOutputStream(path);
+                manageXml.transform(out, document);
+
+                out.close();
+
             }
 
         } catch (Exception e) {

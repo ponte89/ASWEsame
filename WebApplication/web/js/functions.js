@@ -315,3 +315,8 @@ function getOrdini(value){
         dataOrdini = document.implementation.createDocument("", "getOrdini", null);
         xmlhttp2.send(dataOrdini);
 }
+
+function getMessaggi(){
+    
+    alert("messaggi");
+}

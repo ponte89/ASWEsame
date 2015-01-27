@@ -11,7 +11,7 @@
     <head>
         <title>Pizzeria Interattiva</title>
         <link href="./../style-sheet/styles.css" rel="stylesheet" type="text/css">
-         <%@ include file="/WEB-INF/jspf/header.jspf" %>
+         <%@ include file="/WEB-INF/jspf/header.jspf"%>
     </head>
 
     <body>
@@ -20,7 +20,7 @@
 
             <div class="content">
                 <h1>Registrazione nuovo utente</h1>
-                <%@ include file="/WEB-INF/jspf/message.jspf" %> 
+                <%@ include file="/WEB-INF/jspf/message.jspf"%> 
                 <form id="reg" action="../LoginServlet?target=registration" method="post">
 
                     <fieldset>

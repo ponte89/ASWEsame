@@ -3,11 +3,9 @@
 <xsd:schema version="1.0" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
 
     <xsd:element name="pizze_novita" type="xs:string">
-        <xsd:complexType name="pizza_standard">
-            <xsd:sequence>
-                <xsd:element name="nome" type="xs:string" />
-            </xsd:sequence> 
-        </xsd:complexType>
+        <xsd:sequence>
+            <xsd:element name="nome" type="xs:string" />
+        </xsd:sequence> 
     </xsd:element>
     
 </xsd:schema>

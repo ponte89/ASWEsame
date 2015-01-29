@@ -5,7 +5,6 @@
  */
 package asw1021;
 
-
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -29,13 +28,12 @@ import javax.servlet.annotation.WebServlet;
  *
  * @author Mezzapesa Beatrice, Papini Alessia, Pontellini Lorenzo
  */
-@WebServlet(name = "ManageOrderService",  asyncSupported = true, urlPatterns = {"/ManageOrderService"})
+@WebServlet(name = "ManageOrderService", asyncSupported = true, urlPatterns = {"/ManageOrderService"})
 public class ManageOrderService extends HttpServlet {
-    
-    
+
     private HashMap<String, Object> contexts;
     private Document dataInput;
-    
+
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -45,45 +43,46 @@ public class ManageOrderService extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
-    
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        try{
-            
+        try {
+
             System.out.println("Servlet per ordini");
-            
+
             //comet
             InputStream is = request.getInputStream();
             response.setContentType("text/xml;charset=UTF-8");
-            
+
             try {
                 ManageXML mngXML = new ManageXML();
                 Document data;
-                
+
                 data = mngXML.parse(is);
                 dataInput = data;
                 is.close();
                 String target = "";
                 target = request.getParameter("target");
-                if(target != null){
-                   //scrivo il file xml
-                   String path = getServletContext().getRealPath("")+"/WEB-INF/xml/ordini_test.xml";
-                   OutputStream os = new FileOutputStream(new File(path));
-                   mngXML.transform(os, data);
-                   mngXML = new ManageXML();
-                   os.close();
+                if (target != null) {
+                    //scrivo il file xml
+                    String path = getServletContext().getRealPath("") + "/WEB-INF/xml/ordini_test.xml";
+                    OutputStream os = new FileOutputStream(new File(path));
+                    mngXML.transform(os, data);
+                    mngXML = new ManageXML();
+                    os.close();
 
-                   data = mngXML.newDocument("push");    
+                    data = mngXML.newDocument("push");
                 }
-                                
+
                 operations(data, request, response, mngXML);
+                
+                
 
             } catch (Exception ex) {
                 System.out.println(ex);
-            }            
-            
-        }catch(Exception e){
+            }
+
+        } catch (Exception e) {
             e.printStackTrace();
             System.out.println("Errore nella servlet per ordini");
         }
@@ -99,26 +98,26 @@ public class ManageOrderService extends HttpServlet {
         String user;
         Document answer = null;
         OutputStream os;
-        
+
         switch (operation) {
             case "push":
                 System.out.println("push received");
                 synchronized (this) {
-                       for (String destUser : contexts.keySet()) {
-                            System.out.println("Cuoco presente" + destUser);
-                            Object value = contexts.get(destUser);
-                            if (value instanceof AsyncContext) {
-                                System.out.println("Cuoco in attesa");
-                                OutputStream aos = ((AsyncContext) value).getResponse().getOutputStream();
-                                mngXML.transform(aos, dataInput);
-                                aos.close();
-                                ((AsyncContext) value).complete();
-                                contexts.put(destUser, new LinkedList<Document>());
-                            } else {
-                                System.out.println("Dati Accodati");
-                                ((LinkedList<Document>) value).addLast(dataInput);
-                            }
+                    for (String destUser : contexts.keySet()) {
+                        System.out.println("Cuoco presente" + destUser);
+                        Object value = contexts.get(destUser);
+                        if (value instanceof AsyncContext) {
+                            System.out.println("Cuoco in attesa");
+                            OutputStream aos = ((AsyncContext) value).getResponse().getOutputStream();
+                            mngXML.transform(aos, dataInput);
+                            aos.close();
+                            ((AsyncContext) value).complete();
+                            contexts.put(destUser, new LinkedList<Document>());
+                        } else {
+                            System.out.println("Dati Accodati");
+                            ((LinkedList<Document>) value).addLast(dataInput);
                         }
+                    }
                 }
                 answer = mngXML.newDocument("ok");
                 os = response.getOutputStream();
@@ -186,8 +185,7 @@ public class ManageOrderService extends HttpServlet {
                 break;
         }
     }
-    
-    
+
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.
@@ -216,13 +214,13 @@ public class ManageOrderService extends HttpServlet {
             throws ServletException, IOException {
         processRequest(request, response);
     }
-    
+
     @Override
     public void init() throws ServletException {
         ServletContext application = getServletContext();
         contexts = (HashMap<String, Object>) application.getAttribute("loginList");
     }
-    
+
     /**
      * Returns a short description of the servlet.
      *

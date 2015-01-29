@@ -8,12 +8,13 @@
 <!DOCTYPE html>
 <html>
     <head>
+        
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Pizzeria Interattiva</title>
         <link href="./../style-sheet/styles.css" rel="stylesheet" type="text/css">
         <%@ include file="/WEB-INF/jspf/header.jspf" %>
     </head>
-    <body>
+    <body onload="getNews()">
      <section class="container">
      <%@ include file="/WEB-INF/jspf/sidebar.jspf" %>   
      <div class="content">

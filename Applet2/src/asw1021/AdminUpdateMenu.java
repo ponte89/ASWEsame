@@ -345,8 +345,6 @@ public class AdminUpdateMenu extends JApplet {
     private void salvaModificheMenu() {
 
         inviaDatiXML("pizze");
-
-        inviaDatiXML("nuovePizze");
         
         inviaDatiXML("condimenti");
         
@@ -415,30 +413,6 @@ public class AdminUpdateMenu extends JApplet {
 
                 httpClient.execute("MenuServlet", data);
 
-            }else if(value.equals("nuovePizze")){
-                HTTPClient httpClient = new HTTPClient();
-                httpClient.setBase(new URL("http://localhost:8080/WebApplication/ManageNewsService"));
-
-                ManageXML mngXML = new ManageXML();
-
-                Document data = mngXML.newDocument();
-
-                Element rootNode = data.createElement("tipo");
-                rootNode.setTextContent("pizzeNovita");
-                Element nome;
-
-                for (int i = 0; i < pizzeNuove.size();i++){
-
-                    nome = data.createElement("nome");
-                    nome.setTextContent(pizzeNuove.get(i));
-                    rootNode.appendChild(nome);
-
-                }
-
-                //data.appendChild(pizze);
-                data.appendChild(rootNode);
-
-                httpClient.execute("ManageNewsService?target=news", data);
             }
         } catch (Exception e) {
             //textArea.setText("eccezione" + e.getMessage());

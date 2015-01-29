@@ -51,16 +51,16 @@ function getDati(value) {
         creaRichiestaDati("condimenti");
 
         xmlhttp2.send(datiCondimenti);
-    } else if (value === "messaggi") {
+    }else if(value === "messaggi"){
         var xmlhttp2 = new XMLHttpRequest();
         var to = "http://localhost:8080/WebApplication/MessageServlet?target=manage";
 
         xmlhttp2.onreadystatechange = function () {
             if (xmlhttp2.readyState === 4 && xmlhttp2.status === 200) {
                 var answer = xmlhttp2.responseXML;
-
+                
                 //console.log(answer);
-
+                
                 stampaDati(answer, "messaggi");
             }
         };
@@ -102,15 +102,15 @@ function creaRichiestaDati(value) {
 function stampaDati(data, value) {
     if (value === "pizze") {
         var con = document.getElementById("pizze");
-
+        
         //var dati = data.documentElement;
         var pizze = data.getElementsByTagName("nome");
-
-
+        
+        
         var prova = data.getElementsByTagName("pizza_standard");
-        console.log("dimensione pizza standard: " + prova.length);
-
-
+        console.log("dimensione pizza standard: "+prova.length);
+        
+        
         var sopra = "<caption align='attributo' style='font-size:36px'>Le nostre Pizze</caption>";
         var table = "";
 
@@ -138,10 +138,10 @@ function stampaDati(data, value) {
         }
 
         con.innerHTML = sopra + table;
-    } else if (value === "messaggi") {
-
+    }else if (value === "messaggi") {
+        
         var con = document.getElementById("tabMessaggi");
-
+        
         var dati = data.documentElement;
         var nome = dati.getElementsByTagName("nome");
         var messaggio = dati.getElementsByTagName("contenuto");
@@ -152,7 +152,7 @@ function stampaDati(data, value) {
 
             var name = nome[i].childNodes[0].nodeValue;
             var mess = messaggio[i].childNodes[0].nodeValue;
-            table += "<tr><td width=100px align='center'>" + name + "</td><td width=400>&nbsp;&nbsp;" + mess + "</td></tr>";
+            table += "<tr><td width=100px align='center'>"+name+"</td><td width=400>&nbsp;&nbsp;" + mess + "</td></tr>";
 
         }
 
@@ -161,128 +161,128 @@ function stampaDati(data, value) {
 }
 
 //GESTIONE ORDINI e PRENOTAZIONI
-function getMessages(value) {
-    var xmlhttp2, answer, data;
-    console.log("Richiesta ordini");
-    xmlhttp2 = new XMLHttpRequest();
-    xmlhttp2.open("POST", "../ManageOrderService", true);
-    xmlhttp2.setRequestHeader("Content-Type", "text/xml");
-    xmlhttp2.onreadystatechange = function () {
-        if (xmlhttp2.readyState === 4 && xmlhttp2.status === 200) {
-            answer = xmlhttp2.responseXML;
-            if (answer.documentElement.tagName === "ordini_utente") {
-
-                console.log(value);
-                if (value === "ordini") {
-                    stampaOrdini(answer, "ordini");
-                } else if (value === "prenotazioni") {
-                    stampaOrdini(answer, "prenotazioni");
-                }
-            }
-            if (value === "ordini") {
-                getMessages("ordini");
-            } else if (value === "prenotazioni") {
-                getMessages("prenotazioni");
-            }
-        }
-    };
-    data = document.implementation.createDocument("", "pop", null);
-    xmlhttp2.send(data);
+function getMessages(value){      
+                var xmlhttp2,answer,data;
+                console.log("Richiesta ordini");
+                xmlhttp2 = new XMLHttpRequest();
+                xmlhttp2.open("POST", "../ManageOrderService", true);
+                xmlhttp2.setRequestHeader("Content-Type", "text/xml");
+                xmlhttp2.onreadystatechange=function(){
+                    if (xmlhttp2.readyState === 4 && xmlhttp2.status===200) {   
+                        answer = xmlhttp2.responseXML;
+                        if(answer.documentElement.tagName === "ordini_utente"){
+                            
+                            console.log(value);
+                            if(value === "ordini"){
+                                stampaOrdini(answer, "ordini");   
+                            }else if (value === "prenotazioni") {
+                                stampaOrdini(answer, "prenotazioni");   
+                            }
+                        }
+                        if(value === "ordini"){
+                                getMessages("ordini");  
+                        }else if (value === "prenotazioni") {
+                                getMessages("prenotazioni");  
+                        }
+                    }
+                };
+            data = document.implementation.createDocument("", "pop", null);                     
+            xmlhttp2.send(data);
 }
 
-function stampaOrdini(data, value) {
-    if (value === "ordini") {
+function stampaOrdini(data, value){
+    if (value === "ordini"){
         var ordiniElement = document.getElementById("riepilogo_ordini");
         var dati = data.documentElement;
         var ordini = dati.getElementsByTagName("ordine_utente");
         var done, doneLog, nOrdine, idLog;
-
-        for (k = 0; k < ordini.length; k++) {
-            nOrdine = k;
-            var prenotazioneLog = "";
-            var user = ordini[k].getElementsByTagName("user");
-            var userLog = user[0].childNodes[0].nodeValue;
-            var id = ordini[k].getElementsByTagName("id");
-            idLog = id[0].childNodes[0].nodeValue;
-            var tipo_ordine = ordini[k].getElementsByTagName("tipo_ordine");
-            var tipo_ordineLog = tipo_ordine[0].childNodes[0].nodeValue;
-            if (tipo_ordineLog === null) {
-                var prenotazione =
-                        tipo_ordine[0].getElementsByTagName("prenotazione");
-                prenotazioneLog = prenotazione[0].childNodes[0].nodeValue;
-                var nPosti = tipo_ordine[0].getElementsByTagName("posti");
-                var nPostiLog = nPosti[0].childNodes[0].nodeValue;
-            }
-            done = ordini[k].getElementsByTagName("done");
-            doneLog = done[0].childNodes[0].nodeValue;
-            if (doneLog === "false") {
-                doneLog = "da fare";
-            } else {
-                doneLog = "fatto";
-            }
-            if (prenotazioneLog === "prenotazione") {
-                tableOrdini += "<tr><td><b>Utente: </b>" + userLog + " <b>IdOrdine: </b>" + idLog + " <b>Prenotazione per: </b>" + nPostiLog + "</br>";
-            } else if (prenotazioneLog === "") {
-                tableOrdini += "<tr><td><b>Utente: </b>" + userLog + " <b>IdOrdine: </b>" + idLog + " <b>Consegna: </b>" + tipo_ordineLog + " </br>";
-            }
-
-
-            var pizzeS = ordini[k].getElementsByTagName("pizzaS");
-            var pizzeP = ordini[k].getElementsByTagName("pizzaP");
-            var pizza, numeroLog, plusLog, nomeLog, baseLog;
-            var condimentiLog = "";
-            for (i = 0; i < pizzeS.length; i++) {
-
-                var nome = pizzeS[i].getElementsByTagName("nome_pizza");
-                nomeLog = nome[0].childNodes[0].nodeValue;
-                var numero = pizzeS[i].getElementsByTagName("numero_pizze");
-                numeroLog = numero[0].childNodes[0].nodeValue;
-                var plus = pizzeS[i].getElementsByTagName("plus");
-                plusLog = plus[0].childNodes[0].nodeValue;
-
-                tableOrdini += "<b> Pizza: </b>" + nomeLog + "<b> Numero: </b>" + numeroLog + "<b> Aggiunte: </b>" + plusLog + " </br>";
-            }
-
-            for (i = 0; i < pizzeP.length; i++) {
-
-                var nome = pizzeP[i].getElementsByTagName("nome_pizza");
-                nomeLog = nome[0].childNodes[0].nodeValue;
-                var numero = pizzeP[i].getElementsByTagName("numero_pizze");
-                numeroLog = numero[0].childNodes[0].nodeValue;
-                var plus = pizzeP[i].getElementsByTagName("plus");
-                plusLog = plus[0].childNodes[0].nodeValue;
-                var base = pizzeP[i].getElementsByTagName("base");
-                baseLog = base[0].childNodes[0].nodeValue;
-                var condimenti = pizzeP[i].getElementsByTagName("condimento");
-                for (j = 0; j < condimenti.length; j++) {
-                    if (j === condimenti.length - 1) {
-                        condimentiLog += condimenti[j].childNodes[0].nodeValue + " ";
-                    } else {
-                        condimentiLog += " " + condimenti[j].childNodes[0].nodeValue + ", ";
-                    }
+        
+        for(k = 0; k < ordini.length; k++){
+                nOrdine = k;
+                var prenotazioneLog = "";
+                var user = ordini[k].getElementsByTagName("user");
+                var userLog = user[0].childNodes[0].nodeValue;
+                var id = ordini[k].getElementsByTagName("id");
+                idLog = id[0].childNodes[0].nodeValue;
+                var tipo_ordine = ordini[k].getElementsByTagName("tipo_ordine");
+                var tipo_ordineLog = tipo_ordine[0].childNodes[0].nodeValue;
+                if (tipo_ordineLog === null){
+                    var prenotazione = 
+                            tipo_ordine[0].getElementsByTagName("prenotazione");
+                    prenotazioneLog = prenotazione[0].childNodes[0].nodeValue;
+                    var nPosti = tipo_ordine[0].getElementsByTagName("posti");
+                    var nPostiLog = nPosti[0].childNodes[0].nodeValue;
+                }
+                done = ordini[k].getElementsByTagName("done");
+                doneLog = done[0].childNodes[0].nodeValue;
+                if(doneLog === "false"){
+                    doneLog = "da fare";
+                }else{
+                    doneLog = "fatto";
+                }
+                if(prenotazioneLog === "prenotazione"){
+                  tableOrdini += "<tr><td><b>Utente: </b>" + userLog + " <b>IdOrdine: </b>" + idLog + " <b>Prenotazione per: </b>" + nPostiLog + "</br>";    
+                }else if(prenotazioneLog === ""){
+                  tableOrdini += "<tr><td><b>Utente: </b>" + userLog + " <b>IdOrdine: </b>" + idLog + " <b>Consegna: </b>" + tipo_ordineLog + " </br>";  
                 }
 
-                tableOrdini += "<b> Pizza: </b>" + nomeLog + "<b> Numero: </b>" + numeroLog + "<b> Aggiunte: </b>" + plusLog + "<b> Base: </b>" + baseLog + "<b> Condimenti: </b>" + condimentiLog + " </br></td>";
-            }
-            tableOrdini += "<td width=100px align='center'><b>Stato: </b></br>" + "<label id='" + nOrdine + "' type='text' size='10' value='" + doneLog + "'>Attesa<label/>" + "</br><input type='button' value='Completato' onclick='ordineCompletato(" + nOrdine + ",\"" + idLog + "\");'/></td></tr>";
-        }
-        ordiniElement.innerHTML = tableOrdini;
-    } else if (value === "prenotazioni") {
+
+                var pizzeS = ordini[k].getElementsByTagName("pizzaS");
+                var pizzeP = ordini[k].getElementsByTagName("pizzaP");
+                var pizza, numeroLog, plusLog, nomeLog, baseLog;
+                var condimentiLog = "";
+                for (i = 0; i < pizzeS.length; i++) {
+
+                    var nome = pizzeS[i].getElementsByTagName("nome_pizza");
+                    nomeLog = nome[0].childNodes[0].nodeValue;
+                    var numero = pizzeS[i].getElementsByTagName("numero_pizze");
+                    numeroLog = numero[0].childNodes[0].nodeValue;
+                    var plus = pizzeS[i].getElementsByTagName("plus");
+                    plusLog = plus[0].childNodes[0].nodeValue;
+
+                    tableOrdini += "<b> Pizza: </b>" + nomeLog + "<b> Numero: </b>" + numeroLog + "<b> Aggiunte: </b>" + plusLog + " </br>";
+                }
+
+                for (i = 0; i < pizzeP.length; i++) {
+
+                    var nome = pizzeP[i].getElementsByTagName("nome_pizza");
+                    nomeLog = nome[0].childNodes[0].nodeValue;
+                    var numero = pizzeP[i].getElementsByTagName("numero_pizze");
+                    numeroLog = numero[0].childNodes[0].nodeValue;
+                    var plus = pizzeP[i].getElementsByTagName("plus");
+                    plusLog = plus[0].childNodes[0].nodeValue;
+                    var base = pizzeP[i].getElementsByTagName("base");
+                    baseLog = base[0].childNodes[0].nodeValue;
+                    var condimenti = pizzeP[i].getElementsByTagName("condimento");
+                    for(j = 0; j < condimenti.length; j++){
+                        if(j === condimenti.length - 1){
+                           condimentiLog += condimenti[j].childNodes[0].nodeValue + " ";
+                        }else{
+                           condimentiLog += " " + condimenti[j].childNodes[0].nodeValue + ", ";
+                        }
+                    }
+
+                    tableOrdini += "<b> Pizza: </b>" + nomeLog + "<b> Numero: </b>" + numeroLog + "<b> Aggiunte: </b>" + plusLog + "<b> Base: </b>" + baseLog + "<b> Condimenti: </b>" + condimentiLog +" </br></td>";
+                }
+                tableOrdini += "<td width=100px align='center'><b>Stato: </b></br>" + "<label id='"+ nOrdine +"' type='text' size='10' value='"+ doneLog + "'>Attesa<label/>" + "</br><input type='button' value='Completato' onclick='ordineCompletato("+nOrdine+",\""+idLog+"\");'/></td></tr>";
+         }
+    ordiniElement.innerHTML = tableOrdini; 
+    }else if(value === "prenotazioni"){
         var prenotazioniElement = document.getElementById("riepilogo_prenotazioni");
         var dati = data.documentElement;
         var ordini = dati.getElementsByTagName("ordine_utente");
 
-        for (k = 0; k < ordini.length; k++) {
+        for(k = 0; k < ordini.length; k++){
             var tipo_ordine = ordini[k].getElementsByTagName("tipo_ordine");
             var tipo_ordineLog = tipo_ordine[0].childNodes[0].nodeValue;
-
-            if (tipo_ordineLog === null) {
+            
+            if (tipo_ordineLog === null){
                 var prenotazioneLog = "";
                 var user = ordini[k].getElementsByTagName("user");
                 var userLog = user[0].childNodes[0].nodeValue;
                 var id = ordini[k].getElementsByTagName("id");
                 var idLog = id[0].childNodes[0].nodeValue;
-                if (tipo_ordineLog === null) {
+                if (tipo_ordineLog === null){
                     var prenotazione = tipo_ordine[0].getElementsByTagName("prenotazione");
                     prenotazioneLog = prenotazione[0].childNodes[0].nodeValue;
                     var nPosti = tipo_ordine[0].getElementsByTagName("posti");
@@ -290,15 +290,15 @@ function stampaOrdini(data, value) {
                 }
                 var done = ordini[k].getElementsByTagName("done");
                 var doneLog = done[0].childNodes[0].nodeValue;
-                if (doneLog === "false") {
+                if(doneLog === "false"){
                     doneLog = "da fare";
-                } else {
+                }else{
                     doneLog = "fatto";
                 }
-                if (prenotazioneLog === "prenotazione") {
-                    tablePrenotazioni += "<tr><td><b>Utente: </b>" + userLog + " <b>IdOrdine: </b>" + idLog + " <b>Prenotazione per: </b>" + nPostiLog + " <b>Stato: </b>" + doneLog + " </br>";
-                } else if (prenotazioneLog === "") {
-                    tablePrenotazioni += "<tr><td><b>Utente: </b>" + userLog + " <b>IdOrdine: </b>" + idLog + " <b>Consegna: </b>" + tipo_ordineLog + " <b>Stato: </b>" + doneLog + " </br>";
+                if(prenotazioneLog === "prenotazione"){
+                  tablePrenotazioni += "<tr><td><b>Utente: </b>" + userLog + " <b>IdOrdine: </b>" + idLog + " <b>Prenotazione per: </b>" + nPostiLog + " <b>Stato: </b>" + doneLog + " </br>";    
+                }else if(prenotazioneLog === ""){
+                  tablePrenotazioni += "<tr><td><b>Utente: </b>" + userLog + " <b>IdOrdine: </b>" + idLog + " <b>Consegna: </b>" + tipo_ordineLog + " <b>Stato: </b>" + doneLog + " </br>";  
                 }
 
 
@@ -329,62 +329,67 @@ function stampaOrdini(data, value) {
                     var base = pizzeP[i].getElementsByTagName("base");
                     baseLog = base[0].childNodes[0].nodeValue;
                     var condimenti = pizzeP[i].getElementsByTagName("condimento");
-                    for (j = 0; j < condimenti.length; j++) {
-                        if (j === condimenti.length - 1) {
-                            condimentiLog += condimenti[j].childNodes[0].nodeValue + " ";
-                        } else {
-                            condimentiLog += " " + condimenti[j].childNodes[0].nodeValue + ", ";
+                    for(j = 0; j < condimenti.length; j++){
+                        if(j === condimenti.length - 1){
+                           condimentiLog += condimenti[j].childNodes[0].nodeValue + " ";
+                        }else{
+                           condimentiLog += " " + condimenti[j].childNodes[0].nodeValue + ", ";
                         }
                     }
 
-                    tablePrenotazioni += "<b> Pizza: </b>" + nomeLog + "<b> Numero: </b>" + numeroLog + "<b> Aggiunte: </b>" + plusLog + "<b> Base: </b>" + baseLog + "<b> Condimenti: </b>" + condimentiLog + " </br></td></tr>";
+                    tablePrenotazioni += "<b> Pizza: </b>" + nomeLog + "<b> Numero: </b>" + numeroLog + "<b> Aggiunte: </b>" + plusLog + "<b> Base: </b>" + baseLog + "<b> Condimenti: </b>" + condimentiLog +" </br></td></tr>";
                 }
-            }
-        }
-        prenotazioniElement.innerHTML = tablePrenotazioni;
+         }
+     }
+    prenotazioniElement.innerHTML = tablePrenotazioni; 
     }
 }
 
-function ordineCompletato(nOrdine, idOrdine) {
+function ordineCompletato(nOrdine, idOrdine){
     document.getElementById(nOrdine).innerHTML = 'Completato';
     //trovare l'ordine e modificare lo stato
-    var xmlhttp2 = new XMLHttpRequest();
-    xmlhttp2.onreadystatechange = function () {
-        if (xmlhttp2.readyState === 4 && xmlhttp2.status === 200) {
-            var answer = xmlhttp2.responseXML;
-            console.log("Modifico l'ordine");
-        }
-    };
-    xmlhttp2.open("POST", "../ManageOrderService", true);
-    xmlhttp2.setRequestHeader("Content-Type", "text/xml");
-
-    dataOrdini = document.implementation.createDocument("", "cambioStato", null);
-    document.appendChild(document.createTextNode(idOrdine));
-    xmlhttp2.send(dataOrdini);
-}
-
-function getOrdini(value) {
-    var xmlhttp2 = new XMLHttpRequest();
-    xmlhttp2.onreadystatechange = function () {
-        if (xmlhttp2.readyState === 4 && xmlhttp2.status === 200) {
-            var answer = xmlhttp2.responseXML;
-            if (value === "ordini") {
-                stampaOrdini(answer, "ordini");
-            } else if (value === "prenotazioni") {
-                stampaOrdini(answer, "prenotazioni");
+        var xmlhttp2 = new XMLHttpRequest();
+        xmlhttp2.onreadystatechange = function () {
+            if (xmlhttp2.readyState === 4 && xmlhttp2.status === 200) {
+                var answer = xmlhttp2.responseXML;
+                //if(value === "ordini"){
+                    //stampaOrdini(answer, "ordini");   
+                //}
+                console.log("Modifico l'ordine");
             }
-            console.log("Stampo gli ordini del DB");
-        }
-    };
-    xmlhttp2.open("POST", "../ManageOrderService", true);
-    xmlhttp2.setRequestHeader("Content-Type", "text/xml");
+        };
+        xmlhttp2.open("POST", "../ManageOrderService", true);
+        xmlhttp2.setRequestHeader("Content-Type", "text/xml");
 
-
-    dataOrdini = document.implementation.createDocument("", "getOrdini", null);
-
-    xmlhttp2.send(dataOrdini);
+        dataOrdini = document.implementation.createDocument("", "cambioStato", null);
+        document.appendChild(document.createTextNode(idOrdine));
+        xmlhttp2.send(dataOrdini);
 }
 
-function getMessaggi() {
+function getOrdini(value){
+        var xmlhttp2 = new XMLHttpRequest();
+        xmlhttp2.onreadystatechange = function () {
+            if (xmlhttp2.readyState === 4 && xmlhttp2.status === 200) {
+                var answer = xmlhttp2.responseXML;
+                if(value === "ordini"){
+                    stampaOrdini(answer, "ordini");   
+                }else if(value === "prenotazioni"){
+                    stampaOrdini(answer, "prenotazioni");   
+                }
+                console.log("Stampo gli ordini del DB");
+            }
+        };
+        xmlhttp2.open("POST", "../ManageOrderService", true);
+        xmlhttp2.setRequestHeader("Content-Type", "text/xml");
+        
+        
+        dataOrdini = document.implementation.createDocument("", "getOrdini", null);
+
+        xmlhttp2.send(dataOrdini);
+}
+
+
+
+function getMessaggi(){
     getDati("messaggi");
 }

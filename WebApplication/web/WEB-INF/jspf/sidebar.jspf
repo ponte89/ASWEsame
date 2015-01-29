@@ -53,38 +53,4 @@
         %>    
 
     </div>
-
-        <div id="consigli" >
-        <h2>Pizze Novità </h2>
-        <div id="news" >
-            <%
-            //richiesta a ManageNewsService....
-            HTTPClient httpClient = new HTTPClient();
-            httpClient.setBase(new URL("http://localhost:8080/WebApplication/ManageNewsService"));
-
-            ManageXML mngXML = new ManageXML();
-            Document data = mngXML.newDocument();
-            Element rootFile = data.createElement("tipo");
-            rootFile.setTextContent("news");
-            data.appendChild(rootFile);
-
-            Document risposta = httpClient.execute("ManageNewsService?target=pop", data);
-            System.out.println("inviata richiesta news");
-            
-            NodeList lista = risposta.getElementsByTagName("nome");
-            
-            
-            %>
-            <table id="news" border="3" frame="border" style="margin:5px; width:80%;">
-                    <%for(int i =0;i<lista.getLength();i++){%>
-                        <tr>
-                            <td>
-                                <%=lista.item(i).getTextContent()%>
-                            </td>
-                        </tr>
-                
-                  <%}%>
-            </table>
-        </div>
-    </div>
 </div>

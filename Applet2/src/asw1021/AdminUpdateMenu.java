@@ -417,7 +417,7 @@ public class AdminUpdateMenu extends JApplet {
 
             }else if(value.equals("nuovePizze")){
                 HTTPClient httpClient = new HTTPClient();
-                httpClient.setBase(new URL("http://localhost:8080/WebApplication/MenuServlet"));
+                httpClient.setBase(new URL("http://localhost:8080/WebApplication/ManageNewsService"));
 
                 ManageXML mngXML = new ManageXML();
 
@@ -438,7 +438,7 @@ public class AdminUpdateMenu extends JApplet {
                 //data.appendChild(pizze);
                 data.appendChild(rootNode);
 
-                httpClient.execute("MenuServlet", data);
+                httpClient.execute("ManageNewsService?target=news", data);
             }
         } catch (Exception e) {
             //textArea.setText("eccezione" + e.getMessage());

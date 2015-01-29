@@ -95,7 +95,7 @@ public class MenuServlet extends HttpServlet {
                 out.close();
 
             } else if (s.equals("nuoviCondimenti")) {
-                String path = getServletContext().getRealPath("") + "/WEB-INF/xml/pizze_standard_test.xml";
+                String path = getServletContext().getRealPath("") + "/WEB-INF/xml/condimenti_test.xml";
                // Document doc = manageXml.parse(new File(path));
 
                 NodeList pizzeinput = docin.getElementsByTagName("nome");

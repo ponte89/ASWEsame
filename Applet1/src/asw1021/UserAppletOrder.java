@@ -1,6 +1,5 @@
 package asw1021;
 
-
 import asw1021.pizze.*;
 import java.awt.Color;
 import java.awt.Container;
@@ -13,6 +12,7 @@ import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.ButtonGroup;
+import javax.swing.DefaultListModel;
 import javax.swing.JApplet;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
@@ -32,33 +32,39 @@ import javax.swing.border.TitledBorder;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
 
-/** Applet per effettuare ordini.
- *  Visualizzazione in base al pannello scelto, standard o personalizzata, delle possibili pizze da voler ordinare.
- *  Nel pannello "Standard" posso selezionare le pizze tradizionali presenti e visibili all'interno della pagina menu;
- *  mentre nel pannello "Personalizzata" posso riadattare la pizza a seconda delle mie preferenze partendo dalla base,
- *  bianca o margherita, e dai possibili condimenti da aggiungere sopra.
- *  In entrambi i pannelli in più ho la possibilità di scegliere se la mia pizza la volessi a base kamut o con doppia 
- *  mozzarella o di dimensioni maxi; e nel caso in cui avessi più pizze dello stesso tipo è stato inserito appositamente
- *  un contatore da incrementare per non dover compilare la stessa procedura n volte. 
-* @author Mezzapesa Beatrice, Papini Alessia, Pontellini Lorenzo
-* @version 1.0
-*/
+/**
+ * Applet per effettuare ordini. Visualizzazione in base al pannello scelto,
+ * standard o personalizzata, delle possibili pizze da voler ordinare. Nel
+ * pannello "Standard" posso selezionare le pizze tradizionali presenti e
+ * visibili all'interno della pagina menu; mentre nel pannello "Personalizzata"
+ * posso riadattare la pizza a seconda delle mie preferenze partendo dalla base,
+ * bianca o margherita, e dai possibili condimenti da aggiungere sopra. In
+ * entrambi i pannelli in più ho la possibilità di scegliere se la mia pizza la
+ * volessi a base kamut o con doppia mozzarella o di dimensioni maxi; e nel caso
+ * in cui avessi più pizze dello stesso tipo è stato inserito appositamente un
+ * contatore da incrementare per non dover compilare la stessa procedura n
+ * volte.
+ *
+ * @author Mezzapesa Beatrice, Papini Alessia, Pontellini Lorenzo
+ * @version 1.0
+ */
 public class UserAppletOrder extends JApplet {
-	public UserAppletOrder() {
-	}
+
+    public UserAppletOrder() {
+    }
 
     private Container cp;
-    
+
     private JTabbedPane tabbedPane;
-    
+
     private JScrollPane scroll;
     private JTextArea textPaneOrdinazione;
-   
-    
+
     private JPanel panelStandard;
     private JPanel panelPersonalizzata;
-    
+
     private JLabel lblPizza;
     private JLabel label;
     private JLabel label_1;
@@ -70,47 +76,47 @@ public class UserAppletOrder extends JApplet {
     private JLabel lblCondimento3;
     private JLabel lblCondimento4;
     private JLabel lblPosti;
-    
+
     private JComboBox comboBoxStandard;
     private JComboBox comboBoxCondimento1;
     private JComboBox comboBoxCondimento2;
     private JComboBox comboBoxCondimento3;
     private JComboBox comboBoxCondimento4;
-    
+
     private JButton btnAggiungiPersonalizzata;
     private JButton btnAggiungiStandard;
     private JButton btnConferma;
     private JButton btnAnnulla;
-    
+
     private SpinnerNumberModel model1;
     private SpinnerNumberModel model2;
     private SpinnerNumberModel model3;
     private JSpinner spinnerStandard;
     private JSpinner spinnerPersonalizzata;
     private JSpinner spinnerPosti;
-    
+
     private JCheckBox chckbxBaseKamutS;
     private JCheckBox chckbxGiganteS;
     private JCheckBox chckbxDoppiaMozzarellaS;
     private JCheckBox chckbxBaseKamutP;
     private JCheckBox chckbxGiganteP;
     private JCheckBox chckbxDoppiaMozzarellaP;
-    
+
     private ButtonGroup buttonGroup;
     private JRadioButton rdbtnMargherita;
     private JRadioButton rdbtnBianca;
-    
+
     private ButtonGroup buttonGroup2;
     private JRadioButton rdbtnRitiro;
     private JRadioButton rdbtnAsporto;
     private JRadioButton rdbtnPrenotazione;
     private int nPosti;
-    
+
     private ArrayList<pizza> listaOrdinazione;
-    
-    /** Inizializzazione dell' applet con creazione della GUI
-    */
-    
+
+    /**
+     * Inizializzazione dell' applet con creazione della GUI
+     */
     @Override
     public void init() {
 
@@ -122,25 +128,23 @@ public class UserAppletOrder extends JApplet {
                 }
 
             });
-            
-            
+
             initializeListaCondimenti();
             initializeListaStandard();
-            
+
             listaOrdinazione = new ArrayList<pizza>();
-            
-            
+
         } catch (Exception ex) {
             System.err.println(ex);
         }
     }
 
-    /** Definizione dell' interfaccia grafica con appropriati componenti grafici
-    *   per la visualizzazione di tutte le possibili informazioni riguardanti gli ordini.
-    *   Utilizziamo un Layout totalmente gestito da noi in cui a ogni componente inseriamo
-    *   le coordinate.
-    */
-    
+    /**
+     * Definizione dell' interfaccia grafica con appropriati componenti grafici
+     * per la visualizzazione di tutte le possibili informazioni riguardanti gli
+     * ordini. Utilizziamo un Layout totalmente gestito da noi in cui a ogni
+     * componente inseriamo le coordinate.
+     */
     private void initializeGUI() {
 
         cp = getContentPane();
@@ -165,8 +169,8 @@ public class UserAppletOrder extends JApplet {
 
         btnAggiungiStandard = new JButton("Aggiungi");
         btnAggiungiStandard.setBounds(152, 309, 117, 29);
-        btnAggiungiStandard.addActionListener(new ActionListener(){
-            
+        btnAggiungiStandard.addActionListener(new ActionListener() {
+
             @Override
             public void actionPerformed(ActionEvent e) {
                 aggiungiPizzaStandard();
@@ -177,8 +181,7 @@ public class UserAppletOrder extends JApplet {
         model1 = new SpinnerNumberModel(1.0, 1.0, 100.0, 1.0);
         model2 = new SpinnerNumberModel(1.0, 1.0, 100.0, 1.0);
         model3 = new SpinnerNumberModel(1.0, 1.0, 100.0, 1.0);
-        
-        
+
         spinnerStandard = new JSpinner(model1);
         spinnerStandard.setBounds(102, 269, 86, 28);
         panelStandard.add(spinnerStandard);
@@ -213,15 +216,15 @@ public class UserAppletOrder extends JApplet {
 
         rdbtnBianca = new JRadioButton("Bianca");
         rdbtnBianca.setBounds(53, 27, 72, 23);
-        
+
         buttonGroup = new ButtonGroup();
         buttonGroup.add(rdbtnMargherita);
         buttonGroup.add(rdbtnBianca);
-        
+
         btnAggiungiPersonalizzata = new JButton("Aggiungi");
         btnAggiungiPersonalizzata.setBounds(170, 309, 117, 29);
-        btnAggiungiPersonalizzata.addActionListener(new ActionListener(){
-            
+        btnAggiungiPersonalizzata.addActionListener(new ActionListener() {
+
             @Override
             public void actionPerformed(ActionEvent e) {
                 aggiungiPizzaPersonalizzata();
@@ -251,10 +254,10 @@ public class UserAppletOrder extends JApplet {
 
         lblCondimento1 = new JLabel("Condimento 1:");
         lblCondimento1.setBounds(6, 62, 104, 16);
-        
+
         lblCondimento2 = new JLabel("Condimento 2:");
         lblCondimento2.setBounds(6, 94, 104, 16);
-        
+
         lblCondimento3 = new JLabel("Condimento 3:");
         lblCondimento3.setBounds(7, 127, 93, 16);
 
@@ -273,7 +276,6 @@ public class UserAppletOrder extends JApplet {
         comboBoxCondimento4 = new JComboBox();
         comboBoxCondimento4.setBounds(102, 156, 172, 27);
 
-        
         panelPersonalizzata.setLayout(null);
         panelPersonalizzata.add(rdbtnMargherita);
         panelPersonalizzata.add(rdbtnBianca);
@@ -285,12 +287,12 @@ public class UserAppletOrder extends JApplet {
         panelPersonalizzata.add(chckbxGiganteP);
         panelPersonalizzata.add(chckbxDoppiaMozzarellaP);
         panelPersonalizzata.add(lblBase);
-        
+
         panelPersonalizzata.add(comboBoxCondimento1);
         panelPersonalizzata.add(comboBoxCondimento2);
         panelPersonalizzata.add(comboBoxCondimento3);
         panelPersonalizzata.add(comboBoxCondimento4);
-        
+
         panelPersonalizzata.add(lblCondimento1);
         panelPersonalizzata.add(lblCondimento2);
         panelPersonalizzata.add(lblCondimento3);
@@ -305,13 +307,13 @@ public class UserAppletOrder extends JApplet {
             }
         });
         cp.add(btnConferma);
-        
+
         textPaneOrdinazione = new JTextArea();
         textPaneOrdinazione.setBackground(new Color(255, 255, 204));
         textPaneOrdinazione.setEditable(false);
-        
-        scroll = new JScrollPane(textPaneOrdinazione); 
-        
+
+        scroll = new JScrollPane(textPaneOrdinazione);
+
         scroll.setBorder(new TitledBorder(new LineBorder(new Color(0, 0, 0), 1, true), "Ordinazione", TitledBorder.CENTER, TitledBorder.TOP, null, null));
         scroll.setEnabled(false);
         scroll.setBackground(new Color(255, 255, 204));
@@ -327,70 +329,70 @@ public class UserAppletOrder extends JApplet {
             }
         });
         cp.add(btnAnnulla);
-        
+
         rdbtnRitiro = new JRadioButton("Ritiro");
         rdbtnRitiro.setBounds(332, 320, 70, 25);
         rdbtnRitiro.setSelected(true);
-        rdbtnRitiro.addActionListener(new ActionListener(){
+        rdbtnRitiro.addActionListener(new ActionListener() {
             @Override
-            public void actionPerformed(ActionEvent e){
-                
-                    spinnerPosti.setEnabled(false);
-                
+            public void actionPerformed(ActionEvent e) {
+
+                spinnerPosti.setEnabled(false);
+
             }
         });
-                
+
         rdbtnAsporto = new JRadioButton("Asporto");
         rdbtnAsporto.setBounds(332, 299, 85, 23);
-        rdbtnAsporto.addActionListener(new ActionListener(){
+        rdbtnAsporto.addActionListener(new ActionListener() {
             @Override
-            public void actionPerformed(ActionEvent e){
-                
-                    spinnerPosti.setEnabled(false);
-                
+            public void actionPerformed(ActionEvent e) {
+
+                spinnerPosti.setEnabled(false);
+
             }
         });
-        
+
         rdbtnPrenotazione = new JRadioButton("Prenotazione");
         rdbtnPrenotazione.setBounds(332, 280, 130, 23);
-        rdbtnPrenotazione.addActionListener(new ActionListener(){
+        rdbtnPrenotazione.addActionListener(new ActionListener() {
             @Override
-            public void actionPerformed(ActionEvent e){
-                
-                    spinnerPosti.setEnabled(true);
-                
+            public void actionPerformed(ActionEvent e) {
+
+                spinnerPosti.setEnabled(true);
+
             }
         });
-        
-        
+
         buttonGroup2 = new ButtonGroup();
         buttonGroup2.add(rdbtnRitiro);
         buttonGroup2.add(rdbtnAsporto);
         buttonGroup2.add(rdbtnPrenotazione);
-        
+
         cp.add(rdbtnRitiro);
         cp.add(rdbtnAsporto);
         cp.add(rdbtnPrenotazione);
-        
+
         spinnerPosti = new JSpinner(model3);
         spinnerPosti.setEnabled(false);
         spinnerPosti.setBounds(484, 278, 45, 28);
         getContentPane().add(spinnerPosti);
-        
+
         lblPosti = new JLabel("Posti");
         lblPosti.setBounds(484, 264, 61, 16);
         getContentPane().add(lblPosti);
 
     }
-    
-    /**Richiesta di salvataggio, tramite apposito xml passato alla servlet, dell'ordine, 
-     * al cui interno ci sono tutte le pizze aggiunte e confermate dal cliente.
-    */
-    
-    private void salvaOrdinazione(){
-        if(textPaneOrdinazione.getText().equals("")){
+
+    /**
+     * Richiesta di salvataggio, tramite apposito xml passato alla servlet,
+     * dell'ordine, al cui interno ci sono tutte le pizze aggiunte e confermate
+     * dal cliente.
+     */
+    private void salvaOrdinazione() {
+        if (textPaneOrdinazione.getText().equals("")) {
             textPaneOrdinazione.setText("Scegliere almeno una pizza");
-        }else{
+        } else {
             tabbedPane.setEnabled(false);
             panelStandard.setEnabled(false);
             panelPersonalizzata.setEnabled(false);
@@ -398,16 +400,16 @@ public class UserAppletOrder extends JApplet {
             btnAggiungiStandard.setEnabled(false);
             btnConferma.setEnabled(false);
             String typeDelivery = "";
-            if (rdbtnRitiro.isSelected()){
-               typeDelivery = "ritiro"; 
-            }else if(rdbtnAsporto.isSelected()){
-               typeDelivery = "asporto";         
-            }else if(rdbtnPrenotazione.isSelected()){
-               typeDelivery = "prenotazione"; 
-               //spinnerPosti.setEnabled(true);
-               nPosti = ((Double)spinnerPosti.getValue()).intValue();
+            if (rdbtnRitiro.isSelected()) {
+                typeDelivery = "ritiro";
+            } else if (rdbtnAsporto.isSelected()) {
+                typeDelivery = "asporto";
+            } else if (rdbtnPrenotazione.isSelected()) {
+                typeDelivery = "prenotazione";
+                //spinnerPosti.setEnabled(true);
+                nPosti = ((Double) spinnerPosti.getValue()).intValue();
             }
-            try{
+            try {
                 HTTPClient httpClient = new HTTPClient();
                 httpClient.setBase(new URL("http://localhost:8080/WebApplication/ManageOrderService"));
                 ManageXML mngXML = new ManageXML();
@@ -419,21 +421,21 @@ public class UserAppletOrder extends JApplet {
                 user.setTextContent(idUser);
                 Element done = data.createElement("done");
                 boolean state = false;
-                done.setTextContent(""+state);
+                done.setTextContent("" + state);
                 Element id = data.createElement("id");
                 String idOrdine = new SimpleDateFormat("dd-M-yyyy hh:mm:ss").format(new Date());
-                id.setTextContent(idUser+idOrdine);
+                id.setTextContent(idUser + idOrdine);
                 Element type = data.createElement("tipo_ordine");
 
-                if(typeDelivery.equals("prenotazione")){
+                if (typeDelivery.equals("prenotazione")) {
                     Element typePren = data.createElement("prenotazione");
                     typePren.setTextContent(typeDelivery);
                     Element posti = data.createElement("posti");
-                    posti.setTextContent(""+nPosti);
+                    posti.setTextContent("" + nPosti);
                     type.appendChild(typePren);
                     type.appendChild(posti);
-                }else{
-                    type.setTextContent(typeDelivery); 
+                } else {
+                    type.setTextContent(typeDelivery);
                 }
 
                 root.appendChild(user);
@@ -444,23 +446,23 @@ public class UserAppletOrder extends JApplet {
                 Element typePizza, name, number, plus, extra, base, condimento;
                 String plusString, extraString;
                 pizza newPizza = null;
-                for(int i = 0; i < listaOrdinazione.size(); i++){ 
+                for (int i = 0; i < listaOrdinazione.size(); i++) {
                     plusString = " ";
                     newPizza = listaOrdinazione.get(i);
-                    if(!newPizza.getName().equals("personalizzata")){
-                       typePizza = data.createElement("pizzaS");
-                    }else{
-                       typePizza = data.createElement("pizzaP"); 
+                    if (!newPizza.getName().equals("personalizzata")) {
+                        typePizza = data.createElement("pizzaS");
+                    } else {
+                        typePizza = data.createElement("pizzaP");
                     }
                     name = data.createElement("nome_pizza");
                     name.setTextContent(newPizza.getName());
                     number = data.createElement("numero_pizze");
-                    number.setTextContent(""+newPizza.getNPizze());
+                    number.setTextContent("" + newPizza.getNPizze());
                     plus = data.createElement("plus");
-                    for(int j = 0; j < newPizza.getAggiunte().size(); j++){
+                    for (int j = 0; j < newPizza.getAggiunte().size(); j++) {
                         plusString += " " + newPizza.getAggiunte().get(j);
                     }
-                    if(plusString.equals("")){
+                    if (plusString.equals("")) {
                         plusString = "Nessuna selezione";
                     }
                     plus.setTextContent(plusString);
@@ -468,16 +470,16 @@ public class UserAppletOrder extends JApplet {
                     typePizza.appendChild(name);
                     typePizza.appendChild(number);
                     typePizza.appendChild(plus);
-                    if (newPizza.getName().equals("personalizzata")){
-                       pizzaPersonalizzata pizzaPers = (pizzaPersonalizzata)newPizza;
-                       base = data.createElement("base");
-                       base.setTextContent(pizzaPers.getBase());
-                       typePizza.appendChild(base);
-                       for(int k = 0; k < pizzaPers.getCondimenti().size(); k++){
-                        condimento = data.createElement("condimento");
-                        condimento.setTextContent(pizzaPers.getCondimenti().get(k));
-                        typePizza.appendChild(condimento);
-                       }
+                    if (newPizza.getName().equals("personalizzata")) {
+                        pizzaPersonalizzata pizzaPers = (pizzaPersonalizzata) newPizza;
+                        base = data.createElement("base");
+                        base.setTextContent(pizzaPers.getBase());
+                        typePizza.appendChild(base);
+                        for (int k = 0; k < pizzaPers.getCondimenti().size(); k++) {
+                            condimento = data.createElement("condimento");
+                            condimento.setTextContent(pizzaPers.getCondimenti().get(k));
+                            typePizza.appendChild(condimento);
+                        }
                     }
 
                     root.appendChild(typePizza);
@@ -486,244 +488,232 @@ public class UserAppletOrder extends JApplet {
                 rootFile.appendChild(root);
                 data.appendChild(rootFile);
 
-
                 Document answer = httpClient.execute("ManageOrderService?target=push", data);
-                if (answer.getDocumentElement().getTagName().equals("ok")){
-                   textPaneOrdinazione.setText("Ordine Confermato");
-                }else{
-                   textPaneOrdinazione.setText("Ordine non effettuato"); 
+                if (answer.getDocumentElement().getTagName().equals("ok")) {
+                    textPaneOrdinazione.setText("Ordine Confermato");
+                } else {
+                    textPaneOrdinazione.setText("Ordine non effettuato");
                 }
 
-            }catch(Exception e){
+            } catch (Exception e) {
                 Logger.getLogger(UserAppletOrder.class.getName()).log(Level.SEVERE, null, e);
                 textPaneOrdinazione.setText("Errore");
             }
         }
     }
 
-    /** Nel momento in cui volessi annullare l'ordine per eventuali errori commessi,
-     *  basta premere il pulsante "Annulla Ordine" che mi resetta il contenuto della
-     *  mia JTextArea.
+    /**
+     * Nel momento in cui volessi annullare l'ordine per eventuali errori
+     * commessi, basta premere il pulsante "Annulla Ordine" che mi resetta il
+     * contenuto della mia JTextArea.
      */
-    
-    private void resetOrdinazione(){
-        
-        listaOrdinazione.clear();    
+    private void resetOrdinazione() {
+
+        listaOrdinazione.clear();
         textPaneOrdinazione.setText("");
     }
-    
-    /** Una volta decisa la pizza da ordinare, premendo "Aggiungi", questa viene 
-     *  inserita nella JTextArea fino a che non ho completato l'ordine con tutte
-     *  le pizze richieste.
+
+    /**
+     * Una volta decisa la pizza da ordinare, premendo "Aggiungi", questa viene
+     * inserita nella JTextArea fino a che non ho completato l'ordine con tutte
+     * le pizze richieste.
      */
-    
-    private void aggiungiPizzaStandard(){
-        
-        if(textPaneOrdinazione.getText().equals("Scegliere almeno una pizza")){
+    private void aggiungiPizzaStandard() {
+
+        if (textPaneOrdinazione.getText().equals("Scegliere almeno una pizza")) {
             resetOrdinazione();
         }
-        
+
         pizzaStandard pizza = new pizzaStandard();
-        
-        String select = (String)comboBoxStandard.getSelectedItem();
-        
+
+        String select = (String) comboBoxStandard.getSelectedItem();
+
         pizza.setName(select);
-        
-        int n = ((Double)spinnerStandard.getValue()).intValue();
-        
+
+        int n = ((Double) spinnerStandard.getValue()).intValue();
+
         pizza.setNPizze(n);
-        
-        String aggiunte="(";
-        
-        if(chckbxBaseKamutS.isSelected()){
-            aggiunte+= " Base Kamut + €2.50";
+
+        String aggiunte = "(";
+
+        if (chckbxBaseKamutS.isSelected()) {
+            aggiunte += " Base Kamut + €2.50";
             pizza.setAggiunta("Base Kamut");
         }
-        
-        if(chckbxGiganteS.isSelected()){
+
+        if (chckbxGiganteS.isSelected()) {
             aggiunte += " Maxi ";
             pizza.setAggiunta("Maxi");
         }
-        
-        if(chckbxDoppiaMozzarellaS.isSelected()){
+
+        if (chckbxDoppiaMozzarellaS.isSelected()) {
             aggiunte += " Doppia Moz ";
             pizza.setAggiunta("Doppia Mozzarella");
         }
-        
+
         aggiunte += ")";
-        
-        String ordinazione = ("Pizza: "+select+" n° "+n);
-        
-        if(aggiunte.equals("()")){
-            ordinazione+="\n";
-        }else{
-            ordinazione+=(" "+aggiunte+"\n");
+
+        String ordinazione = ("Pizza: " + select + " n° " + n);
+
+        if (aggiunte.equals("()")) {
+            ordinazione += "\n";
+        } else {
+            ordinazione += (" " + aggiunte + "\n");
         }
         String tmp = textPaneOrdinazione.getText();
-        tmp+=ordinazione;
+        tmp += ordinazione;
         textPaneOrdinazione.setText(tmp);
-        
+
         listaOrdinazione.add(pizza);
     }
-    
-    /** Una volta decisa la pizza da ordinare, premendo "Aggiungi", questa viene 
-     *  inserita nella JTextArea fino a che non ho completato l'ordine con tutte
-     *  le pizze richieste.
+
+    /**
+     * Una volta decisa la pizza da ordinare, premendo "Aggiungi", questa viene
+     * inserita nella JTextArea fino a che non ho completato l'ordine con tutte
+     * le pizze richieste.
      */
-    
-    private void aggiungiPizzaPersonalizzata(){
-        
-        if(textPaneOrdinazione.getText().equals("Scegliere almeno una pizza")){
+    private void aggiungiPizzaPersonalizzata() {
+
+        if (textPaneOrdinazione.getText().equals("Scegliere almeno una pizza")) {
             resetOrdinazione();
         }
-        
+
         pizzaPersonalizzata pizza = new pizzaPersonalizzata();
-        
+
         String ordinazione = "Base Pizza: ";
-        if(rdbtnMargherita.isSelected()){
-            ordinazione += rdbtnMargherita.getText()+" ";
+        if (rdbtnMargherita.isSelected()) {
+            ordinazione += rdbtnMargherita.getText() + " ";
             pizza.setBase(rdbtnMargherita.getText());
-        }else{
-            ordinazione += rdbtnBianca.getText()+" ";
+        } else {
+            ordinazione += rdbtnBianca.getText() + " ";
             pizza.setBase(rdbtnBianca.getText());
         }
-        
+
         ordinazione += "Condimenti: ";
-        
-        String select1 = (String)comboBoxCondimento1.getSelectedItem();
-        String select2 = (String)comboBoxCondimento2.getSelectedItem();
-        String select3 = (String)comboBoxCondimento3.getSelectedItem();
-        String select4 = (String)comboBoxCondimento4.getSelectedItem();
-        
-        if(!select1.equals("nessuna selezione")){
-            ordinazione += select1+" ";
+
+        String select1 = (String) comboBoxCondimento1.getSelectedItem();
+        String select2 = (String) comboBoxCondimento2.getSelectedItem();
+        String select3 = (String) comboBoxCondimento3.getSelectedItem();
+        String select4 = (String) comboBoxCondimento4.getSelectedItem();
+
+        if (!select1.equals("nessuna selezione")) {
+            ordinazione += select1 + " ";
             pizza.setCondimento(select1);
         }
-        
-        if(!select2.equals("nessuna selezione")){
-            ordinazione += select2+" ";
+
+        if (!select2.equals("nessuna selezione")) {
+            ordinazione += select2 + " ";
             pizza.setCondimento(select2);
         }
-        
-        if(!select3.equals("nessuna selezione")){
-            ordinazione += select3+" ";
+
+        if (!select3.equals("nessuna selezione")) {
+            ordinazione += select3 + " ";
             pizza.setCondimento(select3);
         }
-        
-        if(!select4.equals("nessuna selezione")){
-            ordinazione += select4+" ";
+
+        if (!select4.equals("nessuna selezione")) {
+            ordinazione += select4 + " ";
             pizza.setCondimento(select4);
         }
-        
-        int n = ((Double)spinnerPersonalizzata.getValue()).intValue();
-        ordinazione += "n° "+n;
+
+        int n = ((Double) spinnerPersonalizzata.getValue()).intValue();
+        ordinazione += "n° " + n;
         pizza.setNPizze(n);
-        
-        
-        String aggiunte="(";
-        
-        if(chckbxBaseKamutP.isSelected()){
-            aggiunte+= " Base Kamut ";
+
+        String aggiunte = "(";
+
+        if (chckbxBaseKamutP.isSelected()) {
+            aggiunte += " Base Kamut ";
             pizza.setAggiunta("Base Kamut");
         }
-        
-        if(chckbxGiganteP.isSelected()){
+
+        if (chckbxGiganteP.isSelected()) {
             aggiunte += " Maxi ";
             pizza.setAggiunta("Maxi");
         }
-        
-        if(chckbxDoppiaMozzarellaP.isSelected()){
+
+        if (chckbxDoppiaMozzarellaP.isSelected()) {
             aggiunte += " Doppia Moz ";
             pizza.setAggiunta("Doppia Mozzarella");
         }
-        
+
         aggiunte += ")";
-        
+
         //String ordinazione = ("Pizza: "+select+" n° "+n);
-        
-        if(aggiunte.equals("()")){
-            ordinazione+="\n";
-        }else{
-            ordinazione+=(" "+aggiunte+"\n");
+        if (aggiunte.equals("()")) {
+            ordinazione += "\n";
+        } else {
+            ordinazione += (" " + aggiunte + "\n");
         }
         String tmp = textPaneOrdinazione.getText();
-        tmp+=ordinazione;
+        tmp += ordinazione;
         textPaneOrdinazione.setText(tmp);
-        
+
         listaOrdinazione.add(pizza);
     }
-    
-    /** Inizializzo i condimenti possibili da scegliere per la mia pizza 
-     *  personalizzata.
+
+    /**
+     * Inizializzo i condimenti possibili da scegliere per la mia pizza
+     * personalizzata.
      */
-    
-    private void initializeListaCondimenti(){
-        ArrayList<String> lista = new ArrayList<String>();
-            
-        
-        
-        // questo in realta dovra leggere i dati da xml utilizzando la servlet
-            lista.add("nessuna selezione");
-            lista.add("Patatine fritte");
-            lista.add("Salsiccia");
-            lista.add("Salame");
-            lista.add("Wurstel");
-            lista.add("Peperoni");
-            lista.add("Rucola");
-            lista.add("Zucchine");
-            lista.add("Melanzane");
-            lista.add("Pancetta");
-            lista.add("Zucca");
-            lista.add("Prosciutto crudo");
-            lista.add("Prosciutto cotto");
-            lista.add("Parmigiano");
-            lista.add("Speck");
-            lista.add("Mais");
-            lista.add("Carciofi");
-            lista.add("Tonno");
-            lista.add("Cipolla");
-            lista.add("Porcini");
-            lista.add("Ricotta");
-            
-            for(String s : lista){
-                comboBoxCondimento1.addItem(s);
-                comboBoxCondimento2.addItem(s);
-                comboBoxCondimento3.addItem(s);
-                comboBoxCondimento4.addItem(s);
+    private void initializeListaCondimenti() {
+        try {
+            HTTPClient httpClient = new HTTPClient();
+            httpClient.setBase(new URL("http://localhost:8080/WebApplication/MenuServlet"));
+
+            ManageXML mngXML = new ManageXML();
+            Document data = mngXML.newDocument();
+            Element rootFile = data.createElement("tipo");
+            rootFile.setTextContent("condimenti");
+            data.appendChild(rootFile);
+
+            Document answer = httpClient.execute("MenuServlet", data);
+            NodeList l = answer.getElementsByTagName("condimento");
+            for (int i = 0; i < l.getLength(); i++) {
+                Element n = (Element) l.item(i);
+
+                comboBoxCondimento1.addItem(n.getElementsByTagName("nome").item(0).getTextContent());
+                comboBoxCondimento2.addItem(n.getElementsByTagName("nome").item(0).getTextContent());
+                comboBoxCondimento3.addItem(n.getElementsByTagName("nome").item(0).getTextContent());
+                comboBoxCondimento4.addItem(n.getElementsByTagName("nome").item(0).getTextContent());
+
             }
+
+            //listaCondimenti.setModel(modelCondimenti);
+        } catch (Exception e) {
+            System.err.println("--> " + e.getMessage());
+        }
     }
-    
-    /** Inizializzo le pizze standard presenti anche all'interno del nostro menu.
-     * 
+
+    /**
+     * Inizializzo le pizze standard presenti anche all'interno del nostro menu.
+     *
      */
-    
-    private void initializeListaStandard(){
-        ArrayList<String> lista = new ArrayList<String>();
-            
-            lista.add("Margherita");
-            lista.add("Marinara");
-            lista.add("Cardinale");
-            lista.add("Biancaneva");
-            lista.add("Capricciosa");
-            lista.add("4 Stagioni");
-            lista.add("Calabrese");
-            lista.add("Wurstel");
-            lista.add("Reginella");
-            lista.add("Completa");
-            lista.add("Tonno");
-            lista.add("Tonno e cipolla");
-            lista.add("Melanzane");
-            lista.add("Peperoni");
-            lista.add("Funghi");
-            lista.add("Funghi porcini");
-            lista.add("Carciofi");
-            lista.add("Prosciutto crudo");
-            lista.add("Siciliana");
-            lista.add("4 Formaggi");
-            lista.add("Rucola");
-            
-            for(String s : lista){
-                comboBoxStandard.addItem(s);
+    private void initializeListaStandard() {
+
+        try {
+
+            HTTPClient httpClient = new HTTPClient();
+            httpClient.setBase(new URL("http://localhost:8080/WebApplication/MenuServlet"));
+
+            ManageXML mngXML = new ManageXML();
+            Document data = mngXML.newDocument();
+            Element rootFile = data.createElement("tipo");
+            rootFile.setTextContent("pizze");
+            data.appendChild(rootFile);
+
+            Document answer = httpClient.execute("MenuServlet", data);
+            NodeList l = answer.getElementsByTagName("pizza_standard");
+
+            // modelPizze = new DefaultListModel();
+            for (int i = 0; i < l.getLength(); i++) {
+                Element n = (Element) l.item(i);
+                comboBoxStandard.addItem(n.getElementsByTagName("nome").item(0).getTextContent());
             }
+            //listaPizze.setModel(modelPizze);
+
+        } catch (Exception e) {
+            System.err.println("--> " + e.getMessage());
+        }
     }
 }

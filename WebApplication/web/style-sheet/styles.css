@@ -446,12 +446,17 @@ table#condimenti{
     margin:10px;
 }
 
-table#riepilgo_ordini{
+table#riepilogo_ordini{
     margin: 10px;
     padding: 5px;
 }
 
-table#riepilgo_prenotazioni{
+table#riepilogo_prenotazioni{
+    margin: 10px;
+    padding: 5px;
+}
+
+table#riepilogo{
     margin: 10px;
     padding: 5px;
 }

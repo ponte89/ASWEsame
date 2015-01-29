@@ -8,8 +8,8 @@ var datiCondimenti;
 var datiMessaggi;
 var tableOrdini = "";
 var tablePrenotazioni = "";
-var ordini = "ordini";
-var prenotazioni = "prenotazioni";
+var tableRiepilogo = "";
+var riepilogo = "riepilogo";
 
 function inizializzaDati() {
     getDati("pizze");
@@ -171,13 +171,19 @@ function getMessages(value){
                     if (xmlhttp2.readyState === 4 && xmlhttp2.status===200) {   
                         answer = xmlhttp2.responseXML;
                         if(answer.documentElement.tagName === "ordini_utente"){
+                            
+                            console.log(value);
                             if(value === "ordini"){
                                 stampaOrdini(answer, "ordini");   
-                            }else{
+                            }else if (value === "prenotazioni") {
                                 stampaOrdini(answer, "prenotazioni");   
                             }
                         }
-                        getMessages();
+                        if(value === "ordini"){
+                                getMessages("ordini");  
+                        }else if (value === "prenotazioni") {
+                                getMessages("prenotazioni");  
+                        }
                     }
                 };
             data = document.implementation.createDocument("", "pop", null);                     
@@ -186,7 +192,7 @@ function getMessages(value){
 
 function stampaOrdini(data, value){
     if (value === "ordini"){
-        var ordiniElement = document.getElementById("riepilgo_ordini");
+        var ordiniElement = document.getElementById("riepilogo_ordini");
         var dati = data.documentElement;
         var ordini = dati.getElementsByTagName("ordine_utente");
         var done, doneLog, nOrdine, idLog;
@@ -201,7 +207,8 @@ function stampaOrdini(data, value){
                 var tipo_ordine = ordini[k].getElementsByTagName("tipo_ordine");
                 var tipo_ordineLog = tipo_ordine[0].childNodes[0].nodeValue;
                 if (tipo_ordineLog === null){
-                    var prenotazione = tipo_ordine[0].getElementsByTagName("prenotazione");
+                    var prenotazione = 
+                            tipo_ordine[0].getElementsByTagName("prenotazione");
                     prenotazioneLog = prenotazione[0].childNodes[0].nodeValue;
                     var nPosti = tipo_ordine[0].getElementsByTagName("posti");
                     var nPostiLog = nPosti[0].childNodes[0].nodeValue;
@@ -258,7 +265,7 @@ function stampaOrdini(data, value){
                     tableOrdini += "<b> Pizza: </b>" + nomeLog + "<b> Numero: </b>" + numeroLog + "<b> Aggiunte: </b>" + plusLog + "<b> Base: </b>" + baseLog + "<b> Condimenti: </b>" + condimentiLog +" </br></td>";
                 }
          }
-    ordiniElement.innerHTML = tableOrdini + "<td width=50px align='center'><b>Stato: </b>" + "<input id='"+ nOrdine +"' type='text' size='10' value='"+ doneLog + "'>" + "</br><input type='button' value='Completato' onclick='ordineCompletato('"+nOrdine+"','"+idLog+"');'></td></tr>"; 
+    ordiniElement.innerHTML = tableOrdini + "<td width=50px align='center'><b>Stato: </b>" + "<input id='"+ nOrdine +"' type='text' size='10' value='"+ doneLog + "'>" + "</br><input type='button' value='Completato' onclick='ordineCompletato("+nOrdine+",\""+idLog+"\");'></td></tr>"; 
     }else if(value === "prenotazioni"){
         var prenotazioniElement = document.getElementById("riepilogo_prenotazioni");
         var dati = data.documentElement;
@@ -335,12 +342,27 @@ function stampaOrdini(data, value){
      }
     prenotazioniElement.innerHTML = tablePrenotazioni; 
     }
-
 }
 
 function ordineCompletato(nOrdine, idOrdine){
     document.getElementById(nOrdine).value = 'fatto';
-    
+    //trovare l'ordine e modificare lo stato
+            var xmlhttp2 = new XMLHttpRequest();
+        xmlhttp2.onreadystatechange = function () {
+            if (xmlhttp2.readyState === 4 && xmlhttp2.status === 200) {
+                var answer = xmlhttp2.responseXML;
+                //if(value === "ordini"){
+                    //stampaOrdini(answer, "ordini");   
+                //}
+                console.log("Modifico l'ordine");
+            }
+        };
+        xmlhttp2.open("POST", "../ManageOrderService", true);
+        xmlhttp2.setRequestHeader("Content-Type", "text/xml");
+
+        dataOrdini = document.implementation.createDocument("", "cambioStato", null);
+        dataOrdini.appendChild(document.createTextNode(idOrdine));
+        xmlhttp2.send(dataOrdini);
 }
 
 function getOrdini(value){
@@ -350,7 +372,7 @@ function getOrdini(value){
                 var answer = xmlhttp2.responseXML;
                 if(value === "ordini"){
                     stampaOrdini(answer, "ordini");   
-                }else{
+                }else if(value === "prenotazioni"){
                     stampaOrdini(answer, "prenotazioni");   
                 }
                 console.log("Stampo gli ordini del DB");
@@ -358,10 +380,14 @@ function getOrdini(value){
         };
         xmlhttp2.open("POST", "../ManageOrderService", true);
         xmlhttp2.setRequestHeader("Content-Type", "text/xml");
-
+        
+        
         dataOrdini = document.implementation.createDocument("", "getOrdini", null);
+
         xmlhttp2.send(dataOrdini);
 }
+
+
 
 function getMessaggi(){
     

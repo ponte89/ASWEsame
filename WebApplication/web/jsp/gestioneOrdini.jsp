@@ -16,7 +16,7 @@
         <link href="./../style-sheet/styles.css" rel="stylesheet" type="text/css">
         <%@ include file="/WEB-INF/jspf/header.jspf" %>
     </head>
-    <body onLoad="getOrdini(ordini);getMessages(ordini)">
+    <body onLoad="getOrdini('ordini');getMessages('ordini')">
              
         <section class="container">
             <%@ include file="/WEB-INF/jspf/sidebar.jspf" %>   
@@ -32,7 +32,7 @@
         
         <div class="content">
                 <h1>Ordini: </h1>
-                <table id="riepilgo_ordini" border="2"></table>
+                <table id="riepilogo_ordini" border="2"></table>
         </div>
         </section>
         <%

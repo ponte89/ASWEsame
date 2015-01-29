@@ -15,7 +15,7 @@
         <link href="./../style-sheet/styles.css" rel="stylesheet" type="text/css">
         <%@ include file="/WEB-INF/jspf/header.jspf" %>
     </head>
-    <body onLoad="getOrdini(prenotazioni);getMessages(prenotazioni)">
+    <body onLoad="getOrdini('prenotazioni');getMessages('prenotazioni')">
 
         <section class="container">
             <%@ include file="/WEB-INF/jspf/sidebar.jspf" %>  

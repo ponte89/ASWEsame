@@ -53,7 +53,6 @@ public class ManageOrderService extends HttpServlet {
             
             System.out.println("Servlet per ordini");
             
-            //comet
             InputStream is = request.getInputStream();
             response.setContentType("text/xml;charset=UTF-8");
             

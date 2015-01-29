@@ -348,7 +348,7 @@ function stampaOrdini(data, value){
 function ordineCompletato(nOrdine, idOrdine){
     document.getElementById(nOrdine).innerHTML = 'Completato';
     //trovare l'ordine e modificare lo stato
-            var xmlhttp2 = new XMLHttpRequest();
+        var xmlhttp2 = new XMLHttpRequest();
         xmlhttp2.onreadystatechange = function () {
             if (xmlhttp2.readyState === 4 && xmlhttp2.status === 200) {
                 var answer = xmlhttp2.responseXML;
@@ -362,7 +362,7 @@ function ordineCompletato(nOrdine, idOrdine){
         xmlhttp2.setRequestHeader("Content-Type", "text/xml");
 
         dataOrdini = document.implementation.createDocument("", "cambioStato", null);
-        dataOrdini.appendChild(document.createTextNode(idOrdine));
+        document.appendChild(document.createTextNode(idOrdine));
         xmlhttp2.send(dataOrdini);
 }
 

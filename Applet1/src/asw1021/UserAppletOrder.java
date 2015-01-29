@@ -18,6 +18,7 @@ import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.JScrollPane;
@@ -395,6 +396,7 @@ public class UserAppletOrder extends JApplet {
             panelPersonalizzata.setEnabled(false);
             btnAggiungiPersonalizzata.setEnabled(false);
             btnAggiungiStandard.setEnabled(false);
+            btnConferma.setEnabled(false);
             String typeDelivery = "";
             if (rdbtnRitiro.isSelected()){
                typeDelivery = "ritiro"; 

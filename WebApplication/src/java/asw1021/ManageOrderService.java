@@ -24,6 +24,8 @@ import javax.servlet.http.HttpSession;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import javax.servlet.annotation.WebServlet;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
 
 /**
  *
@@ -186,12 +188,30 @@ public class ManageOrderService extends HttpServlet {
                 osOrdini.close();
                 break;
             case "cambioStato":
-                System.out.println("Ciao");
-                System.out.println(root.getFirstChild().getTextContent());
-                //
+                //cercare il nodo ordine corrispondente e cambiare lo stato
+                String idOrdineState = root.getFirstChild().getTextContent();
+                System.out.println(idOrdineState);
+                boolean found = false;
                 path = getServletContext().getRealPath("") + "/WEB-INF/xml/ordini_test.xml";
                 doc = mngXML.parse(new File(path));
                 OutputStream osStato = response.getOutputStream();
+                //root = doc.getDocumentElement();
+                NodeList ordini = doc.getElementsByTagName("ordini_utente");
+                Element ordine = null;
+                Element ordineChange = null;
+                for(int i = 0; i < ordini.getLength(); i++){
+                    ordine = (Element)ordini.item(i);
+                    if(ordine.getElementsByTagName("id").item(0).getTextContent().equals(idOrdineState)){
+                                    found = true;
+                                    System.out.println("Ho trovato l'ordine");
+                                    ordineChange = (Element) ordine.getElementsByTagName("done").item(0);
+                    }
+                }
+                if(found){
+                    ordineChange.setTextContent("true");
+                    ordine.appendChild(ordineChange);
+                    System.out.println("Ho fatto il replace");
+                }
                 response.setContentType("text/xml");
                 mngXML.transform(osStato, doc);
                 osStato.close();

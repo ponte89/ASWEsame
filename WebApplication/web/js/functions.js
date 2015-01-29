@@ -9,8 +9,6 @@ var datiMessaggi;
 var tableOrdini = "";
 var tablePrenotazioni = "";
 var tableRiepilogo = "";
-var ordini = "ordini";
-var prenotazioni = "prenotazioni";
 var riepilogo = "riepilogo";
 
 function inizializzaDati() {
@@ -173,13 +171,19 @@ function getMessages(value){
                     if (xmlhttp2.readyState === 4 && xmlhttp2.status===200) {   
                         answer = xmlhttp2.responseXML;
                         if(answer.documentElement.tagName === "ordini_utente"){
+                            
+                            console.log(value);
                             if(value === "ordini"){
                                 stampaOrdini(answer, "ordini");   
-                            }else{
+                            }else if (value === "prenotazioni") {
                                 stampaOrdini(answer, "prenotazioni");   
                             }
                         }
-                        getMessages();
+                        if(value === "ordini"){
+                                getMessages("ordini");  
+                        }else if (value === "prenotazioni") {
+                                getMessages("prenotazioni");  
+                        }
                     }
                 };
             data = document.implementation.createDocument("", "pop", null);                     

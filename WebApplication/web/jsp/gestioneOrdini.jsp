@@ -32,7 +32,7 @@
         
         <div class="content">
                 <h1>Ordini: </h1>
-                <table id="riepilgo_ordini" border="2"></table>
+                <table id="riepilogo_ordini" border="2"></table>
         </div>
         </section>
         <%

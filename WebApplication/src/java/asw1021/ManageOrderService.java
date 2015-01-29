@@ -99,6 +99,8 @@ public class ManageOrderService extends HttpServlet {
         String user;
         Document answer = null;
         OutputStream os;
+        String path;
+        Document doc;
         
         switch (operation) {
             case "push":
@@ -108,7 +110,7 @@ public class ManageOrderService extends HttpServlet {
                             System.out.println("Cuoco presente" + destUser);
                             Object value = contexts.get(destUser);
                             if (value instanceof AsyncContext) {
-                                System.out.println("Cuoco in attesa");
+                                System.out.println("Cuoco in attesa" + (AsyncContext) value);
                                 OutputStream aos = ((AsyncContext) value).getResponse().getOutputStream();
                                 mngXML.transform(aos, dataInput);
                                 aos.close();
@@ -177,12 +179,23 @@ public class ManageOrderService extends HttpServlet {
                 }
                 break;
             case "getOrdini":
-                String path = getServletContext().getRealPath("") + "/WEB-INF/xml/ordini_test.xml";
-                Document doc = mngXML.parse(new File(path));
+                path = getServletContext().getRealPath("") + "/WEB-INF/xml/ordini_test.xml";
+                doc = mngXML.parse(new File(path));
                 OutputStream osOrdini = response.getOutputStream();
                 response.setContentType("text/xml");
                 mngXML.transform(osOrdini, doc);
                 osOrdini.close();
+                break;
+            case "cambioStato":
+                System.out.println("Ciao");
+                System.out.println(root.getFirstChild().getTextContent());
+                //
+                path = getServletContext().getRealPath("") + "/WEB-INF/xml/ordini_test.xml";
+                doc = mngXML.parse(new File(path));
+                OutputStream osStato = response.getOutputStream();
+                response.setContentType("text/xml");
+                mngXML.transform(osStato, doc);
+                osStato.close();
                 break;
         }
     }

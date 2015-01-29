@@ -264,8 +264,9 @@ function stampaOrdini(data, value){
 
                     tableOrdini += "<b> Pizza: </b>" + nomeLog + "<b> Numero: </b>" + numeroLog + "<b> Aggiunte: </b>" + plusLog + "<b> Base: </b>" + baseLog + "<b> Condimenti: </b>" + condimentiLog +" </br></td>";
                 }
+                tableOrdini += "<td width=100px align='center'><b>Stato: </b></br>" + "<label id='"+ nOrdine +"' type='text' size='10' value='"+ doneLog + "'>Attesa<label/>" + "</br><input type='button' value='Completato' onclick='ordineCompletato("+nOrdine+",\""+idLog+"\");'/></td></tr>";
          }
-    ordiniElement.innerHTML = tableOrdini + "<td width=50px align='center'><b>Stato: </b>" + "<input id='"+ nOrdine +"' type='text' size='10' value='"+ doneLog + "'>" + "</br><input type='button' value='Completato' onclick='ordineCompletato("+nOrdine+",\""+idLog+"\");'></td></tr>"; 
+    ordiniElement.innerHTML = tableOrdini; 
     }else if(value === "prenotazioni"){
         var prenotazioniElement = document.getElementById("riepilogo_prenotazioni");
         var dati = data.documentElement;
@@ -345,7 +346,7 @@ function stampaOrdini(data, value){
 }
 
 function ordineCompletato(nOrdine, idOrdine){
-    document.getElementById(nOrdine).value = 'fatto';
+    document.getElementById(nOrdine).innerHTML = 'Completato';
     //trovare l'ordine e modificare lo stato
             var xmlhttp2 = new XMLHttpRequest();
         xmlhttp2.onreadystatechange = function () {

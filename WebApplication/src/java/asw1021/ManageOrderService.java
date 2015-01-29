@@ -111,9 +111,9 @@ public class ManageOrderService extends HttpServlet {
                             Object value = contexts.get(destUser);
                             if (value instanceof AsyncContext) {
                                 System.out.println("Cuoco in attesa" + (AsyncContext) value);
-                                OutputStream aos = ((AsyncContext) value).getResponse().getOutputStream();
-                                mngXML.transform(aos, dataInput);
-                                aos.close();
+                                try (OutputStream aos = ((AsyncContext) value).getResponse().getOutputStream()) {
+                                    mngXML.transform(aos, dataInput);
+                                }
                                 ((AsyncContext) value).complete();
                                 contexts.put(destUser, new LinkedList<Document>());
                             } else {

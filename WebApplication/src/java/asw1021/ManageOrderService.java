@@ -195,19 +195,20 @@ public class ManageOrderService extends HttpServlet {
                 path = getServletContext().getRealPath("") + "/WEB-INF/xml/ordini_test.xml";
                 doc = mngXML.parse(new File(path));
                 OutputStream osStato = response.getOutputStream();
-                //root = doc.getDocumentElement();
+                root = doc.getDocumentElement();
                 NodeList ordini = doc.getElementsByTagName("ordini_utente");
                 Element ordine = null;
-                Element ordineChange = null;
+                Node ordineChange = null;
                 for(int i = 0; i < ordini.getLength(); i++){
                     ordine = (Element)ordini.item(i);
                     if(ordine.getElementsByTagName("id").item(0).getTextContent().equals(idOrdineState)){
                                     found = true;
                                     System.out.println("Ho trovato l'ordine");
-                                    ordineChange = (Element) ordine.getElementsByTagName("done").item(0);
+                                    ordineChange = ordine.getElementsByTagName("done").item(0);
                     }
                 }
                 if(found){
+                    Node newNode = 
                     ordineChange.setTextContent("true");
                     ordine.appendChild(ordineChange);
                     System.out.println("Ho fatto il replace");

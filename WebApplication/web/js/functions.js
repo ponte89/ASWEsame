@@ -398,46 +398,5 @@ function getOrdini(value){
 
 
 function getMessaggi(){
-    
-    //alert("messaggi");
-    
     getDati("messaggi");
-}
-
-function ciao(){
-    console.log("funziona");
-    
-    
-    //id della 
-}
-
-function getNews(){      
-                var xmlhttp2,answer,data;
-                console.log("Richiesta news");
-                xmlhttp2 = new XMLHttpRequest();
-                xmlhttp2.open("POST", "../ManageNewsService", true);
-                xmlhttp2.setRequestHeader("Content-Type", "text/xml");
-                xmlhttp2.onreadystatechange=function(){
-                    if (xmlhttp2.readyState === 4 && xmlhttp2.status===200) {   
-                        answer = xmlhttp2.responseXML;
-                        
-                        /*
-                        if(answer.documentElement.tagName === "ordini_utente"){
-                            if(value === "ordini"){
-                                stampaOrdini(answer, "ordini");   
-                            }else{
-                                stampaOrdini(answer, "prenotazioni");   
-                            }
-                        }*/
-                        
-                        
-                        
-                        getNews();
-                        
-                        
-                    }
-                };
-                
-            data = document.implementation.createDocument("", "pop", null);                     
-            xmlhttp2.send(data);
 }

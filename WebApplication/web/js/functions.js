@@ -264,7 +264,7 @@ function stampaOrdini(data, value){
 
                     tableOrdini += "<b> Pizza: </b>" + nomeLog + "<b> Numero: </b>" + numeroLog + "<b> Aggiunte: </b>" + plusLog + "<b> Base: </b>" + baseLog + "<b> Condimenti: </b>" + condimentiLog +" </br></td>";
                 }
-                tableOrdini += "<td width=100px align='center'><b>Stato: </b></br>" + "<label id='"+ nOrdine +"' type='text' size='10' value='"+ doneLog + "'>Attesa<label/>" + "</br><input type='button' value='Completato' onclick='ordineCompletato("+nOrdine+",\""+idLog+"\");'/></td></tr>";
+                tableOrdini += "<td width=100px align='center'><b>Stato: </b></br>" + "<label id='"+ idLog +"' type='text' size='10' value='"+ doneLog + "'>Attesa<label/>" + "</br><input type='button' value='Completato' onclick='ordineCompletato(\""+idLog+"\");'/></td></tr>";
          }
     ordiniElement.innerHTML = tableOrdini; 
     }else if(value === "prenotazioni"){
@@ -345,8 +345,8 @@ function stampaOrdini(data, value){
     }
 }
 
-function ordineCompletato(nOrdine, idOrdine){
-    document.getElementById(nOrdine).innerHTML = 'Completato';
+function ordineCompletato(idOrdine){
+    document.getElementById(idOrdine).innerHTML = 'Completato';
     //trovare l'ordine e modificare lo stato
         var xmlhttp2 = new XMLHttpRequest();
         xmlhttp2.onreadystatechange = function () {
@@ -361,9 +361,16 @@ function ordineCompletato(nOrdine, idOrdine){
         xmlhttp2.open("POST", "../ManageOrderService", true);
         xmlhttp2.setRequestHeader("Content-Type", "text/xml");
 
-        dataOrdini = document.implementation.createDocument("", "cambioStato", null);
-        document.appendChild(document.createTextNode(idOrdine));
-        xmlhttp2.send(dataOrdini);
+        //dataOrdini 
+        var doc = document.implementation.createDocument("", "cambioStato", null);
+        var nameElement = doc.createElement("idOrdine");
+        var name = doc.createTextNode(idOrdine);
+
+        nameElement.appendChild(name);
+
+        // append to document
+        doc.documentElement.appendChild(nameElement);
+        xmlhttp2.send(doc);
 }
 
 function getOrdini(value){

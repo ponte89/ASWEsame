@@ -48,14 +48,14 @@
                                }else{
                                    done = "non fatto";
                                }
-                               tipo_ordine = ordine.getElementsByTagName("tipo_ordine").item(0).getTextContent();
+                               tipo_ordine =  "<b> Consegna: </b>" + ordine.getElementsByTagName("tipo_ordine").item(0).getTextContent();
                                if(!tipo_ordine.equals("ritiro") && !tipo_ordine.equals("asporto") ){
                                   tipo = ordine.getElementsByTagName("tipo_ordine");
                                   numero_posti = (Element)tipo.item(0);
                                   String posti = numero_posti.getElementsByTagName("posti").item(0).getTextContent();
-                                  tipo_ordine = " prenotazione <b>Posti: </b>" + posti;
+                                  tipo_ordine = " <b>Prenotazione per: </b>" + posti;
                                }
-                               ordineLog += "<b>IdOrdine:</b> " + id + " <b>Cliente:</b> " + user + " <b>Stato: </b>" + done + " <b>Consegna: </b>" + tipo_ordine;
+                               ordineLog += "<b>Utente:</b> " + user + " <b>IdOrdine:</b> " + id + tipo_ordine + " <b>Stato: </b>" + done;
                                pizzaS = ordine.getElementsByTagName("pizzaS");
                                pizzaP = ordine.getElementsByTagName("pizzaP");
                                for(int j = 0; j < pizzaS.getLength(); j++){

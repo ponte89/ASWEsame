@@ -264,7 +264,7 @@ function stampaOrdini(data, value){
 
                     tableOrdini += "<b> Pizza: </b>" + nomeLog + "<b> Numero: </b>" + numeroLog + "<b> Aggiunte: </b>" + plusLog + "<b> Base: </b>" + baseLog + "<b> Condimenti: </b>" + condimentiLog +" </br></td>";
                 }
-                tableOrdini += "<td width=100px align='center'><b>Stato: </b></br>" + "<label id='"+ idLog +"' type='text' size='10' value='"+ doneLog + "'>Attesa<label/>" + "</br><input type='button' value='Completato' onclick='ordineCompletato(\""+idLog+"\");'/></td></tr>";
+                tableOrdini += "<td width=100px id='2"+idLog+"' align='center' bgcolor='#FF000'><b>Stato: </b></br>" + "<label id='"+ idLog +"' type='text' size='10' value='"+ doneLog + "'>Attesa<label/>" + "</br><input type='button' value='Completato' onclick='ordineCompletato(\""+idLog+"\");'/></td></tr>";
          }
     ordiniElement.innerHTML = tableOrdini; 
     }else if(value === "prenotazioni"){
@@ -346,6 +346,11 @@ function stampaOrdini(data, value){
 }
 
 function ordineCompletato(idOrdine){
+    
+    var r = "2"+idOrdine;
+    
+    document.getElementById(r).style.background = "green";
+    
     document.getElementById(idOrdine).innerHTML = 'Completato';
     //trovare l'ordine e modificare lo stato
         var xmlhttp2 = new XMLHttpRequest();

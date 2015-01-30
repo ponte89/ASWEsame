@@ -5,7 +5,6 @@
  */
 package asw1021;
 
-
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -31,13 +30,12 @@ import org.w3c.dom.NodeList;
  *
  * @author Mezzapesa Beatrice, Papini Alessia, Pontellini Lorenzo
  */
-@WebServlet(name = "ManageOrderService",  asyncSupported = true, urlPatterns = {"/ManageOrderService"})
+@WebServlet(name = "ManageOrderService", asyncSupported = true, urlPatterns = {"/ManageOrderService"})
 public class ManageOrderService extends HttpServlet {
-    
-    
+
     private HashMap<String, Object> contexts;
     private Document dataInput;
-    
+
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -47,27 +45,26 @@ public class ManageOrderService extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
-    
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        try{
-            
+        try {
+
             System.out.println("Servlet per ordini");
-            
+
             InputStream is = request.getInputStream();
             response.setContentType("text/xml;charset=UTF-8");
-            
+
             try {
                 ManageXML mngXML = new ManageXML();
                 Document data;
-                
+
                 data = mngXML.parse(is);
                 dataInput = data;
                 is.close();
                 String target = "";
                 target = request.getParameter("target");
-                if(target != null){
+                if (target != null) {
                    //scrivo il file xml
                    String path = getServletContext().getRealPath("")+"/WEB-INF/xml/ordini_test.xml";
                    OutputStream os = new FileOutputStream(new File(path));
@@ -76,15 +73,16 @@ public class ManageOrderService extends HttpServlet {
                    os.close();
 
                    data = mngXML.newDocument("push");    
+
                 }
-                                
+
                 operations(data, request, response, mngXML);
 
             } catch (Exception ex) {
                 System.out.println(ex);
-            }            
-            
-        }catch(Exception e){
+            }
+
+        } catch (Exception e) {
             e.printStackTrace();
             System.out.println("Errore nella servlet per ordini");
         }
@@ -102,29 +100,32 @@ public class ManageOrderService extends HttpServlet {
         OutputStream os;
         String path;
         Document doc;
-        
+
         switch (operation) {
             case "push":
                 System.out.println("push received");
                 synchronized (this) {
-                       for (String destUser : contexts.keySet()) {
-                            System.out.println("Cuoco presente" + destUser);
-                            Object value = contexts.get(destUser);
-                            if (value instanceof AsyncContext) {
-                                System.out.println("Cuoco in attesa" + (AsyncContext) value);
-                                try (OutputStream aos = ((AsyncContext) value).getResponse().getOutputStream()) {
-                                    mngXML.transform(aos, dataInput);
-                                }
-                                ((AsyncContext) value).complete();
-                                contexts.put(destUser, new LinkedList<Document>());
-                            } else {
-                                System.out.println("Dati Accodati");
-                                ((LinkedList<Document>) value).addLast(dataInput);
+                    for (String destUser : contexts.keySet()) {
+                        System.out.println("Cuoco presente" + destUser);
+                        Object value = contexts.get(destUser);
+                        if (value instanceof AsyncContext) {
+                            System.out.println("Cuoco in attesa" + (AsyncContext) value);
+                            try (OutputStream aos = ((AsyncContext) value).getResponse().getOutputStream()) {
+                                mngXML.transform(aos, dataInput);
                             }
+                            ((AsyncContext) value).complete();
+                            contexts.put(destUser, new LinkedList<Document>());
+                        } else {
+                            System.out.println("Dati Accodati");
+                            ((LinkedList<Document>) value).addLast(dataInput);
                         }
+                    }
                 }
                 answer = mngXML.newDocument("ok");
                 os = response.getOutputStream();
+                
+                //os = new FileOutputStream(path);
+                
                 mngXML.transform(os, answer);
                 os.close();
                 break;
@@ -191,36 +192,39 @@ public class ManageOrderService extends HttpServlet {
                 //cercare il nodo ordine corrispondente e cambiare lo stato
                 String idOrdineState = root.getFirstChild().getTextContent();
                 System.out.println(idOrdineState);
+
                 boolean found = false;
+
                 path = getServletContext().getRealPath("") + "/WEB-INF/xml/ordini_test.xml";
+
                 doc = mngXML.parse(new File(path));
                 OutputStream osStato = response.getOutputStream();
                 root = doc.getDocumentElement();
                 NodeList ordini = doc.getElementsByTagName("ordini_utente");
+                
                 Element ordine = null;
                 Node ordineChange = null;
-                for(int i = 0; i < ordini.getLength(); i++){
-                    ordine = (Element)ordini.item(i);
-                    if(ordine.getElementsByTagName("id").item(0).getTextContent().equals(idOrdineState)){
-                                    found = true;
-                                    System.out.println("Ho trovato l'ordine");
-                                    ordineChange = ordine.getElementsByTagName("done").item(0);
+                for (int i = 0; i < ordini.getLength(); i++) {
+                    ordine = (Element) ordini.item(i);
+                    if (ordine.getElementsByTagName("id").item(0).getTextContent().equals(idOrdineState)) {
+                        found = true;
+                        System.out.println("Ho trovato l'ordine");
+                        ordineChange = ordine.getElementsByTagName("done").item(0);
                     }
                 }
-                if(found){
-                    Node newNode = 
+                if (found) {
+                    
                     ordineChange.setTextContent("true");
-                    ordine.appendChild(ordineChange);
                     System.out.println("Ho fatto il replace");
-                }
+                }       
+                osStato = new FileOutputStream(path);
                 response.setContentType("text/xml");
                 mngXML.transform(osStato, doc);
                 osStato.close();
                 break;
         }
     }
-    
-    
+
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.
@@ -249,13 +253,13 @@ public class ManageOrderService extends HttpServlet {
             throws ServletException, IOException {
         processRequest(request, response);
     }
-    
+
     @Override
     public void init() throws ServletException {
         ServletContext application = getServletContext();
         contexts = (HashMap<String, Object>) application.getAttribute("loginList");
     }
-    
+
     /**
      * Returns a short description of the servlet.
      *

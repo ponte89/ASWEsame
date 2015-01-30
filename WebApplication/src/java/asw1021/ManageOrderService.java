@@ -208,8 +208,8 @@ public class ManageOrderService extends HttpServlet {
                     }
                 }
                 if(found){
-                    Node newNode = 
-                    ordineChange.setTextContent("true");
+                    //Node newNode = 
+                    //ordineChange.setTextContent("true");
                     ordine.appendChild(ordineChange);
                     System.out.println("Ho fatto il replace");
                 }

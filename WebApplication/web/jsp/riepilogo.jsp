@@ -33,13 +33,52 @@
                     Document doc = manageXml.parse(is);
                     Element root = doc.getDocumentElement();
                     NodeList ordini= doc.getElementsByTagName("ordine_utente");
-                    Element ordine;
+                    Element ordine, numero_posti;
+                    NodeList pizzaS, pizzaP, tipo;
+                    String id, done, tipo_ordine, numero, nome, plus, base;
                     String ordineLog = "";
                     
                     for (int i = 0; i < ordini.getLength(); i++) {
                             ordine = (Element)ordini.item(i);
                            if(ordine.getElementsByTagName("user").item(0).getTextContent().equals(user)){
-                               //generare string ordine
+                               id = ordine.getElementsByTagName("id").item(0).getTextContent();
+                               done = ordine.getElementsByTagName("done").item(0).getTextContent();
+                               if(done.equals("true")){
+                                   done = "fatto";
+                               }else{
+                                   done = "non fatto";
+                               }
+                               tipo_ordine = ordine.getElementsByTagName("tipo_ordine").item(0).getTextContent();
+                               if(!tipo_ordine.equals("ritiro") && !tipo_ordine.equals("asporto") ){
+                                  tipo = ordine.getElementsByTagName("tipo_ordine");
+                                  numero_posti = (Element)tipo.item(0);
+                                  String posti = numero_posti.getElementsByTagName("posti").item(0).getTextContent();
+                                  tipo_ordine = " prenotazione <b>Posti: </b>" + posti;
+                               }
+                               ordineLog += "<b>IdOrdine:</b> " + id + " <b>Cliente:</b> " + user + " <b>Stato: </b>" + done + " <b>Consegna: </b>" + tipo_ordine;
+                               pizzaS = ordine.getElementsByTagName("pizzaS");
+                               pizzaP = ordine.getElementsByTagName("pizzaP");
+                               for(int j = 0; j < pizzaS.getLength(); j++){
+                                  Element pizza = (Element) pizzaS.item(j);
+                                  nome = pizza.getElementsByTagName("nome_pizza").item(0).getTextContent();
+                                  numero = pizza.getElementsByTagName("numero_pizze").item(0).getTextContent();
+                                  plus = pizza.getElementsByTagName("plus").item(0).getTextContent();
+                                  ordineLog += "<br /> <b>Pizza: </b>" + nome + " <b>Numero: </b>" + numero + " <b>Aggiunte: </b>" + plus;
+                               }
+                               for(int k = 0; k < pizzaP.getLength(); k++){
+                                  Element pizza = (Element) pizzaP.item(k);
+                                  nome = pizza.getElementsByTagName("nome_pizza").item(0).getTextContent();
+                                  numero = pizza.getElementsByTagName("numero_pizze").item(0).getTextContent();
+                                  plus = pizza.getElementsByTagName("plus").item(0).getTextContent();
+                                  base = pizza.getElementsByTagName("base").item(0).getTextContent();
+                                  ordineLog += "<br /> <b>Pizza: </b>" + nome + " <b>Numero: </b>" + numero + " <b>Aggiunte: </b>" + plus + " <b>Base: </b>" + base + " <b>Condimenti: </b>";
+                                  NodeList condimenti = pizza.getElementsByTagName("condimenti");
+                                  for(int x = 0; x < condimenti.getLength(); x++){
+                                      Element condimento = (Element) condimenti.item(x);
+                                      String cond = condimento.getElementsByTagName("condimento").item(0).getTextContent();
+                                      ordineLog += " " + cond;
+                                  }
+                               }
                              %>
                              <tr><td><%=ordineLog%></td></tr>
                              

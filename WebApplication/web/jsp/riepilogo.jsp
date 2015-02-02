@@ -20,14 +20,17 @@
 
             <%@ include file="/WEB-INF/jspf/sidebar.jspf" %>   
             <div class="content">
-            <h1>Riepilogo ordini</h1> 
-            <table id="riepilogo" border="1" frame="border">
+            
             <% if (login != null) { 
                 String user = (String) session.getAttribute("login");
                 String us = session.getAttribute("type").toString();
                 
                     
                 if (us.equals("utente")) {
+                    %>
+                    <h1>Riepilogo ordini</h1> 
+                    <table id="riepilogo" border="1" frame="border">
+                    <%
                     InputStream is = getServletContext().getResourceAsStream("/WEB-INF/xml/ordini_test.xml");
                     ManageXML manageXml = new ManageXML();
                     Document doc = manageXml.parse(is);
@@ -72,10 +75,10 @@
                                   plus = pizza.getElementsByTagName("plus").item(0).getTextContent();
                                   base = pizza.getElementsByTagName("base").item(0).getTextContent();
                                   ordineLog += "<br /> <b>Pizza: </b>" + nome + " <b>Numero: </b>" + numero + " <b>Aggiunte: </b>" + plus + " <b>Base: </b>" + base + " <b>Condimenti: </b>";
-                                  NodeList condimenti = pizza.getElementsByTagName("condimenti");
+                                  NodeList condimenti = pizza.getElementsByTagName("condimento");
                                   for(int x = 0; x < condimenti.getLength(); x++){
                                       Element condimento = (Element) condimenti.item(x);
-                                      String cond = condimento.getElementsByTagName("condimento").item(0).getTextContent();
+                                      String cond = condimento.getTextContent();
                                       ordineLog += " " + cond;
                                   }
                                }

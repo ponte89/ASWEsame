@@ -208,11 +208,8 @@ function stampaOrdini(data, value){
                 idLog = id[0].childNodes[0].nodeValue;
                 var tipo_ordine = ordini[k].getElementsByTagName("tipo_ordine");
                 var tipo_ordineLog = tipo_ordine[0].childNodes[0].nodeValue;
-                if (tipo_ordineLog === null){
-                    var prenotazione = 
-                            tipo_ordine[0].getElementsByTagName("prenotazione");
-                    prenotazioneLog = prenotazione[0].childNodes[0].nodeValue;
-                    var nPosti = tipo_ordine[0].getElementsByTagName("posti");
+                if (tipo_ordineLog === "prenotazione"){
+                    var nPosti = ordini[k].getElementsByTagName("posti");
                     var nPostiLog = nPosti[0].childNodes[0].nodeValue;
                 }
                 done = ordini[k].getElementsByTagName("done");
@@ -226,9 +223,9 @@ function stampaOrdini(data, value){
                     color = "#00FF00";
                     value = "hidden";
                 }
-                if(prenotazioneLog === "prenotazione"){
+                if(tipo_ordineLog === "prenotazione"){
                   tableOrdini += "<tr><td><b>Utente: </b>" + userLog + " <b>IdOrdine: </b>" + idLog + " <b>Prenotazione per: </b>" + nPostiLog + "</br>";    
-                }else if(prenotazioneLog === ""){
+                }else{
                   tableOrdini += "<tr><td><b>Utente: </b>" + userLog + " <b>IdOrdine: </b>" + idLog + " <b>Consegna: </b>" + tipo_ordineLog + " </br>";  
                 }
 
@@ -281,17 +278,15 @@ function stampaOrdini(data, value){
         for(k = 0; k < ordini.length; k++){
             var tipo_ordine = ordini[k].getElementsByTagName("tipo_ordine");
             var tipo_ordineLog = tipo_ordine[0].childNodes[0].nodeValue;
-            
-            if (tipo_ordineLog === null){
+            console.log("Entro in stampa" + tipo_ordineLog);
+            if (tipo_ordineLog === "prenotazione"){
                 var prenotazioneLog = "";
                 var user = ordini[k].getElementsByTagName("user");
                 var userLog = user[0].childNodes[0].nodeValue;
                 var id = ordini[k].getElementsByTagName("id");
                 var idLog = id[0].childNodes[0].nodeValue;
-                if (tipo_ordineLog === null){
-                    var prenotazione = tipo_ordine[0].getElementsByTagName("prenotazione");
-                    prenotazioneLog = prenotazione[0].childNodes[0].nodeValue;
-                    var nPosti = tipo_ordine[0].getElementsByTagName("posti");
+                if (tipo_ordineLog === "prenotazione"){
+                    var nPosti = ordini[k].getElementsByTagName("posti");
                     var nPostiLog = nPosti[0].childNodes[0].nodeValue;
                 }
                 var done = ordini[k].getElementsByTagName("done");
@@ -305,13 +300,8 @@ function stampaOrdini(data, value){
                     color = "#00FF00";
                     value = "hidden";
                 }
-                if(prenotazioneLog === "prenotazione"){
-                  tablePrenotazioni += "<tr><td><b>Utente: </b>" + userLog + " <b>IdOrdine: </b>" + idLog + " <b>Prenotazione per: </b>" + nPostiLog + " <b>Stato: </b>" + doneLog + " </br>";    
-                }else if(prenotazioneLog === ""){
-                  tablePrenotazioni += "<tr><td><b>Utente: </b>" + userLog + " <b>IdOrdine: </b>" + idLog + " <b>Consegna: </b>" + tipo_ordineLog + " <b>Stato: </b>" + doneLog + " </br>";  
-                }
-
-
+                tablePrenotazioni += "<tr><td><b>Utente: </b>" + userLog + " <b>IdOrdine: </b>" + idLog + " <b>Prenotazione per: </b>" + nPostiLog + " </br>";    
+                
                 var pizzeS = ordini[k].getElementsByTagName("pizzaS");
                 var pizzeP = ordini[k].getElementsByTagName("pizzaP");
                 var pizza, numeroLog, plusLog, nomeLog, baseLog;

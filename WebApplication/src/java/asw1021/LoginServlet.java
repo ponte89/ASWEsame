@@ -20,6 +20,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import org.w3c.dom.Element;
 import org.w3c.dom.Document;
+import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 /**
@@ -93,8 +94,13 @@ public class LoginServlet extends HttpServlet {
                         InputStream is = getServletContext().getResourceAsStream("/WEB-INF/xml/anagrafica_test.xml");
                         ManageXML manageXml = new ManageXML();
                         Document doc = manageXml.parse(is);
-                        Element root = doc.getDocumentElement();
+                        
+                        //Element root = doc.getDocumentElement();
+                        
                         NodeList users= doc.getElementsByTagName("utente");
+                        
+                        NodeList utenti = doc.getElementsByTagName("utenti");
+                        
                         Element us;
 
                         for (int i = 0; i < users.getLength(); i++) {
@@ -134,10 +140,13 @@ public class LoginServlet extends HttpServlet {
                             newUser.appendChild(newAddress);
                             newUser.appendChild(newCap);
                             newUser.appendChild(newCountry);
-                            root.appendChild(newUser);
+                            //root.appendChild(newUser);
+                            
+                            utenti.item(0).appendChild(newUser);
                             
                             String path = getServletContext().getRealPath("")+"/WEB-INF/xml/anagrafica_test.xml";
-                            OutputStream os = new FileOutputStream(new File(path));             
+                            //OutputStream os = new FileOutputStream(new File(path));             
+                            OutputStream os = new FileOutputStream(path);
                             manageXml.transform(os, doc);
                             os.close();
 

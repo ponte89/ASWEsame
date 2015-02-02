@@ -14,7 +14,7 @@
          <%@ include file="/WEB-INF/jspf/header.jspf" %>
     </head>
 
-    <body onLoad="getOrdini(riepilogo)">
+    <body>
 
         <section class="container">
 
@@ -51,17 +51,15 @@
                                }else{
                                    done = "Completato";
                                }
-                               tipo_ordine =  "<b> Consegna: </b>" + ordine.getElementsByTagName("tipo_ordine").item(0).getTextContent();
+                               tipo_ordine = ordine.getElementsByTagName("tipo_ordine").item(0).getTextContent();
                                if(!tipo_ordine.equals("ritiro") && !tipo_ordine.equals("asporto") ){
-                                  /*String numeroPosti = ordine.getElementsByTagName("posti").item(0).getTextContent();
+                                  String numeroPosti = ordine.getElementsByTagName("posti").item(0).getTextContent();
                                   Element postiEl = doc.createElement("posti");
                                   postiEl.setTextContent(numeroPosti);
                                   ordine.appendChild(postiEl);
-                                  tipo_ordine = " <b>Prenotazione per: </b>" + numeroPosti;*/
-                                  tipo = ordine.getElementsByTagName("tipo_ordine");
-                                  numero_posti = (Element)tipo.item(0);
-                                  String posti = numero_posti.getElementsByTagName("posti").item(0).getTextContent();
-                                  tipo_ordine = " <b>Prenotazione per: </b>" + posti;
+                                  tipo_ordine = " <b>Prenotazione per: </b>" + numeroPosti;
+                               }else{
+                                  tipo_ordine = "<b> Consegna: </b>" + tipo_ordine;
                                }
                                ordineLog += "<b>Utente:</b> " + user + " <b>IdOrdine:</b> " + id + tipo_ordine + " <b>Stato: </b>" + done;
                                pizzaS = ordine.getElementsByTagName("pizzaS");

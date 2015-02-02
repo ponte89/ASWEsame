@@ -76,12 +76,12 @@
 
                             <li>
                                 <label for=postcode>Codice postale</label>
-                                <input id=postcode name=postcode type=text required>
+                                <input id=postcode name=postcode type=text >
                             </li>
 
                             <li>
                                 <label for=country>Nazione</label>
-                                <input id=country name=country type=text required>
+                                <input id=country name=country type=text >
                             </li>
 
                         </ol>

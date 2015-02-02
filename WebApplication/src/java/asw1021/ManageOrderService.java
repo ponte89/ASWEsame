@@ -69,8 +69,71 @@ public class ManageOrderService extends HttpServlet {
                 target = request.getParameter("target");
                 if(target != null){
                    //scrivo il file xml
-                   String path = getServletContext().getRealPath("")+"/WEB-INF/xml/ordini_test.xml";
-                   OutputStream os = new FileOutputStream(new File(path));
+                   String path = getServletContext().getRealPath("")+"/WEB-INF/xml/ordini_test.xml"; 
+                   Document doc = mngXML.parse(new File(path));
+                   OutputStream osOrdini = new FileOutputStream(path); 
+                   
+                   Element root = data.getDocumentElement();
+                   NodeList ordini =  doc.getElementsByTagName("ordini_utente");
+                   
+                   InputStream is = getServletContext().getResourceAsStream("/WEB-INF/xml/ordini_test.xml");
+                    ManageXML manageXml = new ManageXML();
+                    Document doc = manageXml.parse(is);
+                    Element root = doc.getDocumentElement();
+                    NodeList ordini= doc.getElementsByTagName("ordine_utente");
+                    Element ordine, numero_posti;
+                    NodeList pizzaS, pizzaP, tipo;
+                    String id, done, tipo_ordine, numero, nome, plus, base;
+                    String ordineLog = "";
+
+                    for (int i = 0; i < ordini.getLength(); i++) {
+                            ordine = (Element)ordini.item(i);
+                           if(ordine.getElementsByTagName("user").item(0).getTextContent().equals(user)){
+                               id = ordine.getElementsByTagName("id").item(0).getTextContent();
+                               done = ordine.getElementsByTagName("done").item(0).getTextContent();
+                               if(done.equals("true")){
+                                   done = "Attesa";
+                               }else{
+                                   done = "Completato";
+                               }
+                               tipo_ordine =  "<b> Consegna: </b>" + ordine.getElementsByTagName("tipo_ordine").item(0).getTextContent();
+                               if(!tipo_ordine.equals("ritiro") && !tipo_ordine.equals("asporto") ){
+                                  tipo = ordine.getElementsByTagName("tipo_ordine");
+                                  numero_posti = (Element)tipo.item(0);
+                                  String posti = numero_posti.getElementsByTagName("posti").item(0).getTextContent();
+                                  tipo_ordine = " <b>Prenotazione per: </b>" + posti;
+                               }
+                               ordineLog += "<b>Utente:</b> " + user + " <b>IdOrdine:</b> " + id + tipo_ordine + " <b>Stato: </b>" + done;
+                               pizzaS = ordine.getElementsByTagName("pizzaS");
+                               pizzaP = ordine.getElementsByTagName("pizzaP");
+                               for(int j = 0; j < pizzaS.getLength(); j++){
+                                  Element pizza = (Element) pizzaS.item(j);
+                                  nome = pizza.getElementsByTagName("nome_pizza").item(0).getTextContent();
+                                  numero = pizza.getElementsByTagName("numero_pizze").item(0).getTextContent();
+                                  plus = pizza.getElementsByTagName("plus").item(0).getTextContent();
+                                  ordineLog += "<br /> <b>Pizza: </b>" + nome + " <b>Numero: </b>" + numero + " <b>Aggiunte: </b>" + plus;
+                               }
+                               for(int k = 0; k < pizzaP.getLength(); k++){
+                                  Element pizza = (Element) pizzaP.item(k);
+                                  nome = pizza.getElementsByTagName("nome_pizza").item(0).getTextContent();
+                                  numero = pizza.getElementsByTagName("numero_pizze").item(0).getTextContent();
+                                  plus = pizza.getElementsByTagName("plus").item(0).getTextContent();
+                                  base = pizza.getElementsByTagName("base").item(0).getTextContent();
+                                  ordineLog += "<br /> <b>Pizza: </b>" + nome + " <b>Numero: </b>" + numero + " <b>Aggiunte: </b>" + plus + " <b>Base: </b>" + base + " <b>Condimenti: </b>";
+                                  NodeList condimenti = pizza.getElementsByTagName("condimenti");
+                                  for(int x = 0; x < condimenti.getLength(); x++){
+                                      Element condimento = (Element) condimenti.item(x);
+                                      String cond = condimento.getElementsByTagName("condimento").item(0).getTextContent();
+                                      ordineLog += " " + cond;
+                                  }
+                               }
+                          }
+                    }
+                   
+                    
+                   
+                   
+                   OutputStream os = new FileOutputStream(path);
                    mngXML.transform(os, data);
                    mngXML = new ManageXML();
                    os.close();

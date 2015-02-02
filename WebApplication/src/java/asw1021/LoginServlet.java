@@ -156,7 +156,6 @@ public class LoginServlet extends HttpServlet {
                         }else{
                             System.out.println("Utente già presente" + request.getContextPath() + "/jsp/registrazione.jsp");
                             session.setAttribute("message","Username già presente");
-                            
                             url = request.getContextPath() + "/jsp/registrazione.jsp";
                         }
                     }else{  

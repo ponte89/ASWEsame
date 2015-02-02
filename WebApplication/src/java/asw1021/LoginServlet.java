@@ -151,6 +151,7 @@ public class LoginServlet extends HttpServlet {
                             os.close();
 
                             session.setAttribute("login", user);
+                            session.setAttribute("type","utente");
                  
                         }else{
                             System.out.println("Utente già presente" + request.getContextPath() + "/jsp/registrazione.jsp");
@@ -167,6 +168,9 @@ public class LoginServlet extends HttpServlet {
         }catch(Exception e){
             e.printStackTrace();
         }
+        
+        System.out.println("url: "+url);
+        
         response.sendRedirect(url);
     }
     

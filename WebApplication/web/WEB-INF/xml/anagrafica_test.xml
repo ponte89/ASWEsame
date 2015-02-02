@@ -15,13 +15,6 @@
             <password>cuoco1</password>
         </cuoco>
         
-        <cuoco>
-            <name>cuoco2</name>
-            <surname>cuoco2</surname>
-            <username>cuoco2</username>
-            <password>cuoco2</password>
-        </cuoco>
-        
         <utente>
             <name>cliente1</name>
             <surname>cliente1</surname>

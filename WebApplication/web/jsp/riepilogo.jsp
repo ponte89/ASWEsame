@@ -24,6 +24,7 @@
             <% if (login != null) { 
                 String user = (String) session.getAttribute("login");
                 String us = session.getAttribute("type").toString();
+                String ordineLog = "";
                 
                     
                 if (us.equals("utente")) {
@@ -39,14 +40,15 @@
                     Element ordine, numero_posti;
                     NodeList pizzaS, pizzaP, tipo;
                     String id, done, tipo_ordine, numero, nome, plus, base;
-                    String ordineLog = "";
+                    
                     
                     for (int i = 0; i < ordini.getLength(); i++) {
-                            ordine = (Element)ordini.item(i);
+                           ordineLog = ""; 
+                           ordine = (Element)ordini.item(i);
                            if(ordine.getElementsByTagName("user").item(0).getTextContent().equals(user)){
                                id = ordine.getElementsByTagName("id").item(0).getTextContent();
                                done = ordine.getElementsByTagName("done").item(0).getTextContent();
-                               if(done.equals("true")){
+                               if(done.equals("false")){
                                    done = "Attesa";
                                }else{
                                    done = "Completato";

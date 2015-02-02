@@ -401,7 +401,10 @@ function getOrdini(value){
         xmlhttp2.send(dataOrdini);
 }
 
-
+function flush(){
+    var riepilogoElement = document.getElementById("riepilogo");
+    riepilogoElement.innerHTML = ""; 
+}
 
 function getMessaggi(){
     getDati("messaggi");

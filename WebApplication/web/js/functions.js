@@ -10,6 +10,8 @@ var tableOrdini = "";
 var tablePrenotazioni = "";
 var tableRiepilogo = "";
 var riepilogo = "riepilogo";
+var color = "";
+var value = "";
 
 function inizializzaDati() {
     getDati("pizze");
@@ -216,9 +218,13 @@ function stampaOrdini(data, value){
                 done = ordini[k].getElementsByTagName("done");
                 doneLog = done[0].childNodes[0].nodeValue;
                 if(doneLog === "false"){
-                    doneLog = "da fare";
+                    doneLog = "Attesa";
+                    color = "#FF000";
+                    value = "button";
                 }else{
-                    doneLog = "fatto";
+                    doneLog = "Completato";
+                    color = "#00FF00";
+                    value = "hidden";
                 }
                 if(prenotazioneLog === "prenotazione"){
                   tableOrdini += "<tr><td><b>Utente: </b>" + userLog + " <b>IdOrdine: </b>" + idLog + " <b>Prenotazione per: </b>" + nPostiLog + "</br>";    
@@ -264,7 +270,7 @@ function stampaOrdini(data, value){
 
                     tableOrdini += "<b> Pizza: </b>" + nomeLog + "<b> Numero: </b>" + numeroLog + "<b> Aggiunte: </b>" + plusLog + "<b> Base: </b>" + baseLog + "<b> Condimenti: </b>" + condimentiLog +" </br></td>";
                 }
-                tableOrdini += "<td width=100px id='2"+idLog+"' align='center' bgcolor='#FF000'><b>Stato: </b></br>" + "<label id='"+ idLog +"' type='text' size='10' value='"+ doneLog + "'>Attesa<label/>" + "</br><input type='button' value='Completato' onclick='ordineCompletato(\""+idLog+"\");'/></td></tr>";
+                tableOrdini += "<td width=100px id='2"+idLog+"' align='center' bgcolor='"+color+"'><b>Stato: </b></br>" + "<label id='"+ idLog +"' type='text' size='10' value='"+ doneLog + "'>"+ doneLog +"</label>" + "</br><input type='"+value+"' id='3"+idLog+"' value='Completato' onclick='ordineCompletato(\""+idLog+"\");'/></td></tr>";
          }
     ordiniElement.innerHTML = tableOrdini; 
     }else if(value === "prenotazioni"){
@@ -291,9 +297,13 @@ function stampaOrdini(data, value){
                 var done = ordini[k].getElementsByTagName("done");
                 var doneLog = done[0].childNodes[0].nodeValue;
                 if(doneLog === "false"){
-                    doneLog = "da fare";
+                    doneLog = "Attesa";
+                    color = "#FF000";
+                    value = "button";
                 }else{
-                    doneLog = "fatto";
+                    doneLog = "Completato";
+                    color = "#00FF00";
+                    value = "hidden";
                 }
                 if(prenotazioneLog === "prenotazione"){
                   tablePrenotazioni += "<tr><td><b>Utente: </b>" + userLog + " <b>IdOrdine: </b>" + idLog + " <b>Prenotazione per: </b>" + nPostiLog + " <b>Stato: </b>" + doneLog + " </br>";    
@@ -348,9 +358,10 @@ function stampaOrdini(data, value){
 function ordineCompletato(idOrdine){
     
     var r = "2"+idOrdine;
+    var complete = "3"+idOrdine;
     
-    document.getElementById(r).style.background = "green";
-    
+    document.getElementById(r).style.background = "#00FF00";
+    document.getElementById(complete).type = "hidden";
     document.getElementById(idOrdine).innerHTML = 'Completato';
     //trovare l'ordine e modificare lo stato
         var xmlhttp2 = new XMLHttpRequest();

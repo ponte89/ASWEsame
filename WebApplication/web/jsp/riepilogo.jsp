@@ -44,9 +44,9 @@
                                id = ordine.getElementsByTagName("id").item(0).getTextContent();
                                done = ordine.getElementsByTagName("done").item(0).getTextContent();
                                if(done.equals("true")){
-                                   done = "fatto";
+                                   done = "Attesa";
                                }else{
-                                   done = "non fatto";
+                                   done = "Completato";
                                }
                                tipo_ordine =  "<b> Consegna: </b>" + ordine.getElementsByTagName("tipo_ordine").item(0).getTextContent();
                                if(!tipo_ordine.equals("ritiro") && !tipo_ordine.equals("asporto") ){

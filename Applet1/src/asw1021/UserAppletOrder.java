@@ -194,7 +194,7 @@ public class UserAppletOrder extends JApplet {
         label_1.setBounds(6, 186, 61, 16);
         panelStandard.add(label_1);
 
-        chckbxBaseKamutS = new JCheckBox("Base kamut + €2.50");
+        chckbxBaseKamutS = new JCheckBox("Base kamut");
         chckbxBaseKamutS.setBounds(67, 182, 164, 23);
         panelStandard.add(chckbxBaseKamutS);
 
@@ -202,7 +202,7 @@ public class UserAppletOrder extends JApplet {
         chckbxGiganteS.setBounds(67, 204, 128, 23);
         panelStandard.add(chckbxGiganteS);
 
-        chckbxDoppiaMozzarellaS = new JCheckBox("Doppia mozzarella + €1.00");
+        chckbxDoppiaMozzarellaS = new JCheckBox("Doppia mozzarella");
         chckbxDoppiaMozzarellaS.setBounds(67, 228, 220, 23);
         panelStandard.add(chckbxDoppiaMozzarellaS);
 
@@ -240,13 +240,13 @@ public class UserAppletOrder extends JApplet {
         lblAggiunte = new JLabel("Aggiunte:");
         lblAggiunte.setBounds(8, 206, 61, 16);
 
-        chckbxBaseKamutP = new JCheckBox("Base kamut + €2.50");
+        chckbxBaseKamutP = new JCheckBox("Base kamut");
         chckbxBaseKamutP.setBounds(71, 202, 216, 23);
 
         chckbxGiganteP = new JCheckBox("Maxi");
         chckbxGiganteP.setBounds(71, 226, 128, 23);
 
-        chckbxDoppiaMozzarellaP = new JCheckBox("Doppia mozzarella + €1.00");
+        chckbxDoppiaMozzarellaP = new JCheckBox("Doppia mozzarella");
         chckbxDoppiaMozzarellaP.setBounds(71, 248, 203, 23);
 
         lblBase = new JLabel("Base:");

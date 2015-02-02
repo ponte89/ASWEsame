@@ -428,16 +428,17 @@ public class UserAppletOrder extends JApplet {
                 Element type = data.createElement("tipo_ordine");
                 Element posti = null;
            
-                if (typeDelivery.equals("prenotazione")) {
-                    posti = data.createElement("posti");
-                    posti.setTextContent("" + nPosti);
-                }
+                
                 
                 type.setTextContent(typeDelivery);
                 root.appendChild(user);
                 root.appendChild(id);
-                root.appendChild(posti);
                 root.appendChild(type);
+                if (typeDelivery.equals("prenotazione")) {
+                    posti = data.createElement("posti");
+                    posti.setTextContent("" + nPosti);
+                    root.appendChild(posti);
+                }
                 root.appendChild(done);
 
                 Element typePizza, name, number, plus, extra, base, condimento;

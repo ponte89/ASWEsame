@@ -353,9 +353,6 @@ function ordineCompletato(idOrdine){
         xmlhttp2.onreadystatechange = function () {
             if (xmlhttp2.readyState === 4 && xmlhttp2.status === 200) {
                 var answer = xmlhttp2.responseXML;
-                //if(value === "ordini"){
-                    //stampaOrdini(answer, "ordini");   
-                //}
                 console.log("Modifico l'ordine");
             }
         };

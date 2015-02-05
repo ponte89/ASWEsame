@@ -5,7 +5,6 @@
  */
 package asw1021;
 
-
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -31,13 +30,12 @@ import org.w3c.dom.NodeList;
  *
  * @author Mezzapesa Beatrice, Papini Alessia, Pontellini Lorenzo
  */
-@WebServlet(name = "ManageOrderService",  asyncSupported = true, urlPatterns = {"/ManageOrderService"})
+@WebServlet(name = "ManageOrderService", asyncSupported = true, urlPatterns = {"/ManageOrderService"})
 public class ManageOrderService extends HttpServlet {
-    
-    
+
     private HashMap<String, Object> contexts;
     private Document dataInput;
-    
+
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -47,146 +45,141 @@ public class ManageOrderService extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
-    
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        try{
-            
+        try {
+
             System.out.println("Servlet per ordini");
-            
+
             InputStream is = request.getInputStream();
             response.setContentType("text/xml;charset=UTF-8");
-            
+
             try {
                 ManageXML mngXML = new ManageXML();
                 Document data;
-                
+
                 data = mngXML.parse(is);
                 dataInput = data;
                 is.close();
                 String target = "";
                 target = request.getParameter("target");
-                if(target != null){
-                   //scrivo il file xml
-                   String path = getServletContext().getRealPath("")+"/WEB-INF/xml/ordini_test.xml"; 
-                   Document doc = mngXML.parse(new File(path));
-                   NodeList ordini =  doc.getElementsByTagName("ordini_utente");
-                   //parser ordine
+                if (target != null) {
+                    String path = getServletContext().getRealPath("") + "/WEB-INF/xml/ordini_test.xml";
+                    Document doc = mngXML.parse(new File(path));
+                    NodeList ordini = doc.getElementsByTagName("ordini_utente");
                     NodeList ordine = data.getElementsByTagName("ordine_utente");
                     Element ordineUtente = null;
                     Element ordineU = doc.createElement("ordine_utente");
                     NodeList pizzaS, pizzaP;
                     String id, done, tipo_ordine, numero, nome, plus, base, user;
-                    
-                    for (int i = 0; i < ordine.getLength(); i++) {
-                            ordineUtente = (Element)ordine.item(i);
-                            id = ordineUtente.getElementsByTagName("id").item(0).getTextContent();
-                            user = ordineUtente.getElementsByTagName("user").item(0).getTextContent();
-                            done = ordineUtente.getElementsByTagName("done").item(0).getTextContent();
-                            tipo_ordine =  ordineUtente.getElementsByTagName("tipo_ordine").item(0).getTextContent();
-                            
-                            Element userEl = doc.createElement("user");
-                            userEl.setTextContent(user);
-                            Element idEl = doc.createElement("id");
-                            idEl.setTextContent(id);
-                            Element typeEl = doc.createElement("tipo_ordine");
-                            Element doneEl = doc.createElement("done");
-                            doneEl.setTextContent(done);
-                            
-                            ordineU.appendChild(userEl);
-                            ordineU.appendChild(idEl);
-                            
-                            if(!tipo_ordine.equals("ritiro") && !tipo_ordine.equals("asporto") ){
-                               String numero_posti = ordineUtente.getElementsByTagName("posti").item(0).getTextContent();
-                               Element postiEl = doc.createElement("posti");
-                               postiEl.setTextContent(numero_posti);
-                               tipo_ordine = "prenotazione";
-                               ordineU.appendChild(postiEl);
-                            }
-                            
-                            typeEl.setTextContent(tipo_ordine);
-                            ordineU.appendChild(typeEl);
-                            ordineU.appendChild(doneEl);
-                            
-                            pizzaS = ordineUtente.getElementsByTagName("pizzaS");
-                            pizzaP = ordineUtente.getElementsByTagName("pizzaP");
-                            Element pizzaPers = null;
-                            Element pizzaStandard = null;
-                            
-                            for(int j = 0; j < pizzaS.getLength(); j++){
-                               pizzaStandard = doc.createElement("pizzaS");
-                               Element pizza = (Element) pizzaS.item(j);
-                               nome = pizza.getElementsByTagName("nome_pizza").item(0).getTextContent();
-                               numero = pizza.getElementsByTagName("numero_pizze").item(0).getTextContent();
-                               plus = pizza.getElementsByTagName("plus").item(0).getTextContent();
-                               
-                               Element nomeEl = doc.createElement("nome_pizza");
-                               nomeEl.setTextContent(nome);
-                               Element numeroEl = doc.createElement("numero_pizze");
-                               numeroEl.setTextContent(numero);
-                               Element plusEl = doc.createElement("plus");
-                               plusEl.setTextContent(plus);
-                               pizzaStandard.appendChild(nomeEl);
-                               pizzaStandard.appendChild(numeroEl);
-                               pizzaStandard.appendChild(plusEl);
-                               ordineU.appendChild(pizzaStandard);
-                            }
-                            for(int k = 0; k < pizzaP.getLength(); k++){
-                               pizzaPers = doc.createElement("pizzaP");
-                               Element pizza = (Element) pizzaP.item(k);
-                               nome = pizza.getElementsByTagName("nome_pizza").item(0).getTextContent();
-                               numero = pizza.getElementsByTagName("numero_pizze").item(0).getTextContent();
-                               plus = pizza.getElementsByTagName("plus").item(0).getTextContent();
-                               base = pizza.getElementsByTagName("base").item(0).getTextContent();
-                               
-                               Element nomeEl = doc.createElement("nome_pizza");
-                               nomeEl.setTextContent(nome);
-                               Element numeroEl = doc.createElement("numero_pizze");
-                               numeroEl.setTextContent(numero);
-                               Element plusEl = doc.createElement("plus");
-                               plusEl.setTextContent(plus);
-                               Element baseEl = doc.createElement("base");
-                               baseEl.setTextContent(base);
-                               
-                               pizzaPers.appendChild(nomeEl);
-                               pizzaPers.appendChild(numeroEl);
-                               pizzaPers.appendChild(plusEl);
-                               pizzaPers.appendChild(baseEl);
-  
-                               NodeList condimenti = pizza.getElementsByTagName("condimento");
-                               for(int x = 0; x < condimenti.getLength(); x++){
-                                   Element condimento = (Element) condimenti.item(x);
-                                   String cond = condimento.getTextContent();
-                                   Element condEl = doc.createElement("condimento");
-                                   condEl.setTextContent(cond);
-                                   pizzaPers.appendChild(condEl);
-                               }
-                               ordineU.appendChild(pizzaPers);
-                            }
-                            
-                    }
-                    
-                    
-                   
-                   ordini.item(0).appendChild(ordineU);
-                   //fine ordine
-                   OutputStream os = new FileOutputStream(path);
-                   mngXML.transform(os, doc);
-                   //mngXML.transform(os, data);
-                   mngXML = new ManageXML();
-                   os.close();
 
-                   data = mngXML.newDocument("push");    
+                    for (int i = 0; i < ordine.getLength(); i++) {
+                        ordineUtente = (Element) ordine.item(i);
+                        id = ordineUtente.getElementsByTagName("id").item(0).getTextContent();
+                        user = ordineUtente.getElementsByTagName("user").item(0).getTextContent();
+                        done = ordineUtente.getElementsByTagName("done").item(0).getTextContent();
+                        tipo_ordine = ordineUtente.getElementsByTagName("tipo_ordine").item(0).getTextContent();
+
+                        Element userEl = doc.createElement("user");
+                        userEl.setTextContent(user);
+                        Element idEl = doc.createElement("id");
+                        idEl.setTextContent(id);
+                        Element typeEl = doc.createElement("tipo_ordine");
+                        Element doneEl = doc.createElement("done");
+                        doneEl.setTextContent(done);
+
+                        ordineU.appendChild(userEl);
+                        ordineU.appendChild(idEl);
+
+                        if (!tipo_ordine.equals("ritiro") && !tipo_ordine.equals("asporto")) {
+                            String numero_posti = ordineUtente.getElementsByTagName("posti").item(0).getTextContent();
+                            Element postiEl = doc.createElement("posti");
+                            postiEl.setTextContent(numero_posti);
+                            tipo_ordine = "prenotazione";
+                            ordineU.appendChild(postiEl);
+                        }
+
+                        typeEl.setTextContent(tipo_ordine);
+                        ordineU.appendChild(typeEl);
+                        ordineU.appendChild(doneEl);
+
+                        pizzaS = ordineUtente.getElementsByTagName("pizzaS");
+                        pizzaP = ordineUtente.getElementsByTagName("pizzaP");
+                        Element pizzaPers = null;
+                        Element pizzaStandard = null;
+
+                        for (int j = 0; j < pizzaS.getLength(); j++) {
+                            pizzaStandard = doc.createElement("pizzaS");
+                            Element pizza = (Element) pizzaS.item(j);
+                            nome = pizza.getElementsByTagName("nome_pizza").item(0).getTextContent();
+                            numero = pizza.getElementsByTagName("numero_pizze").item(0).getTextContent();
+                            plus = pizza.getElementsByTagName("plus").item(0).getTextContent();
+
+                            Element nomeEl = doc.createElement("nome_pizza");
+                            nomeEl.setTextContent(nome);
+                            Element numeroEl = doc.createElement("numero_pizze");
+                            numeroEl.setTextContent(numero);
+                            Element plusEl = doc.createElement("plus");
+                            plusEl.setTextContent(plus);
+                            pizzaStandard.appendChild(nomeEl);
+                            pizzaStandard.appendChild(numeroEl);
+                            pizzaStandard.appendChild(plusEl);
+                            ordineU.appendChild(pizzaStandard);
+                        }
+                        for (int k = 0; k < pizzaP.getLength(); k++) {
+                            pizzaPers = doc.createElement("pizzaP");
+                            Element pizza = (Element) pizzaP.item(k);
+                            nome = pizza.getElementsByTagName("nome_pizza").item(0).getTextContent();
+                            numero = pizza.getElementsByTagName("numero_pizze").item(0).getTextContent();
+                            plus = pizza.getElementsByTagName("plus").item(0).getTextContent();
+                            base = pizza.getElementsByTagName("base").item(0).getTextContent();
+
+                            Element nomeEl = doc.createElement("nome_pizza");
+                            nomeEl.setTextContent(nome);
+                            Element numeroEl = doc.createElement("numero_pizze");
+                            numeroEl.setTextContent(numero);
+                            Element plusEl = doc.createElement("plus");
+                            plusEl.setTextContent(plus);
+                            Element baseEl = doc.createElement("base");
+                            baseEl.setTextContent(base);
+
+                            pizzaPers.appendChild(nomeEl);
+                            pizzaPers.appendChild(numeroEl);
+                            pizzaPers.appendChild(plusEl);
+                            pizzaPers.appendChild(baseEl);
+
+                            NodeList condimenti = pizza.getElementsByTagName("condimento");
+                            for (int x = 0; x < condimenti.getLength(); x++) {
+                                Element condimento = (Element) condimenti.item(x);
+                                String cond = condimento.getTextContent();
+                                Element condEl = doc.createElement("condimento");
+                                condEl.setTextContent(cond);
+                                pizzaPers.appendChild(condEl);
+                            }
+                            ordineU.appendChild(pizzaPers);
+                        }
+
+                    }
+
+                    ordini.item(0).appendChild(ordineU);
+                    //fine ordine
+                    OutputStream os = new FileOutputStream(path);
+                    mngXML.transform(os, doc);
+                    //mngXML.transform(os, data);
+                    mngXML = new ManageXML();
+                    os.close();
+
+                    data = mngXML.newDocument("push");
                 }
-                                
+
                 operations(data, request, response, mngXML);
 
             } catch (Exception ex) {
                 System.out.println(ex);
-            }            
-            
-        }catch(Exception e){
+            }
+
+        } catch (Exception e) {
             e.printStackTrace();
             System.out.println("Errore nella servlet per ordini");
         }
@@ -203,26 +196,26 @@ public class ManageOrderService extends HttpServlet {
         OutputStream os;
         String path;
         Document doc;
-        
+
         switch (operation) {
             case "push":
                 System.out.println("push received");
                 synchronized (this) {
-                       for (String destUser : contexts.keySet()) {
-                            System.out.println("Cuoco presente" + destUser);
-                            Object value = contexts.get(destUser);
-                            if (value instanceof AsyncContext) {
-                                System.out.println("Cuoco in attesa" + (AsyncContext) value);
-                                try (OutputStream aos = ((AsyncContext) value).getResponse().getOutputStream()) {
-                                    mngXML.transform(aos, dataInput);
-                                }
-                                ((AsyncContext) value).complete();
-                                contexts.put(destUser, new LinkedList<Document>());
-                            } else {
-                                System.out.println("Dati Accodati");
-                                ((LinkedList<Document>) value).addLast(dataInput);
+                    for (String destUser : contexts.keySet()) {
+                        System.out.println("Cuoco presente" + destUser);
+                        Object value = contexts.get(destUser);
+                        if (value instanceof AsyncContext) {
+                            System.out.println("Cuoco in attesa" + (AsyncContext) value);
+                            try (OutputStream aos = ((AsyncContext) value).getResponse().getOutputStream()) {
+                                mngXML.transform(aos, dataInput);
                             }
+                            ((AsyncContext) value).complete();
+                            contexts.put(destUser, new LinkedList<Document>());
+                        } else {
+                            System.out.println("Dati Accodati");
+                            ((LinkedList<Document>) value).addLast(dataInput);
                         }
+                    }
                 }
                 answer = mngXML.newDocument("ok");
                 os = response.getOutputStream();
@@ -289,34 +282,31 @@ public class ManageOrderService extends HttpServlet {
                 osOrdini.close();
                 break;
             case "cambioStato":
-                //cercare il nodo ordine corrispondente e cambiare lo stato
                 String idOrdineState = root.getFirstChild().getTextContent();
                 System.out.println(idOrdineState);
                 boolean found = false;
                 path = getServletContext().getRealPath("") + "/WEB-INF/xml/ordini_test.xml";
                 doc = mngXML.parse(new File(path));
-                
+
                 OutputStream osStato = new FileOutputStream(path);
-                NodeList ordini = doc.getElementsByTagName("ordini_utente");
+                NodeList ordini = doc.getElementsByTagName("ordine_utente");
                 Element ordine = null;
                 Node ordineChange = null;
-                for(int i = 0; i < ordini.getLength(); i++){
-                    ordine = (Element)ordini.item(i);
-                    if(ordine.getElementsByTagName("id").item(0).getTextContent().equals(idOrdineState)){
+                for (int i = 0; i < ordini.getLength(); i++) {
+                    ordine = (Element) ordini.item(i);
+                    if (ordine.getElementsByTagName("id").item(0).getTextContent().equals(idOrdineState)) {
                         found = true;
-                        System.out.println("Ho trovato l'ordine");
                         ordineChange = ordine.getElementsByTagName("done").item(0);
                         ordineChange.setTextContent("true");
                     }
                 }
-              
+
                 mngXML.transform(osStato, doc);
                 osStato.close();
                 break;
         }
     }
-    
-    
+
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.
@@ -345,13 +335,13 @@ public class ManageOrderService extends HttpServlet {
             throws ServletException, IOException {
         processRequest(request, response);
     }
-    
+
     @Override
     public void init() throws ServletException {
         ServletContext application = getServletContext();
         contexts = (HashMap<String, Object>) application.getAttribute("loginList");
     }
-    
+
     /**
      * Returns a short description of the servlet.
      *

@@ -54,9 +54,7 @@ public class AdminUpdateMenu extends JApplet implements IDeployment{
     private JPanel panelPizze;
     private JTextField txtNuovaPizza;
     private JTextField txtNuovoCondimento;
-    private JTextField txtPrezzoPizza;
-    private JTextField txtPrezzoCondimento;
-
+  
     private JList<String> listaPizze;
     private DefaultListModel modelPizze;
 
@@ -165,11 +163,6 @@ public class AdminUpdateMenu extends JApplet implements IDeployment{
         lblNuovaPizza.setBounds(6, 6, 108, 16);
         panelPizze.add(lblNuovaPizza);
 
-        txtPrezzoPizza = new JTextField();
-        txtPrezzoPizza.setBounds(6, 82, 108, 28);
-        txtPrezzoPizza.setColumns(10);
-        panelPizze.add(txtPrezzoPizza);
-
         listaPizze = new JList();
 
         pizzeNuove = new ArrayList<String>();
@@ -192,11 +185,6 @@ public class AdminUpdateMenu extends JApplet implements IDeployment{
         scrollPizze = new JScrollPane(listaPizze);
         scrollPizze.setBounds(206, 6, 205, 191);
         panelPizze.add(scrollPizze);
-
-        txtPrezzoCondimento = new JTextField();
-        txtPrezzoCondimento.setBounds(6, 82, 108, 28);
-        panelCondimenti.add(txtPrezzoCondimento);
-        txtPrezzoCondimento.setColumns(10);
 
         btnNewButton = new JButton("CONFERMA");
         btnNewButton.setBounds(16, 285, 415, 29);

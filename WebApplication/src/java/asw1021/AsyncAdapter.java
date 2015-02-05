@@ -4,7 +4,7 @@ import javax.servlet.*;
 import java.io.*;
 
 public class AsyncAdapter implements AsyncListener{
-    @Override
+    @Override 
     public void onComplete(AsyncEvent event) throws IOException {}
     @Override
     public void onError(AsyncEvent event) throws IOException {}

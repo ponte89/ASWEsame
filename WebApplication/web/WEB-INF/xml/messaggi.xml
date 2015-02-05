@@ -7,9 +7,5 @@ and open the template in the editor.
 
 
  <messaggi xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../xml-types/messaggi.xsd">
-     <messaggio>
-         <nome>pippo</nome>
-         <contenuto>contenuto pippo</contenuto>
-     </messaggio>
  </messaggi>
 

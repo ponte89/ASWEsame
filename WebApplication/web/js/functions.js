@@ -21,7 +21,6 @@ function inizializzaDati() {
 function getDati(value) {
     if (value === "pizze") {
         var xmlhttp2 = new XMLHttpRequest();
-        var to = "http://localhost:8080/WebApplication/MenuServlet";
 
         xmlhttp2.onreadystatechange = function () {
             if (xmlhttp2.readyState === 4 && xmlhttp2.status === 200) {
@@ -30,7 +29,7 @@ function getDati(value) {
             }
         };
 
-        xmlhttp2.open("POST", to, true);
+        xmlhttp2.open("POST", "../MenuServlet", true);
         xmlhttp2.setRequestHeader("Content-Type", "text/xml");
 
         creaRichiestaDati("pizze");
@@ -38,7 +37,6 @@ function getDati(value) {
         xmlhttp2.send(datiPizze);
     } else if (value === "condimenti") {
         var xmlhttp2 = new XMLHttpRequest();
-        var to = "http://localhost:8080/WebApplication/MenuServlet";
 
         xmlhttp2.onreadystatechange = function () {
             if (xmlhttp2.readyState === 4 && xmlhttp2.status === 200) {
@@ -47,7 +45,7 @@ function getDati(value) {
             }
         };
 
-        xmlhttp2.open("POST", to, true);
+        xmlhttp2.open("POST", "../MenuServlet", true);
         xmlhttp2.setRequestHeader("Content-Type", "text/xml");
 
         creaRichiestaDati("condimenti");
@@ -55,7 +53,6 @@ function getDati(value) {
         xmlhttp2.send(datiCondimenti);
     }else if(value === "messaggi"){
         var xmlhttp2 = new XMLHttpRequest();
-        var to = "http://localhost:8080/WebApplication/MessageServlet?target=manage";
 
         xmlhttp2.onreadystatechange = function () {
             if (xmlhttp2.readyState === 4 && xmlhttp2.status === 200) {
@@ -67,10 +64,9 @@ function getDati(value) {
             }
         };
 
-        xmlhttp2.open("POST", to, true);
+        xmlhttp2.open("POST", "../MessageServlet?target=manage", true);
         xmlhttp2.setRequestHeader("Content-Type", "text/xml");
 
-        //creaRichiestaDati("condimenti");
         datiMessaggi = document.implementation.createDocument("", "", null);
         var rootData = datiMessaggi.createElement("tipo");
         var text = datiMessaggi.createTextNode("text");
@@ -105,7 +101,6 @@ function stampaDati(data, value) {
     if (value === "pizze") {
         var con = document.getElementById("pizze");
         
-        //var dati = data.documentElement;
         var pizze = data.getElementsByTagName("nome");
         
         
@@ -135,7 +130,7 @@ function stampaDati(data, value) {
 
             var nome = pizze[i].childNodes[0].nodeValue;
             if (nome != "Nessuna selezione")
-                table += "<tr><td width=25px align='center'>" + (i) + "</td><td width=400>&nbsp;&nbsp;" + nome + "</td></tr>";
+                table += "<tr><td width=25px align='center'>" + (i+1) + "</td><td width=400>&nbsp;&nbsp;" + nome + "</td></tr>";
 
         }
 
@@ -195,13 +190,13 @@ function getMessages(value){
 function stampaOrdini(data, value){
     if (value === "ordini"){
         var ordiniElement = document.getElementById("riepilogo_ordini");
+        ordiniElement.style.display ="table";
         var dati = data.documentElement;
         var ordini = dati.getElementsByTagName("ordine_utente");
         var done, doneLog, nOrdine, idLog;
         
         for(k = 0; k < ordini.length; k++){
                 nOrdine = k;
-                var prenotazioneLog = "";
                 var user = ordini[k].getElementsByTagName("user");
                 var userLog = user[0].childNodes[0].nodeValue;
                 var id = ordini[k].getElementsByTagName("id");
@@ -232,7 +227,7 @@ function stampaOrdini(data, value){
 
                 var pizzeS = ordini[k].getElementsByTagName("pizzaS");
                 var pizzeP = ordini[k].getElementsByTagName("pizzaP");
-                var pizza, numeroLog, plusLog, nomeLog, baseLog;
+                var numeroLog, plusLog, nomeLog, baseLog;
                 var condimentiLog = "";
                 for (i = 0; i < pizzeS.length; i++) {
 
@@ -272,6 +267,7 @@ function stampaOrdini(data, value){
     ordiniElement.innerHTML = tableOrdini; 
     }else if(value === "prenotazioni"){
         var prenotazioniElement = document.getElementById("riepilogo_prenotazioni");
+        prenotazioniElement.style.display ="table";
         var dati = data.documentElement;
         var ordini = dati.getElementsByTagName("ordine_utente");
 
@@ -280,7 +276,6 @@ function stampaOrdini(data, value){
             var tipo_ordineLog = tipo_ordine[0].childNodes[0].nodeValue;
             console.log("Entro in stampa" + tipo_ordineLog);
             if (tipo_ordineLog === "prenotazione"){
-                var prenotazioneLog = "";
                 var user = ordini[k].getElementsByTagName("user");
                 var userLog = user[0].childNodes[0].nodeValue;
                 var id = ordini[k].getElementsByTagName("id");
@@ -304,7 +299,7 @@ function stampaOrdini(data, value){
                 
                 var pizzeS = ordini[k].getElementsByTagName("pizzaS");
                 var pizzeP = ordini[k].getElementsByTagName("pizzaP");
-                var pizza, numeroLog, plusLog, nomeLog, baseLog;
+                var numeroLog, plusLog, nomeLog, baseLog;
                 var condimentiLog = "";
                 for (i = 0; i < pizzeS.length; i++) {
 

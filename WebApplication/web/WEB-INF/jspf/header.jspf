@@ -14,26 +14,26 @@
                 
                 if (us.equals("admin")) {%>  <!-- admin -->
 
-            <li><a href="./../jsp/menu.jsp">Menu</a></li>
-            <li><a href="./../jsp/gestionePrenotazioni.jsp">Gestione Prenotazioni</a></li>
-            <li><a href="./../jsp/gestioneMessaggi.jsp">GestioneMessaggi</a></li>
+            <li><a href="<%= request.getContextPath()%>/jsp/menu.jsp">Menu</a></li>
+            <li><a href="<%= request.getContextPath()%>/jsp/gestionePrenotazioni.jsp">Gestione Prenotazioni</a></li>
+            <li><a href="<%= request.getContextPath()%>/jsp/gestioneMessaggi.jsp">GestioneMessaggi</a></li>
 
                     <% } else if (us.equals("cuoco")) {%> <!-- cuoco -->
-            <li><a href="./../jsp/gestioneOrdini.jsp">Gestione Ordini</a></li>
+            <li><a href="<%= request.getContextPath()%>/jsp/gestioneOrdini.jsp">Gestione Ordini</a></li>
                     <%} else if (us.equals("utente")){%> <!-- utente registrato -->
-            <li><a href="./../jsp/home.jsp">Home</a></li>
-            <li><a href="./../jsp/menu.jsp">Menu</a></li>
-            <li><a href="./../jsp/ordina.jsp">Ordina</a></li>
-            <li><a href="./../jsp/riepilogo.jsp">Riepilogo ordini</a></li>
-            <li><a href="./../jsp/contatti.jsp">Contatti</a></li>
+            <li><a href="<%= request.getContextPath()%>/jsp/home.jsp">Home</a></li>
+            <li><a href="<%= request.getContextPath()%>/jsp/menu.jsp">Menu</a></li>
+            <li><a href="<%= request.getContextPath()%>/jsp/ordina.jsp">Ordina</a></li>
+            <li><a href="<%= request.getContextPath()%>/jsp/riepilogo.jsp">Riepilogo ordini</a></li>
+            <li><a href="<%= request.getContextPath()%>/jsp/contatti.jsp">Contatti</a></li>
                 <%}
                 } 
             else {%>  <!-- utente non registrato -->
 
-            <li><a href="./../jsp/home.jsp">Home</a></li>
-            <li><a href="./../jsp/menu.jsp">Menu</a></li>
-            <li><a href="./../jsp/ordina.jsp">Ordina</a></li>
-            <li><a href="./../jsp/riepilogo.jsp">Riepilogo ordini</a></li>
+            <li><a href="<%= request.getContextPath()%>/jsp/home.jsp">Home</a></li>
+            <li><a href="<%= request.getContextPath()%>/jsp/menu.jsp">Menu</a></li>
+            <li><a href="<%= request.getContextPath()%>/jsp/ordina.jsp">Ordina</a></li>
+            <li><a href="<%= request.getContextPath()%>/jsp/riepilogo.jsp">Riepilogo ordini</a></li>
             
                 <%}%> 
         </ul>

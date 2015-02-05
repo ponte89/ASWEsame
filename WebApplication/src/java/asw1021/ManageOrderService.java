@@ -198,7 +198,6 @@ public class ManageOrderService extends HttpServlet {
         HttpSession session = request.getSession();
         Element root = data.getDocumentElement();
         String operation = root.getTagName();
-        ServletContext application = getServletContext();
         String user;
         Document answer = null;
         OutputStream os;

@@ -1,9 +1,3 @@
-<%-- 
-    Document   : gestioneOrdini
-    Created on : 16-gen-2015, 22.48.30
-    Author     : Lorenzo
---%>
-
 <%@page import="java.util.LinkedList"%>
 <%@page import="org.w3c.dom.Document"%>
 <%@page import="java.util.HashMap"%>
@@ -24,14 +18,14 @@
                 String user = (String) session.getAttribute("login");
                 String us = session.getAttribute("type").toString();
                 if (us.equals("admin")) {  //admin
-                    application = getServletContext();
+                    //application = getServletContext();
                     HashMap<String, Object> contexts = (HashMap<String, Object>) application.getAttribute("loginList");
                     contexts.put(user, new LinkedList<Document>());
         %>  
         
         <div class="content">
                 <h1>Prenotazioni: </h1>
-                <table id="riepilogo_prenotazioni" border="2"></table>
+                <table id="riepilogo_prenotazioni" border="2" style="display:none;"></table>
         </div>
         </section>
         <%

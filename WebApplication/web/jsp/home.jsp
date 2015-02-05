@@ -1,8 +1,3 @@
-<%-- 
-    Document   : home
-    Created on : Jan 12, 2015, 3:52:17 PM
-    Author     : Alessia
---%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>

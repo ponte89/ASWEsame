@@ -1,9 +1,3 @@
-<%-- 
-    Document   : riepilogo
-    Created on : Jan 11, 2015, 9:35:55 PM
-    Author     : Alessia
---%>
-
 <%@page import="java.io.InputStream"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>

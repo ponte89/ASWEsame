@@ -10,8 +10,6 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.io.PrintWriter;
-import java.net.URI;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -94,9 +92,8 @@ public class MenuServlet extends HttpServlet {
 
                 out.close();
 
-            } else if (s.equals("nuoviCondimenti")) {
+            } else if (s.contains("nuoviCondimenti")) {
                 String path = getServletContext().getRealPath("") + "/WEB-INF/xml/condimenti_test.xml";
-               // Document doc = manageXml.parse(new File(path));
 
                 NodeList pizzeinput = docin.getElementsByTagName("nome");
                 Document document = manageXml.newDocument();
@@ -122,25 +119,18 @@ public class MenuServlet extends HttpServlet {
             }else if (s.contains("pizzeNovita")) {
                 System.out.println("ricevuta richiesta pizze novita");
                 String path = getServletContext().getRealPath("") + "/WEB-INF/xml/pizze_novita.xml";
-               // Document doc = manageXml.parse(new File(path));
 
                 NodeList pizzeinput = docin.getElementsByTagName("nome");
                 Document document = manageXml.newDocument();
 
-               // Node pizze = document.createElement("pizze_novita");
-               // Node pizza;
                 Element nome;
 
                 for (int i = 0; i < pizzeinput.getLength(); i++) {
-                   // pizza = document.createElement("pizza_standard");
                     nome = document.createElement("nome");
                     nome.setTextContent(pizzeinput.item(i).getTextContent());
-                    //pizza.appendChild(nome);
-                    //pizze.appendChild(pizza);
                     document.appendChild(nome);
 
                 }
-                //document.appendChild(pizze);
 
                 OutputStream out = new FileOutputStream(path);
                 manageXml.transform(out, document);

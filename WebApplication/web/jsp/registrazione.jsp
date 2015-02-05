@@ -1,9 +1,3 @@
-<%-- 
-    Document   : registrazione
-    Created on : Jan 11, 2015, 9:35:46 PM
-    Author     : Alessia
---%>
-
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 

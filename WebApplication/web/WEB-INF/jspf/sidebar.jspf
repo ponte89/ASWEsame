@@ -22,7 +22,7 @@
         <%
             if (session.getAttribute("login") == null) {
                 %><%@ include file="/WEB-INF/jspf/message.jspf" %> 
-        <form class="login" action="../LoginServlet?target=login" method="post">
+        <form class="login" action="<%= request.getContextPath()%>/LoginServlet?target=login" method="post">
 
             <label class="login" for="username">Username:</label>
 
@@ -41,12 +41,12 @@
             
             <input class="login" type="submit" value="Login">
         </form>
-        <a href="../jsp/registrazione.jsp"><input class="login" type="submit" value="Registrati"></a>
+        <a href="<%= request.getContextPath()%>/jsp/registrazione.jsp"><input class="login" type="submit" value="Registrati"></a>
             <%                    } else {%> 
         <div class="option" id="benvenuto">
             Benvenuto: <%=session.getAttribute("login")%> 
 
-            <a href="../LoginServlet?target=logout"><input class="login" type="submit" value="Logout"></a>
+            <a href="<%= request.getContextPath()%>/LoginServlet?target=logout"><input class="login" type="submit" value="Logout"></a>
         </div>
         <%
             }

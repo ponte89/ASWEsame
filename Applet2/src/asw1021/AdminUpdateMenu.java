@@ -5,6 +5,7 @@
  */
 package asw1021;
 
+import asw1021.deploymentUtils.IDeployment;
 import javax.swing.JApplet;
 import javax.swing.JPanel;
 import javax.swing.JList;
@@ -34,7 +35,7 @@ import org.w3c.dom.NodeList;
  * rimuovere ciò che è già presente nel menu.
  * @author Mezzapesa Beatrice, Papini Alessia, Pontellini Lorenzo
  */
-public class AdminUpdateMenu extends JApplet {
+public class AdminUpdateMenu extends JApplet implements IDeployment{
 
     private Container cp;
 
@@ -45,9 +46,7 @@ public class AdminUpdateMenu extends JApplet {
 
     private JLabel lblNuovaPizza;
     private JLabel lblNuovaCondimento;
-    private JLabel lblPrezzoPizza;
-    private JLabel lblPrezzoCondimento;
-
+    
     private JScrollPane scrollCondimenti;
     private JScrollPane scrollPizze;
     private JTabbedPane tabbedPane;
@@ -166,10 +165,6 @@ public class AdminUpdateMenu extends JApplet {
         lblNuovaPizza.setBounds(6, 6, 108, 16);
         panelPizze.add(lblNuovaPizza);
 
-        lblPrezzoPizza = new JLabel("Prezzo");
-        lblPrezzoPizza.setBounds(6, 65, 61, 16);
-        panelPizze.add(lblPrezzoPizza);
-
         txtPrezzoPizza = new JTextField();
         txtPrezzoPizza.setBounds(6, 82, 108, 28);
         txtPrezzoPizza.setColumns(10);
@@ -187,10 +182,6 @@ public class AdminUpdateMenu extends JApplet {
         lblNuovaCondimento = new JLabel("Nuovo Condimento");
         lblNuovaCondimento.setBounds(6, 6, 129, 16);
         panelCondimenti.add(lblNuovaCondimento);
-
-        lblPrezzoCondimento = new JLabel("Prezzo");
-        lblPrezzoCondimento.setBounds(6, 65, 61, 16);
-        panelCondimenti.add(lblPrezzoCondimento);
 
         listaCondimenti = new JList();
 
@@ -229,7 +220,7 @@ public class AdminUpdateMenu extends JApplet {
         try {
 
             HTTPClient httpClient = new HTTPClient();
-            httpClient.setBase(new URL("http://localhost:8080/WebApplication/MenuServlet"));
+            httpClient.setBase(new URL(SERVER_BASE_URL));
 
             ManageXML mngXML = new ManageXML();
             Document data = mngXML.newDocument();
@@ -260,7 +251,7 @@ public class AdminUpdateMenu extends JApplet {
     private void getListaCondimenti() {
         try {
             HTTPClient httpClient = new HTTPClient();
-            httpClient.setBase(new URL("http://localhost:8080/WebApplication/MenuServlet"));
+            httpClient.setBase(new URL(SERVER_BASE_URL));
 
             ManageXML mngXML = new ManageXML();
             Document data = mngXML.newDocument();
@@ -364,7 +355,7 @@ public class AdminUpdateMenu extends JApplet {
             if (value.equals("pizze")) {
 
                 HTTPClient httpClient = new HTTPClient();
-                httpClient.setBase(new URL("http://localhost:8080/WebApplication/MenuServlet"));
+                httpClient.setBase(new URL(SERVER_BASE_URL));
 
                 ManageXML mngXML = new ManageXML();
 
@@ -390,7 +381,7 @@ public class AdminUpdateMenu extends JApplet {
             } else if (value.equals("condimenti")) {
 
                 HTTPClient httpClient = new HTTPClient();
-                httpClient.setBase(new URL("http://localhost:8080/WebApplication/MenuServlet"));
+                httpClient.setBase(new URL(SERVER_BASE_URL));
 
                 ManageXML mngXML = new ManageXML();
 
@@ -408,7 +399,6 @@ public class AdminUpdateMenu extends JApplet {
 
                 }
 
-                //data.appendChild(pizze);
                 data.appendChild(rootNode);
 
                 httpClient.execute("MenuServlet", data);

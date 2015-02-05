@@ -1,5 +1,6 @@
 package asw1021;
 
+import asw1021.deploymentUtils.IDeployment;
 import asw1021.pizze.*;
 import java.awt.Color;
 import java.awt.Container;
@@ -12,13 +13,11 @@ import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.ButtonGroup;
-import javax.swing.DefaultListModel;
 import javax.swing.JApplet;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.JScrollPane;
@@ -31,7 +30,6 @@ import javax.swing.border.LineBorder;
 import javax.swing.border.TitledBorder;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
-import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 /**
@@ -50,7 +48,7 @@ import org.w3c.dom.NodeList;
  * @author Mezzapesa Beatrice, Papini Alessia, Pontellini Lorenzo
  * @version 1.0
  */
-public class UserAppletOrder extends JApplet {
+public class UserAppletOrder extends JApplet implements IDeployment{
 
     public UserAppletOrder() {
     }
@@ -411,7 +409,7 @@ public class UserAppletOrder extends JApplet {
             }
             try {
                 HTTPClient httpClient = new HTTPClient();
-                httpClient.setBase(new URL("http://localhost:8080/WebApplication/ManageOrderService"));
+                httpClient.setBase(new URL(SERVER_BASE_URL));
                 ManageXML mngXML = new ManageXML();
                 String idUser = getParameter("user");
                 Document data = mngXML.newDocument();
@@ -441,8 +439,8 @@ public class UserAppletOrder extends JApplet {
                 }
                 root.appendChild(done);
 
-                Element typePizza, name, number, plus, extra, base, condimento;
-                String plusString, extraString;
+                Element typePizza, name, number, plus, base, condimento;
+                String plusString;
                 pizza newPizza = null;
                 for (int i = 0; i < listaOrdinazione.size(); i++) {
                     plusString = " ";
@@ -535,7 +533,7 @@ public class UserAppletOrder extends JApplet {
         String aggiunte = "(";
 
         if (chckbxBaseKamutS.isSelected()) {
-            aggiunte += " Base Kamut + €2.50";
+            aggiunte += " Base Kamut ";
             pizza.setAggiunta("Base Kamut");
         }
 
@@ -657,7 +655,7 @@ public class UserAppletOrder extends JApplet {
     private void initializeListaCondimenti() {
         try {
             HTTPClient httpClient = new HTTPClient();
-            httpClient.setBase(new URL("http://localhost:8080/WebApplication/MenuServlet"));
+            httpClient.setBase(new URL(SERVER_BASE_URL));
 
             ManageXML mngXML = new ManageXML();
             Document data = mngXML.newDocument();
@@ -692,7 +690,7 @@ public class UserAppletOrder extends JApplet {
         try {
 
             HTTPClient httpClient = new HTTPClient();
-            httpClient.setBase(new URL("http://localhost:8080/WebApplication/MenuServlet"));
+            httpClient.setBase(new URL(SERVER_BASE_URL));
 
             ManageXML mngXML = new ManageXML();
             Document data = mngXML.newDocument();
@@ -703,12 +701,10 @@ public class UserAppletOrder extends JApplet {
             Document answer = httpClient.execute("MenuServlet", data);
             NodeList l = answer.getElementsByTagName("pizza_standard");
 
-            // modelPizze = new DefaultListModel();
             for (int i = 0; i < l.getLength(); i++) {
                 Element n = (Element) l.item(i);
                 comboBoxStandard.addItem(n.getElementsByTagName("nome").item(0).getTextContent());
             }
-            //listaPizze.setModel(modelPizze);
 
         } catch (Exception e) {
             System.err.println("--> " + e.getMessage());

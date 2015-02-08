@@ -25,7 +25,7 @@ import org.w3c.dom.NodeList;
  *
  * @author Mezzapesa Beatrice, Papini Alessia, Pontellini Lorenzo
  */
-@WebServlet(name = "LoginServlet", asyncSupported = true, urlPatterns = {"/LoginServlet"})
+@WebServlet(name = "LoginServlet", urlPatterns = {"/LoginServlet"})
 public class LoginServlet extends HttpServlet {
             
     /**

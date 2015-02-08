@@ -202,17 +202,15 @@ public class ManageOrderService extends HttpServlet {
                 System.out.println("push received");
                 synchronized (this) {
                     for (String destUser : contexts.keySet()) {
-                        System.out.println("Cuoco presente" + destUser);
                         Object value = contexts.get(destUser);
                         if (value instanceof AsyncContext) {
-                            System.out.println("Cuoco in attesa" + (AsyncContext) value);
+                            System.out.println("Utente in attesa" + (AsyncContext) value);
                             try (OutputStream aos = ((AsyncContext) value).getResponse().getOutputStream()) {
                                 mngXML.transform(aos, dataInput);
                             }
                             ((AsyncContext) value).complete();
                             contexts.put(destUser, new LinkedList<Document>());
                         } else {
-                            System.out.println("Dati Accodati");
                             ((LinkedList<Document>) value).addLast(dataInput);
                         }
                     }

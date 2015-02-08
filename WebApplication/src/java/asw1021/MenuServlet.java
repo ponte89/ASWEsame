@@ -116,27 +116,6 @@ public class MenuServlet extends HttpServlet {
                 manageXml.transform(out, document);
 
                 out.close();
-            }else if (s.contains("pizzeNovita")) {
-                System.out.println("ricevuta richiesta pizze novita");
-                String path = getServletContext().getRealPath("") + "/WEB-INF/xml/pizze_novita.xml";
-
-                NodeList pizzeinput = docin.getElementsByTagName("nome");
-                Document document = manageXml.newDocument();
-
-                Element nome;
-
-                for (int i = 0; i < pizzeinput.getLength(); i++) {
-                    nome = document.createElement("nome");
-                    nome.setTextContent(pizzeinput.item(i).getTextContent());
-                    document.appendChild(nome);
-
-                }
-
-                OutputStream out = new FileOutputStream(path);
-                manageXml.transform(out, document);
-
-                out.close();
-
             }
 
         } catch (Exception e) {

@@ -6,13 +6,12 @@ import java.util.ArrayList;
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-/**
- *
- * @author Mezzapesa Beatrice, Papini Alessia, Pontellini Lorenzo
- */
+
 /** Quest'interfaccia viene usata come modello base per la gestione delle pizze,
  *  poi in base alla pizza che ordino (Standard o Personalizzata) avrò in più 
  *  ulteriori metodi, differenti a seconda del tipo di ordine.
+ * 
+ * @author Mezzapesa Beatrice, Papini Alessia, Pontellini Lorenzo
  */
 
 public interface pizza {

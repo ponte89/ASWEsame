@@ -6,12 +6,11 @@ import java.util.ArrayList;
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-/**
- *
- * @author Mezzapesa Beatrice, Papini Alessia, Pontellini Lorenzo
- */
+
 /** Classe usata per la gestione delle pizze di tipo personalizzata e successivamente
  *  anche per la gestione degli ordini.
+ * 
+ * @author Mezzapesa Beatrice, Papini Alessia, Pontellini Lorenzo
  */
 public class pizzaPersonalizzata extends pizzaStandard{
 
@@ -23,7 +22,7 @@ public class pizzaPersonalizzata extends pizzaStandard{
     public pizzaPersonalizzata(){
         name = "personalizzata";
     }
-    /*
+    
     /** Il cliente setta il numero delle pizze dello stesso tipo, che vuole ordinare
      * @param n dove n è il numero settato
      */

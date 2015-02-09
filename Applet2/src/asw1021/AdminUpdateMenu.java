@@ -11,9 +11,7 @@ import javax.swing.JPanel;
 import javax.swing.JList;
 import javax.swing.JTabbedPane;
 import java.awt.Container;
-
 import javax.swing.JButton;
-
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.net.URL;
@@ -27,14 +25,15 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 
-/**
- * Applet per modificare il menu 
+/** Applet per modificare il menù 
  * In base al pannello che si va a scegliere,condimenti o pizze, 
  * posso modificare il mio menu aggiungendoci all'interno
  * condimenti o pizze differenti da quelli già presenti; ma posso anche
  * rimuovere ciò che è già presente nel menu.
+ * 
  * @author Mezzapesa Beatrice, Papini Alessia, Pontellini Lorenzo
  */
+
 public class AdminUpdateMenu extends JApplet implements IDeployment{
 
     private Container cp;
@@ -89,7 +88,7 @@ public class AdminUpdateMenu extends JApplet implements IDeployment{
         }
     }
 
-    /**
+    /** 
      * Definizione dell' interfaccia grafica con appropriati componenti grafici
      * per l'aggiunta e la rimozione di condimenti o pizze. 
      * Utilizziamo un layout totalmente gestito da noi in cui a ogni 
@@ -137,7 +136,6 @@ public class AdminUpdateMenu extends JApplet implements IDeployment{
         btnAggiungiPiz.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                aggiungiPizzaNuova();
                 aggiungiPizza();
             }
         });
@@ -201,7 +199,7 @@ public class AdminUpdateMenu extends JApplet implements IDeployment{
     }
 
     /**
-     * Nella pannello "Pizze" e precisamente nel riquadro sulla destra ottengo
+     * Nel pannello "Pizze" e precisamente nel riquadro sulla destra ottengo
      * tutta la lista di pizze che in quell'istante è visibile dalla voce menù
      */
     private void getListaPizze() {
@@ -232,7 +230,7 @@ public class AdminUpdateMenu extends JApplet implements IDeployment{
     }
 
     /**
-     * Nella pannello "Condimenti" e precisamente nel riquadro sulla destra
+     * Nel pannello "Condimenti" e precisamente nel riquadro sulla destra
      * ottengo tutta la lista di condimenti che in quell'istante sono visibili
      * una volta che richiedo una pizza personalizzata.
      */
@@ -318,8 +316,6 @@ public class AdminUpdateMenu extends JApplet implements IDeployment{
 
     /**
      * Richiesta di salvataggio, richiamando il metodo inviaDatiXML. 
-     * Per gestire la comet "Pizza novità" abbiamo creato un nuovo xml a cui
-     * vengono inviati i dati solo nel caso in cui l'admin ha inserito nuove pizze.
      */
     private void salvaModificheMenu() {
 
@@ -333,11 +329,9 @@ public class AdminUpdateMenu extends JApplet implements IDeployment{
      * Salvo i dati tramite apposito xml (pizze_standard_test.xml & condimenti_test.xml)
      * passato alla servlet, dell'ordine, al cui interno ci sono tutte le 
      * modifiche e le aggiunte alle pizze e ai condimenti.
-     * Inoltre per gestire la comet delle pizze novità, le nuove pizze aggiunte
-     * dall'admin verranno inserite anche nel file xml pizze_novita.
+     * 
      * @param value che rappresenta i dati che elabora in quella chiamata.
      */
-
     private void inviaDatiXML(String value) {
         try {
             if (value.equals("pizze")) {
@@ -360,8 +354,6 @@ public class AdminUpdateMenu extends JApplet implements IDeployment{
                     rootNode.appendChild(nome);
 
                 }
-
-                //data.appendChild(pizze);
                 data.appendChild(rootNode);
 
                 httpClient.execute("MenuServlet", data);
@@ -393,16 +385,9 @@ public class AdminUpdateMenu extends JApplet implements IDeployment{
 
             }
         } catch (Exception e) {
-            //textArea.setText("eccezione" + e.getMessage());
+            
         }
 
     }
     
-    /** Metodo che mi serve a capire quando l'admin ha aggiunto nuove pizze
-     * così da poter aggiornare la comet pizza novità.
-     */
-
-    private void aggiungiPizzaNuova() {
-        pizzeNuove.add(txtNuovaPizza.getText());
-    }
 }

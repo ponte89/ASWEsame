@@ -32,21 +32,20 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 
-/**
- * Applet per effettuare ordini. Visualizzazione in base al pannello scelto,
- * standard o personalizzata, delle possibili pizze da voler ordinare. Nel
- * pannello "Standard" posso selezionare le pizze tradizionali presenti e
- * visibili all'interno della pagina menu; mentre nel pannello "Personalizzata"
- * posso riadattare la pizza a seconda delle mie preferenze partendo dalla base,
- * bianca o margherita, e dai possibili condimenti da aggiungere sopra. In
- * entrambi i pannelli in più ho la possibilità di scegliere se la mia pizza la
+/** Applet per effettuare ordini. 
+ * Visualizzazione in base al pannello scelto, standard o personalizzata, 
+ * delle possibili pizze da voler ordinare. Nel pannello "Standard" posso 
+ * selezionare le pizze tradizionali presenti e visibili all'interno della
+ * pagina menu; mentre nel pannello "Personalizzata" posso riadattare la
+ * pizza a seconda delle mie preferenze partendo dalla base, bianca o 
+ * margherita, e dai possibili condimenti da aggiungere sopra. In entrambi
+ * i pannelli in più ho la possibilità di scegliere se la mia pizza la
  * volessi a base kamut o con doppia mozzarella o di dimensioni maxi; e nel caso
  * in cui avessi più pizze dello stesso tipo è stato inserito appositamente un
  * contatore da incrementare per non dover compilare la stessa procedura n
  * volte.
  *
  * @author Mezzapesa Beatrice, Papini Alessia, Pontellini Lorenzo
- * @version 1.0
  */
 public class UserAppletOrder extends JApplet implements IDeployment{
 
@@ -404,7 +403,6 @@ public class UserAppletOrder extends JApplet implements IDeployment{
                 typeDelivery = "asporto";
             } else if (rdbtnPrenotazione.isSelected()) {
                 typeDelivery = "prenotazione";
-                //spinnerPosti.setEnabled(true);
                 nPosti = ((Double) spinnerPosti.getValue()).intValue();
             }
             try {
@@ -425,9 +423,7 @@ public class UserAppletOrder extends JApplet implements IDeployment{
                 id.setTextContent(idUser + idOrdine);
                 Element type = data.createElement("tipo_ordine");
                 Element posti = null;
-           
-                
-                
+                          
                 type.setTextContent(typeDelivery);
                 root.appendChild(user);
                 root.appendChild(id);
@@ -511,8 +507,8 @@ public class UserAppletOrder extends JApplet implements IDeployment{
 
     /**
      * Una volta decisa la pizza da ordinare, premendo "Aggiungi", questa viene
-     * inserita nella JTextArea fino a che non ho completato l'ordine con tutte
-     * le pizze richieste.
+     * inserita nella JTextArea e poi posso continuare a completare l'ordine
+     * con le pizze che voglio richiedere.
      */
     private void aggiungiPizzaStandard() {
 
@@ -565,8 +561,8 @@ public class UserAppletOrder extends JApplet implements IDeployment{
 
     /**
      * Una volta decisa la pizza da ordinare, premendo "Aggiungi", questa viene
-     * inserita nella JTextArea fino a che non ho completato l'ordine con tutte
-     * le pizze richieste.
+     * inserita nella JTextArea e poi posso continuare a completare l'ordine
+     * con le pizze che voglio richiedere.
      */
     private void aggiungiPizzaPersonalizzata() {
 
@@ -635,7 +631,6 @@ public class UserAppletOrder extends JApplet implements IDeployment{
 
         aggiunte += ")";
 
-        //String ordinazione = ("Pizza: "+select+" n° "+n);
         if (aggiunte.equals("()")) {
             ordinazione += "\n";
         } else {
@@ -675,7 +670,6 @@ public class UserAppletOrder extends JApplet implements IDeployment{
 
             }
 
-            //listaCondimenti.setModel(modelCondimenti);
         } catch (Exception e) {
             System.err.println("--> " + e.getMessage());
         }
@@ -683,7 +677,6 @@ public class UserAppletOrder extends JApplet implements IDeployment{
 
     /**
      * Inizializzo le pizze standard presenti anche all'interno del nostro menu.
-     *
      */
     private void initializeListaStandard() {
 

@@ -6,12 +6,11 @@ import java.util.ArrayList;
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-/**
- *
- * @author Mezzapesa Beatrice, Papini Alessia, Pontellini Lorenzo
- */
+
 /** Classe usata per la gestione delle pizze di tipo standard e successivamente
  *  anche per la gestione degli ordini.
+ * 
+ * @author Mezzapesa Beatrice, Papini Alessia, Pontellini Lorenzo
  */
 public class pizzaStandard implements pizza{
     

@@ -80,7 +80,11 @@
                                }
                              %>
                              <tr><td><%=ordineLog%></td></tr>
-          
+                            <%
+                           }
+                    }
+                 %>
+                 
             </table> 
             </div>
             

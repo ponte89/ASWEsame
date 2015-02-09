@@ -4,11 +4,6 @@
     <head>
         <title>Pizzeria Interattiva</title>
         <link href="./../style-sheet/styles.css" rel="stylesheet" type="text/css">
-        <script language="javascript">
-            function addfield() {
-                document.getElementById("ordini").innerHTML = document.getElementById("pizze");
-            }
-        </script>
         <%@ include file="/WEB-INF/jspf/header.jspf" %>
     </head>
 

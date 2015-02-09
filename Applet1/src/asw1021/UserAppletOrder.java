@@ -47,7 +47,7 @@ import org.w3c.dom.NodeList;
  *
  * @author Mezzapesa Beatrice, Papini Alessia, Pontellini Lorenzo
  */
-public class UserAppletOrder extends JApplet implements IDeployment{
+public class UserAppletOrder extends JApplet implements IDeployment,Runnable{
 
     public UserAppletOrder() {
     }
@@ -110,6 +110,9 @@ public class UserAppletOrder extends JApplet implements IDeployment{
     private int nPosti;
 
     private ArrayList<pizza> listaOrdinazione;
+    
+    private Thread thread;
+    
 
     /**
      * Inizializzazione dell' applet con creazione della GUI
@@ -300,7 +303,8 @@ public class UserAppletOrder extends JApplet implements IDeployment{
         btnConferma.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                salvaOrdinazione();
+                thread = new Thread();
+                thread.start(); 
             }
         });
         cp.add(btnConferma);
@@ -468,9 +472,11 @@ public class UserAppletOrder extends JApplet implements IDeployment{
                         base.setTextContent(pizzaPers.getBase());
                         typePizza.appendChild(base);
                         for (int k = 0; k < pizzaPers.getCondimenti().size(); k++) {
-                            condimento = data.createElement("condimento");
-                            condimento.setTextContent(pizzaPers.getCondimenti().get(k));
-                            typePizza.appendChild(condimento);
+                            if(!pizzaPers.getCondimenti().get(k).equals("nessuna selezione")){
+                                condimento = data.createElement("condimento");
+                                condimento.setTextContent(pizzaPers.getCondimenti().get(k));
+                                typePizza.appendChild(condimento);
+                            }
                         }
                     }
 
@@ -702,5 +708,10 @@ public class UserAppletOrder extends JApplet implements IDeployment{
         } catch (Exception e) {
             System.err.println("--> " + e.getMessage());
         }
+    }
+
+    @Override
+    public void run() {
+        salvaOrdinazione();
     }
 }

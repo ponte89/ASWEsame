@@ -6,6 +6,7 @@
 package asw1021;
 
 import asw1021.deploymentUtils.IDeployment;
+import static asw1021.deploymentUtils.IDeployment.SERVER_BASE_URL;
 import javax.swing.JApplet;
 import javax.swing.JPanel;
 import javax.swing.JList;
@@ -25,16 +26,15 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 
-/** Applet per modificare il menù 
- * In base al pannello che si va a scegliere,condimenti o pizze, 
- * posso modificare il mio menu aggiungendoci all'interno
- * condimenti o pizze differenti da quelli già presenti; ma posso anche
- * rimuovere ciò che è già presente nel menu.
- * 
+/**
+ * Applet per modificare il menù In base al pannello che si va a
+ * scegliere,condimenti o pizze, posso modificare il mio menu aggiungendoci
+ * all'interno condimenti o pizze differenti da quelli già presenti; ma posso
+ * anche rimuovere ciò che è già presente nel menu.
+ *
  * @author Mezzapesa Beatrice, Papini Alessia, Pontellini Lorenzo
  */
-
-public class AdminUpdateMenu extends JApplet implements IDeployment{
+public class AdminUpdateMenu extends JApplet implements IDeployment {
 
     private Container cp;
 
@@ -45,7 +45,7 @@ public class AdminUpdateMenu extends JApplet implements IDeployment{
 
     private JLabel lblNuovaPizza;
     private JLabel lblNuovaCondimento;
-    
+
     private JScrollPane scrollCondimenti;
     private JScrollPane scrollPizze;
     private JTabbedPane tabbedPane;
@@ -53,7 +53,7 @@ public class AdminUpdateMenu extends JApplet implements IDeployment{
     private JPanel panelPizze;
     private JTextField txtNuovaPizza;
     private JTextField txtNuovoCondimento;
-  
+
     private JList<String> listaPizze;
     private DefaultListModel modelPizze;
 
@@ -61,8 +61,15 @@ public class AdminUpdateMenu extends JApplet implements IDeployment{
     private DefaultListModel modelCondimenti;
 
     private JButton btnNewButton;
-    
+
     private ArrayList<String> pizzeNuove;
+    private Thread inviaDati;
+    private Thread rimuoviPizza;
+    private Thread aggiungiPizza;
+    private Thread rimuoviCondimento;
+    private Thread aggiungiCondimento;
+    private Thread listaCondimentiThread;
+    private Thread listaPizzeThread;
 
     /**
      * Inizializzazione dell' applet con creazione della GUI
@@ -88,11 +95,11 @@ public class AdminUpdateMenu extends JApplet implements IDeployment{
         }
     }
 
-    /** 
+    /**
      * Definizione dell' interfaccia grafica con appropriati componenti grafici
-     * per l'aggiunta e la rimozione di condimenti o pizze. 
-     * Utilizziamo un layout totalmente gestito da noi in cui a ogni 
-     * componente inseriamo le coordinate.
+     * per l'aggiunta e la rimozione di condimenti o pizze. Utilizziamo un
+     * layout totalmente gestito da noi in cui a ogni componente inseriamo le
+     * coordinate.
      */
     private void initializeGUI() {
         cp = getContentPane();
@@ -164,7 +171,7 @@ public class AdminUpdateMenu extends JApplet implements IDeployment{
         listaPizze = new JList();
 
         pizzeNuove = new ArrayList<String>();
-        
+
         txtNuovoCondimento = new JTextField();
         txtNuovoCondimento.setBounds(6, 24, 108, 28);
         panelCondimenti.add(txtNuovoCondimento);
@@ -203,30 +210,42 @@ public class AdminUpdateMenu extends JApplet implements IDeployment{
      * tutta la lista di pizze che in quell'istante è visibile dalla voce menù
      */
     private void getListaPizze() {
-        try {
 
-            HTTPClient httpClient = new HTTPClient();
-            httpClient.setBase(new URL(SERVER_BASE_URL));
+        listaPizzeThread = new Thread(new Runnable() {
 
-            ManageXML mngXML = new ManageXML();
-            Document data = mngXML.newDocument();
-            Element rootFile = data.createElement("tipo");
-            rootFile.setTextContent("pizze");
-            data.appendChild(rootFile);
+            @Override
+            public void run() {
 
-            Document answer = httpClient.execute("MenuServlet", data);
-            NodeList l = answer.getElementsByTagName("pizza_standard");
+                try {
 
-            modelPizze = new DefaultListModel();
-            for (int i = 0; i < l.getLength(); i++) {
-                Element n = (Element) l.item(i);
-                modelPizze.addElement(n.getElementsByTagName("nome").item(0).getTextContent());
+                    HTTPClient httpClient = new HTTPClient();
+                    httpClient.setBase(new URL(SERVER_BASE_URL));
+
+                    ManageXML mngXML = new ManageXML();
+                    Document data = mngXML.newDocument();
+                    Element rootFile = data.createElement("tipo");
+                    rootFile.setTextContent("pizze");
+                    data.appendChild(rootFile);
+
+                    Document answer = httpClient.execute("MenuServlet", data);
+                    NodeList l = answer.getElementsByTagName("pizza_standard");
+
+                    modelPizze = new DefaultListModel();
+                    for (int i = 0; i < l.getLength(); i++) {
+                        Element n = (Element) l.item(i);
+                        modelPizze.addElement(n.getElementsByTagName("nome").item(0).getTextContent());
+                    }
+                    listaPizze.setModel(modelPizze);
+
+                } catch (Exception e) {
+                    System.err.println("--> " + e.getMessage());
+                }
             }
-            listaPizze.setModel(modelPizze);
 
-        } catch (Exception e) {
-            System.err.println("--> " + e.getMessage());
-        }
+        });
+
+        listaPizzeThread.start();
+
     }
 
     /**
@@ -235,32 +254,44 @@ public class AdminUpdateMenu extends JApplet implements IDeployment{
      * una volta che richiedo una pizza personalizzata.
      */
     private void getListaCondimenti() {
-        try {
-            HTTPClient httpClient = new HTTPClient();
-            httpClient.setBase(new URL(SERVER_BASE_URL));
 
-            ManageXML mngXML = new ManageXML();
-            Document data = mngXML.newDocument();
-            Element rootFile = data.createElement("tipo");
-            rootFile.setTextContent("condimenti");
-            data.appendChild(rootFile);
+        listaCondimentiThread = new Thread(new Runnable() {
 
-            Document answer = httpClient.execute("MenuServlet", data);
-            NodeList l = answer.getElementsByTagName("condimento");
+            @Override
+            public void run() {
 
-            modelCondimenti = new DefaultListModel();
-            for (int i = 0; i < l.getLength(); i++) {
-                Element n = (Element) l.item(i);
+                try {
+                    HTTPClient httpClient = new HTTPClient();
+                    httpClient.setBase(new URL(SERVER_BASE_URL));
 
-                if (!(n.getElementsByTagName("nome").item(0).getTextContent()).equals("Nessuna selezione")) {
-                    modelCondimenti.addElement(n.getElementsByTagName("nome").item(0).getTextContent());
+                    ManageXML mngXML = new ManageXML();
+                    Document data = mngXML.newDocument();
+                    Element rootFile = data.createElement("tipo");
+                    rootFile.setTextContent("condimenti");
+                    data.appendChild(rootFile);
+
+                    Document answer = httpClient.execute("MenuServlet", data);
+                    NodeList l = answer.getElementsByTagName("condimento");
+
+                    modelCondimenti = new DefaultListModel();
+                    for (int i = 0; i < l.getLength(); i++) {
+                        Element n = (Element) l.item(i);
+
+                        if (!(n.getElementsByTagName("nome").item(0).getTextContent()).equals("Nessuna selezione")) {
+                            modelCondimenti.addElement(n.getElementsByTagName("nome").item(0).getTextContent());
+                        }
+                    }
+                    listaCondimenti.setModel(modelCondimenti);
+
+                } catch (Exception e) {
+                    System.err.println("--> " + e.getMessage());
                 }
             }
-            listaCondimenti.setModel(modelCondimenti);
 
-        } catch (Exception e) {
-            System.err.println("--> " + e.getMessage());
-        }
+        });
+
+        listaCondimentiThread.start();
+
     }
 
     /**
@@ -269,10 +300,21 @@ public class AdminUpdateMenu extends JApplet implements IDeployment{
      * eliminarlo dalla lista visibile all'utente.
      */
     private void rimuoviCondimento() {
-        if (listaCondimenti.getSelectedIndex() != -1) {
-            modelCondimenti.remove(listaCondimenti.getSelectedIndex());
-            listaCondimenti.setModel(modelCondimenti);
-        }
+
+        rimuoviCondimento = new Thread(new Runnable() {
+
+            @Override
+            public void run() {
+
+                if (listaCondimenti.getSelectedIndex() != -1) {
+                    modelCondimenti.remove(listaCondimenti.getSelectedIndex());
+                    listaCondimenti.setModel(modelCondimenti);
+                }
+            }
+
+        });
+
+        rimuoviCondimento.start();
     }
 
     /**
@@ -282,11 +324,20 @@ public class AdminUpdateMenu extends JApplet implements IDeployment{
      */
     private void aggiungiCondimento() {
 
-        if (!txtNuovoCondimento.getText().isEmpty()) {
-            String p = txtNuovoCondimento.getText();
-            modelCondimenti.addElement(p);
-            listaCondimenti.setModel(modelCondimenti);
-        }
+        aggiungiCondimento = new Thread(new Runnable() {
+
+            @Override
+            public void run() {
+                if (!txtNuovoCondimento.getText().isEmpty()) {
+                    String p = txtNuovoCondimento.getText();
+                    modelCondimenti.addElement(p);
+                    listaCondimenti.setModel(modelCondimenti);
+                }
+            }
+
+        });
+
+        aggiungiCondimento.start();
     }
 
     /**
@@ -295,10 +346,22 @@ public class AdminUpdateMenu extends JApplet implements IDeployment{
      * dalla lista visibile all'utente.
      */
     private void rimuoviPizza() {
-        if (listaPizze.getSelectedIndex() != -1) {
-            modelPizze.remove(listaPizze.getSelectedIndex());
-            listaPizze.setModel(modelPizze);
-        }
+
+        rimuoviPizza = new Thread(new Runnable() {
+
+            @Override
+            public void run() {
+
+                if (listaPizze.getSelectedIndex() != -1) {
+                    modelPizze.remove(listaPizze.getSelectedIndex());
+                    listaPizze.setModel(modelPizze);
+                }
+
+            }
+
+        });
+
+        rimuoviPizza.start();
     }
 
     /**
@@ -307,87 +370,110 @@ public class AdminUpdateMenu extends JApplet implements IDeployment{
      * pulsante "aggiungi".
      */
     private void aggiungiPizza() {
-        if (!txtNuovaPizza.getText().isEmpty()) {
-            String p = txtNuovaPizza.getText();
-            modelPizze.addElement(p);
-            listaPizze.setModel(modelPizze);
-        }
+
+        aggiungiPizza = new Thread(new Runnable() {
+
+            @Override
+            public void run() {
+                if (!txtNuovaPizza.getText().isEmpty()) {
+                    String p = txtNuovaPizza.getText();
+                    modelPizze.addElement(p);
+                    listaPizze.setModel(modelPizze);
+                }
+            }
+
+        });
+
+        aggiungiPizza.start();
+
     }
 
     /**
-     * Richiesta di salvataggio, richiamando il metodo inviaDatiXML. 
+     * Richiesta di salvataggio, richiamando il metodo inviaDatiXML.
      */
     private void salvaModificheMenu() {
 
         inviaDatiXML("pizze");
-        
+
         inviaDatiXML("condimenti");
-        
+
     }
-    
+
     /**
-     * Salvo i dati tramite apposito xml (pizze_standard_test.xml & condimenti_test.xml)
-     * passato alla servlet, dell'ordine, al cui interno ci sono tutte le 
-     * modifiche e le aggiunte alle pizze e ai condimenti.
-     * 
+     * Salvo i dati tramite apposito xml (pizze_standard_test.xml &
+     * condimenti_test.xml) passato alla servlet, dell'ordine, al cui interno ci
+     * sono tutte le modifiche e le aggiunte alle pizze e ai condimenti.
+     *
      * @param value che rappresenta i dati che elabora in quella chiamata.
      */
-    private void inviaDatiXML(String value) {
-        try {
-            if (value.equals("pizze")) {
+    private void inviaDatiXML(final String value) {
 
-                HTTPClient httpClient = new HTTPClient();
-                httpClient.setBase(new URL(SERVER_BASE_URL));
+        inviaDati = new Thread(new Runnable() {
 
-                ManageXML mngXML = new ManageXML();
+            @Override
+            public void run() {
 
-                Document data = mngXML.newDocument();
+                try {
+                    if (value.equals("pizze")) {
 
-                Element rootNode = data.createElement("tipo");
-                rootNode.setTextContent("nuovePizze");
-                Element nome;
+                        HTTPClient httpClient = new HTTPClient();
+                        httpClient.setBase(new URL(SERVER_BASE_URL));
 
-                for (int i = 0; i < listaPizze.getModel().getSize(); i++) {
+                        ManageXML mngXML = new ManageXML();
 
-                    nome = data.createElement("nome");
-                    nome.setTextContent(listaPizze.getModel().getElementAt(i));
-                    rootNode.appendChild(nome);
+                        Document data = mngXML.newDocument();
+
+                        Element rootNode = data.createElement("tipo");
+                        rootNode.setTextContent("nuovePizze");
+                        Element nome;
+
+                        for (int i = 0; i < listaPizze.getModel().getSize(); i++) {
+
+                            nome = data.createElement("nome");
+                            nome.setTextContent(listaPizze.getModel().getElementAt(i));
+                            rootNode.appendChild(nome);
+
+                        }
+                        data.appendChild(rootNode);
+
+                        httpClient.execute("MenuServlet", data);
+
+                    } else if (value.equals("condimenti")) {
+
+                        HTTPClient httpClient = new HTTPClient();
+                        httpClient.setBase(new URL(SERVER_BASE_URL));
+
+                        ManageXML mngXML = new ManageXML();
+
+                        Document data = mngXML.newDocument();
+
+                        Element rootNode = data.createElement("tipo");
+                        rootNode.setTextContent("nuoviCondimenti");
+                        Element nome;
+
+                        for (int i = 0; i < listaCondimenti.getModel().getSize(); i++) {
+
+                            nome = data.createElement("nome");
+                            nome.setTextContent(listaCondimenti.getModel().getElementAt(i));
+                            rootNode.appendChild(nome);
+
+                        }
+
+                        data.appendChild(rootNode);
+
+                        httpClient.execute("MenuServlet", data);
+
+                    }
+                } catch (Exception e) {
 
                 }
-                data.appendChild(rootNode);
-
-                httpClient.execute("MenuServlet", data);
-
-            } else if (value.equals("condimenti")) {
-
-                HTTPClient httpClient = new HTTPClient();
-                httpClient.setBase(new URL(SERVER_BASE_URL));
-
-                ManageXML mngXML = new ManageXML();
-
-                Document data = mngXML.newDocument();
-
-                Element rootNode = data.createElement("tipo");
-                rootNode.setTextContent("nuoviCondimenti");
-                Element nome;
-
-                for (int i = 0; i < listaCondimenti.getModel().getSize(); i++) {
-
-                    nome = data.createElement("nome");
-                    nome.setTextContent(listaCondimenti.getModel().getElementAt(i));
-                    rootNode.appendChild(nome);
-
-                }
-
-                data.appendChild(rootNode);
-
-                httpClient.execute("MenuServlet", data);
 
             }
-        } catch (Exception e) {
-            
-        }
+
+        });
+
+        inviaDati.start();
 
     }
-    
+
 }

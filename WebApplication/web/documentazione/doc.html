@@ -1,0 +1,750 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <head>
+        <title>Documentazione</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+        <script type="text/css">
+            
+            body{
+                margin-left:100px;
+            }
+            
+        </script>
+
+    </head>
+    <body>
+        <h1>Documentazione progetto Pizzeria Interattiva gruppo 1021</h1>
+
+        <h2>Autori</h2>
+
+        <ul type="square">
+            <li>Beatrice Mezzapesa N.matricola: 709069 e-mail: beatrice.mezzapesa@studio.unibo.it</li>
+            <li>Alessia Papini N.matricola: 710524 e-mail: alessia.papini@studio.unibo.it</li>
+            <li>Lorenzo Pontellini N.matricola: 695920 e-mail: lorenzo.pontellini@studio.unibo.it</li>
+        </ul>
+
+        <h2>Servizio offerto dal sito</h2>
+
+        <div>
+            <p>Il sito propone un nuovo tipo di servizio per l’ordinazione di pizze.</p> 
+            <p>Un utente interessato al consumo di una pizza non deve fare altro 
+                che collegarsi al sito per poter visualizzare l’assortito menu proposto dalla pizzeria.</p>
+
+            <p>Nel caso in cui l’utente volesse usufruire dei servizi di ordinazione di pizze occorre che 
+                effettui la registrazione come cliente, dopo la quale potrà effettuare gli ordini 
+                comodamente seduto da casa decidendo il metodo di ritiro che più lo aggrada, 
+                è prevista infatti la possibilità di ordinare le pizze e ritirarle in negozio, 
+                farsele recapitare a casa oppure comodamente prenotare un tavolo per consumarle nella pizzeria.</p>
+            <p>Una pizza può essere scelta tra quelle offerte dal menu oppure puo essere il cliente 
+                stesso a creare una pizza personalizzata selezionando quattro condimenti 
+                tra quelli presenti, modificando la base della pizza e selezionando le aggiunte presenti.</p>
+            <p> Il cliente potrà sempre controllare gli ordini effettuati in una pagina riassuntiva che oltre 
+                all’elenco dei propri ordine permette di visualizzarne lo stato (attesa o completato).</p>
+
+        </div>
+
+
+        <h2>Utilizzo del sito</h2>
+
+        <h3>Categorie di utenti</h3>
+
+        <div>
+            Le categorie di utenti che sono supportate dal sito sono:
+
+            <ul type="circle">
+                <li><b>Admin:</b>
+                    E’ colui che puo aggiungere nuove pizze oppure nuovi condimenti che 
+                    verranno messi a disposizione del cliente al momento dell’eventuale creazione 
+                    di pizze personalizzate. Inoltre ha la possibilità di visualizzare le “gestione 
+                    prenotazioni” ovvero l’elenco completo degli ordini che prevedono la prenotazione
+                    di posti al ristorante, l’elenco sarà aggiornato nel momento stesso in cui l’ordine 
+                    con prenotazione verrà effettuato da un cliente. L’admin è inoltre in grado di
+                    accedere alla pagine di “gestione messaggi” in modo da poter leggere gli eventuali
+                    commenti ricevuti dagli utenti registrati. 
+                    Esiste solo un utente admin all’interno del database degli utenti.
+                    <br/><br/>
+                </li>
+
+                <li><b>Cuoco:</b>
+                    E’ colui che si occupa di preparare le pizze ed ha quindi la necessità di
+                    visionare gli ordini dei clienti che dovrà completare. Per questo ha la 
+                    possibilità di accedere ad una pagina relativa alla “gestione ordini” in modo 
+                    da poter visualizzare l’elenco di tutti i tipi di ordini (prenotazione, ritiro o 
+                    asporto) che verrà aggiornato nel momento stesso in cui il cliente effettua un nuovo
+                    ordine. Inoltre il cuoco ha la possibilità di selezionare il bottone “Completato” 
+                    nel momento in cui l’ordine è stato evaso. Esiste solo un utente cuoco all’interno 
+                    del database degli utenti.
+                    <br/><br/>
+                </li>
+
+
+                <li><b>Cliente:</b>
+                    Qualsiasi utente che effettua la registrazione ricade in questa categoria, 
+                    esso sarà in grado di effettuare ordini di pizze standard ovvero presenti nel 
+                    menu o di pizze personalizzate cioè avendo la possibilità di scegliere tra i 
+                    condimenti, le basi e le aggiunte a disposizione. Inoltre potrà visualizzare
+                    l’elenco dei propri ordini precedentemente effettuati ed essere a conoscenza 
+                    del loro stato (attesa o completato).  Infine ha la possibiltà di inviare messaggi 
+                    alla pizzeria che verranno recapitati direttamente all’admin.
+
+                </li>
+
+            </ul>
+
+
+            <p>
+                Nel caso il sito venga visualizzato da un utente non registrato, le 
+                funzionalità permesse saranno la visualizzazione della presentazione della 
+                pizzeria e del menu con le pizze e i condimenti disponibili.
+
+            </p>
+
+        </div>
+
+        <h2>Realizzazione del sito</h2>
+
+        <div>
+            <p>
+                La <b>computazione lato client</b> è rappresentata da due Rich Internet Application (RIA) 
+                in Javascript con le quali avviene l’aggiornamento delle prenotazioni e degli ordini 
+                appena effettuati e con due Applet che si occupano dell’ordinazione delle pizze e 
+                dell’inserimento di nuovi condimenti o tipologie di pizza.
+            </p>
+
+            <p>
+                La <b>computazione lato server</b> avviene attraverso servlet Java e pagine JSP che 
+                permettono di effettuare il login, la registrazione di nuovi utenti, la gestione
+                degli ordini e delle prenotazioni effettuate dai clienti, il riepilogo degli ordini
+                per ogni cliente, il cambiamento di stato di ogni ordine, la gestione dei messaggi e
+                l’inserimento di nuove pizze o condimenti nel menù.
+            </p>
+
+            <p>
+                Le <b>informazioni memorizzate sul server</b> sono rappresentate da database XML per gli 
+                utenti registrati, per le pizze, per gli ordini, per i condimenti e per i messaggi.
+            </p>    
+
+            <p>
+                Per quanto riguarda le <b>informazioni scambiate in rete</b> queste si basano su documenti 
+                XML scambiati tra RIA in Javascript o Applet e le varie servlet presenti, mentre per 
+                le funzionalità di registrazione e invio di messaggi i dati vengono inviati tramite
+                form per poi essere recuperati lato server.
+
+
+            </p>
+
+        </div>
+
+
+        <h3>Computazione lato Client</h3>
+
+        <div>
+            <p>
+                Gli utenti del sito, come già anticipato, hanno a disposizione diverse funzionalità a 
+                seconda del tipo di utente che rappresentano:
+            </p>
+
+            <h4><u>Cliente</u></h4>
+
+            <p>Ogni cliente ha la possibilità di effetture un ordine, per gestire questa funzionalità 
+                si è scelto l’uso dell’applet <b>“UserAppletOrder.java”</b> realizzando l’interfaccia grafica 
+                tramite l’uso della libreria “Swing”. Il metodo “init()” dell’applet inizializza l’interfaccia 
+                grafica e si occupa di richiamare attraverso una richiesta alla servlet “MenuServlet.java”
+                sia le pizze presenti nel menu sia i vari condimenti a disposizione del cliente, in entrambi 
+                i casi viene creato un file XML che specifica i dati richiesti, “pizze” o “condimenti” che
+                verranno visualizzati nelle JComboBox corrispondenti.</p>
+
+            <p>L’interfaccia grafica è composta da un JTappedPane che contiene i seguenti JPanel:</p>
+
+            <ul type="square">
+                <li>
+                    <b>Standard:</b> utilizzato per l’ordinazione di pizze presenti nel menù che possono
+                    essere selezionate tramite un JComboBox. Inoltre possono essere scelte le aggiunte 
+                    attraverso alcune JCheckBox e può essere selezionato il numero di pizze che si 
+                    vogliono ordinare tramite un JSpinner. E’ presente un bottone “Aggiungi” al quale 
+                    è associato un listener che richiama il metodo “aggiungiPizzaStandard”, permettendo
+                    di aggiungere la pizza all’ordine e visualizzarla nella JTextArea.
+                    <br/><br/>
+                </li>
+
+                <li>
+                    <b>Personalizzata:</b> utilizzato per l’ordinazione di pizze personalizzate, 
+                    ovvero create dal cliente a suo piacimento, selezionando la base della pizza 
+                    tramite un JRadioButton, i vari condimenti (massimo 4) attraverso JComboBox, 
+                    la scelta delle aggiunte può essere effetuata attraverso alcune JCheckBox e la 
+                    selezione del numero di pizze che si vogliono ordinare tramite un JSpinner. 
+                    E’ presente un bottone “Aggiungi” al quale è associato un listener che richiama
+                    il metodo “aggiungiPizzaPersonalizzata”, permettendo di aggiungere la pizza all’ordine
+                    e visualizzarla nella JTextArea.
+                    <br/><br/>
+
+                </li>
+            </ul>
+
+            <p>
+                Nell’interfaccia grafica sono inoltre presenti tre JCheckBox in cui il cliente può specificare
+                se preferisce il ritiro in pizzeria, la consegna al domicilio oppure prenotare un determinato 
+                numero di tavoli direttamente in pizzeria. In quest’ultimo caso, attraverso un JSpinner, 
+                viene selezionato il numero di posti da prenotare.
+            </p>
+
+            <p>
+                Dopo aver aggiunto tutte le pizze e selezionato la modalità di consegna, il cliente può 
+                decidere di annullare l’ordine attraverso il pulsante “Annulla Ordine” che si occuperà 
+                di cancellare il contenuto della JTextArea con l’ordine in corso oppure di confermare 
+                l’ordine con il bottone “Conferma Ordine” al quale è associato un listener che attraverso 
+                una richiesta HTTP alla servlet “ManageOrderService.java” effettua il salvataggio dell’ordine. 
+
+                In quest’ultima ipotesi nel caso l’ordine risulti vuoto sarà visualizzato un messaggio 
+                “Selezionare almeno una pizza” nella JTextArea, nel caso in cui l’ordine sia inviato 
+                correttamente il messaggio visualizzato sarà “Ordine Confermato”.
+            </p>
+
+            <p>
+                All’interno della richiesta http alla servlet “ManageOrderService.java” è specificato 
+                un parametro “target=push” che identifica l’operazione che dovrà essere effettuata.
+            </p>
+
+            <p>
+                La tecnologia scelta si è resa necessaria e conveniente sia per permettere i controlli 
+                sugli ordini e visualizzare il riassunto dell’ordine nella JTextArea che per gestire
+                in modo migliore le pizze scelte e create utilizzando classi Java come “pizzaStandard.java"
+                e “pizzaPersonalizzata.java”.
+
+            </p>
+
+            <p>
+                L’applet, infatti, fa uso di librerie appositamente sviluppate per facilitare la 
+                gestione delle pizze.
+            </p>
+
+            <p>Le librerie utilizzate possono essere consultate a questi link:</p>
+            <ul>
+                <li>Lib1 : link javadoc</li> DA FARE!!!!!!!!!
+                <li>Lib2 : link javadoc</li> DA FARE!!!!!!!!!
+            </ul>
+
+
+
+            <h4><u>Admin</u></h4>
+
+            <p>
+                L’admin è in grado di modificare il menù che è disponibile e consultabile 
+                da qualsiasi utente. Questo servizio gli è reso disponibile tramite un’apposita 
+                applet chiamata: AdminUpdateMenu.java. Anche per lo sviluppo di questa applet 
+                si è fatto riferimento alla libreria Swing per quanto riguarda la gestione e 
+                la creazione dell’interfaccia grafica.
+
+            </p>
+
+            <p>
+                L’interfaccia mette a disposizione dell’utente un JTabbedPane al quale 
+                vengono agganciati due JPanel: uno per i Condimenti e uno per le Pizze. 
+            </p>
+
+            <p>La struttura dei due JPanel è simile:</p>
+
+            <ul type="circle">
+                <li>
+                    a destra vi è una lista di tutti i condimenti o pizze presenti e 
+                    disponibile. Questo componente è una JList;
+                    <br/><br/>
+                </li>
+
+                <li>
+                    a sinistra vi è una casella di testo, componente JTextField che 
+                    permette l’inserimento di un nuovo item;
+                    <br/><br/>
+                </li>
+
+                <li>
+                    in basso due bottoni, JButton permetto l’inserimento del nuovo item
+                    scritto oppure l’eliminazione del item selezionato nella lista.
+                    <br/><br/>
+                </li>
+            </ul>
+
+            <p>
+                L’interfaccia mette a disposizione anche un pulsante di conferma il 
+                quale fa partire le operazioni che vanno a creare i dati che verranno 
+                poi inviati al servizio lato server che si occuperà di modificare opportunamente 
+                il database xml delle pizze e dei condimenti.
+            </p>
+
+            <p>
+                Ai bottoni sono stati agganciati degli ascoltatori, tramite l’uso di classi
+                anonime, per gestire le azioni che devono essere performate, la cosa importante 
+                è il disaccoppiamento del flusso di controllo per la gestione dell’interfaccia 
+                grafica con quello dell’esecuzione delle operazioni di modifica volute dall’utente, 
+                per questo, le operazioni sopra citate verranno eseguite in un Thread a parte, per 
+                fare rimanere l’interfaccia grafica sensibile e reattiva ai cambiamenti.
+
+            </p>
+
+            <p>Il funzionamento dell’applet viene di seguito spiegato:</p>
+
+            <p>
+                La pagine contente l’applet la prima volta che viene richiamata si occupa dello 
+                scaricamento del file .class lato client. Il primo metodo che viene eseguito è il 
+                metodo init() che al suo interno sfrutta gli SwingUtilities sul qual e invoca il metodo
+                invokeAndWait il quale blocca il proprio flusso di eseguzione fino al completamento del
+                metodo che vi è posto all’interno. All’interno infatti viene richiamato il metodo privato
+                inizializeGUI il quale si occupa di “disegnare” l’interfaccia grafica, ovvero il 
+                posizionamento degli elementi grafici, nella disposizione sopra citata. Una volta 
+                che il Thread ha portato a termine questo compito, vengono eseguiti due metodi:
+
+            </p>
+            <ul>
+                <li>getListaPizze();</li>
+                <li>getListaCondimenti).</li>
+            </ul>
+
+            <p>
+                Questi due metodi eseguono le stesse operazioni, però su componenti differenti, 
+                infatti vanno a popolare le liste delle pizze e quelle dei condimenti.
+                Si crea un client html e si setta l’url di riferimento, e si crea un componente in grado
+                di gestire file XML, si crea un nuovo documento con un unico nodo chiamato  “tipo” 
+                all’interno del quale viene settato il testo di riferimento “pizze” o “condimenti” a
+                seconda che si stia eseguendo la popolazione di una delle due liste. Questo dato cosi
+                creato viene inviato alla servlet la quale riconosce il tipo di dati da parsare in risposta 
+                e li invia al client.
+                Una volta ricevuti, avendo già conoscenza della loro struttura interna, si ricerca il 
+                nodo corrispondente al nome della pizza o del condimento e si va ad inserire all’interno 
+                della lista visualizzata.
+            </p>
+
+            <p>
+                Quando l’admin decide di apportare modifiche alla lista di condimenti o di pizze, 
+                le modifiche che comprendono eliminazione o aggiunta di nuovi item, sono prima salvate
+                in locale: ovvero la lista visualizzata subisce le modifiche, poi quando viene cliccato
+                il tasto salva modifiche viene creato un nuovo documento XML composto da tutti i nomi 
+                delle nuove pizze e inviato tramite apposito client  XML alla servlet di gestione
+                (che è MenuServlet) poi viene fatta la stessa operazione per i nuvoi condimenti e inviata 
+                alla stessa servlet, la quale si occuperà di rimpiazzare completamente il contenuto dei
+                due file XML di pizze e condimenti con le opportune modifiche effettuate.
+
+            </p>
+
+            <p>
+                Questo modo di procedere viene scelto in quanto si vuole minimazzare il numero di
+                richieste HTTP effettuate verso la servlet solo quando si sono apporate tutte le 
+                modifiche che si voigliono.
+
+            </p>
+
+            <p>
+                L’adimin può visualizzare l’elenco delle prenotazioni effettuate dai clienti 
+                attraverso la pagina “gestionePrenotazioni.jsp”. Ogni nuovo ordine in cui è 
+                prevista la prenotazioni di tavoli sarà mostrato nella pagina dinamicamente 
+                senza la necessità di ricaricare la pagina, in quanto la visualizzazione è 
+                implementata con notifiche Comet. Quando l’evento “onLoad” verrà catturato, 
+                sarà eseguita la funzione Javascript “getMessages(‘prenotazioni’’)” contenuta nel 
+                file “functions.js”. Tale funzione effettua una richiesta al servizio 
+                “ManageOrderService.java” attraverso un file XML con l’identificativo del tipo 
+                dell’operazione, ovvero “pop”, che permette di porre l’utente in attesa di nuovi
+                ordini con prenotazione. La funzione “getMessages(‘prenotazioni’)” sarà continuamente
+                richiamata e nel caso in cui nella risposta alla richiesta inviata sia presente un
+                nuovo ordine con prenotazione questo verrà visualizzato nell’elenco attraverso la
+                funzione “stampaOrdini(answer, ‘prenotazioni’). L’argomento ‘prenotazioni’ passato 
+                alle funzioni sopra citate è necessario in quanto le stesse funzioni sono utilizzate
+                anche per la gestione degli ordini.
+                La tecnologia utilizzata è stata necessaria in quanto si doveva permettere all’admin 
+                di visualizzare in tempo reale le prenotazioni senza che la pagina fosse ricaricata 
+                ogni pochi secondi.
+
+            </p>
+
+            <h4><u>Cuoco</u></h4>
+
+            <p>
+                Il cuoco può visualizzare l’elenco degli ordini da preparare attraverso la pagina 
+                “gestioneOrdini.jsp”. Ogni nuovo ordine sarà mostrato nella pagina dinamicamente 
+                senza la necessità di ricaricare la pagina, in quanto la visualizzazione è implementata
+                con notifiche Comet. Quando l’evento “onLoad” verrà catturato, sarà eseguita la 
+                funzione Javascript “getMessages(‘ordini’)” contenuta nel file “functions.js”.
+                Tale funzione effettua una richiesta al servizio “ManageOrderService.java” attraverso 
+                un file XML con l’identificativo del tipo dell’operazione, ovvero “pop”, che permette di
+                attendere nuovi ordini . La funzione “getMessages(‘ordini’)” sarà continuamente richiamata
+                e nel caso in cui nella risposta alla richiesta inviata sia presente un nuovo ordine 
+                questo verrà visualizzato nell’elenco attraverso la funzione “stampaOrdini(answer, ‘ordini’).
+                L’argomento ‘ordini’ passato alle funzioni sopra citate è necessario in quanto le stesse 
+                funzioni sono utilizzate anche per la gestione delle prenotazioni.
+                La tecnologia utilizzata è stata necessaria in quanto il cuoco deve poter visualizzare 
+                in modo immediato i nuovi ordini senza preoccuparsi di ricaricare la pagina ogni pochi
+                secondi.
+
+            </p>
+
+        </div>
+
+
+        <h3>Computazione lato Server</h3>
+
+        <div>
+            <p>
+                La computazione lato server è articolata tra JSP, servlet e un servizio.
+
+            </p>
+
+            <p>
+                Nella maggior parte delle pagine JSP sono contenuti controlli di sessione 
+                per permettere ad ogni tipo di utente (admin, cuoco o cliente) di accedere 
+                esclusivamente alle pagine di propria competenza.
+            </p>
+
+            <p>Le JSP presenti sono le seguenti:</p>
+
+            <ul type="square">
+                <li>
+                    <b>home.jsp:</b>
+                    E’ la pagina iniziale del sito che contiene la presentazione della pizzeria,
+                    è visibile a tuti gli utenti (anche non registrati);
+                    <br/><br/>
+                </li>
+
+                <li>
+                    <b>menu.jsp:</b>
+                    Pagina contenente il menu completo delle pizze e dei condimenti. 
+                    Nel caso in cui il login sia effettuato dall’admin questa pagina 
+                    conterrà l’applet “AdminUpdateMenu.java” che permetterà di inserire
+                    nuove pizze e nuovi condimenti;
+
+                    <br/><br/>
+                </li>
+
+                <li>
+                    <b>ordina.jsp:</b>
+                    La pagina contiene l’applet “UserAppletOrder.java” che permette 
+                    al cliente di effettuare gli ordini;
+
+                    <br/><br/>
+                </li>
+
+                <li>
+                    <b>registrazione.jsp:</b>
+                    La pagina contiene il form di registrazione che permette l’inserimento 
+                    di vari dati tra cui username, password, indirizzo, ecc;
+
+                    <br/><br/>
+                </li>
+
+                <li>
+                    <b>Contatti.jsp:</b>
+                    Pagina contenente un form per l’invio di messaggi dal cliente alla pizzeria;
+
+                    <br/><br/>
+                </li>
+
+                <li>
+                    <b>gestionOrdini.jsp:</b>
+                    La pagina contiene l’elenco degli ordini effettuati dai vari clienti, 
+                    inoltre gestisce l’inserimento del cuoco nella HashMap&lt;String, Object&gt; 
+                    per far in modo che la pagina sia aggiornata in modo dinamico;
+
+                    <br/><br/>
+                </li>
+
+                <li>
+                    <b>gestionePrenotazioni.jsp:</b>
+                    La pagina contiene l’elenco degli ordini con prenotazione effettuati dai 
+                    vari clienti ed inoltre gestisce l’inserimento del admin nella
+                    HashMap&lt;String, Object&gt; per far in modo che la pagina sia aggiornata
+                    in modo dinamico;
+
+                    <br/><br/>
+                </li>
+
+                <li>
+                    <b>gestioneMessaggi.jsp:</b>
+                    Pagina contenente l’elenco dei messaggi inviati dai clienti alla pizzeria;
+
+                    <br/><br/>
+                </li>
+
+                <li>
+                    <b>riepilogo.jsp:</b>
+                    La pagina contiene il riepilogo di tutti gli ordini di un particolare cliente.
+
+                    <br/><br/>
+                </li>
+            </ul>
+
+            <p>
+                Le pagine JSP descritte in precedenza contengono parti comuni che sono state gestite
+                con le seguenti JSP Fragment:
+            </p>
+
+            <ul type="circle">
+                <li>
+                    <b>header.jspf:</b>
+                    contiene l’immagine logo della pizzeria e la lista delle pagine del menu a cui un 
+                    utente può accedere.
+                    <br/><br/>
+                </li>
+
+                <li>
+                    <b>sidebar.jspf:</b>
+                    rappresenta la parte laterale del sito e contiene il form per effettuare 
+                    il login, il bottone “Login” che permette la verifica dei dati inseriti,
+                    il bottone “Registrati” per accedere alla pagina di registrazione e una serie 
+                    di tag &lt;input&gt; che permettono di specificare il tipo di utente (admin, cuoco 
+                    o cliente) che effettua il login;
+
+                    <br/><br/>
+                </li>
+
+                <li>
+                    <b>message.jspf:</b>
+                    contiene il controllo di sessione che permette di visualizzare un messaggio di 
+                    errore nel caso un utente non registrato provi ad accedere a pagine non di sua 
+                    competenza;
+                    <br/><br/>
+                </li>
+
+                <li>
+                    <b>footer.jspf:</b>
+                    contiene le informazioni relative alla realizzazione del sito.
+
+                    <br/><br/>
+                </li>
+            </ul>
+
+            <p>Le servlet presenti sono trattate di seguito:</p>
+
+            <p>
+                <b>LoginServlet.java:</b> 
+                Nel metodo “init()” della servlet avviene l’inizializzazione della 
+                HashMap&lt;String,Object&gt; che verrà poi impostata come parametro dell’oggetto
+                application in modo da essere visibile al resto delle servlet, in particolare al 
+                servizio “ManageOrderService.java”. Inoltre tale servlet si occupa delle operazioni 
+                di registrazione, login e logout. Per quanto riguarda l’operazione di “registrazione”,
+                avviene recuperando i dati del form nella pagina “registrazione.jsp” ed effettuando su 
+                essi vari controlli sia relativi alla correttezza dei dati (indirizzo mail valido, 
+                inserimento di tutti i dati obbligatori) sia relativi alla presenza o meno di un utente 
+                con lo stesso username. Nel caso l’utente non sia presente, si procede con il salvataggio
+                dei dati nel database “anagrafica_test.xml” e si imposta il valore del parametro “login”
+                della sessione con lo username del nuovo utente. Infine si effettua un reindirizzamento 
+                alla pagina “home.jsp” del sito. L’operazione di “login” di un utente già registrato, 
+                avviene recuperando i dati dal form presente in “sidebar.jspf” che vengono sottoposti
+                ad un controllo che ne determina la correttezza. Nel caso l’utente sia già registrato 
+                verranno impostati i parametri “login” e “type” rispettivamente con lo username dell’utente 
+                e la tipologia di utente (admin, cuoco o cliente), nel caso i dati non siano corretti 
+                verrà visualizzato un messaggio di errore, infine si effettua un reindirizzamento alla
+                pagina “home.jsp”. Per l’operazione di “logout” vengono invalidati i dati di sessione 
+                presenti.
+                <br/><br/>
+            </p> 
+
+            <p>
+                <b>MenuServlet.java:</b> La servlet, dopo una richiesta dell’applet “AdminUpdateMenu.java”,
+                permette di restituire la lista delle pizze presenti nel menu o l’elenco completo dei 
+                condimenti. Inoltre questa servlet di occupa di gestire l’aggiunta e rimozione di pizze o 
+                condimenti da parte dell’admin. In particolare nel caso in cui la richiesta ricevuta
+                dall’applet “AdminUpdateMenu.java” sia un cambiamento dell’elenco pizze, verrà aggiornato 
+                il database “pizze_standard_test.xml” con il nuovo elenco, mentre nel caso la richiesta 
+                riguardi condimenti, verrà aggiornato il database “condimenti_test.xml” con la nuova 
+                lista dei condimenti.
+                <br/><br/>
+            </p>
+
+            <p>
+                <b>MessageServlet.java:</b> Questa servlet di occupa di gestire i nuovi messaggi inviati 
+                dai clienti alla pizzeria e di farli visualizzare all’admin. Nel caso in cui la richiesta
+                avvenga dal form contenuto nella pagina “contatti.jsp” con il parametro “target=new”, 
+                verrà gestito l’invio di un nuovo messaggio salvandolo nel database “messaggi.xml”,
+                mentre nel caso la richiesta avvenga dalla funzione “getMessaggi()” (nel file functions.js),
+                nella pagina “gestioneMessaggi.jsp”, con il parametro “target=manage” verrà gestita la 
+                visualizzazione dei messaggi da parte dell’admin e la servlet si occuperà di restituire
+                il conenuto del database “messaggi.xml”.
+
+                <br/><br/>
+            </p>
+
+
+            <p>
+                La servlet  <b>“ManageOrderService.java”</b> è un servizio web XML-over-HTTP, in grado 
+                di supportare la comunicazione asincrona, infatti l’implementazione di notifiche 
+                Comet si è resa necessaria per gestire il comportamento dinamico di alcune pagine.
+                Nel metodo “init()” viene recuperato il parametro “loginList” dell’oggetto application,
+                precedentemente impostato dalla servlet “LoginServlet.java”, questo sarà utile per
+                aggiornare le pagine di “gestioneOrdini.jsp” e “gestionePrenotazioni.jsp”.
+            </p>
+            <p>Tale servizio supporta diverse operazioni:</p>
+
+            <ul>
+                <li>
+                    <b>push:</b>
+                    tale richiesta di operazione è ricevuta dall’applet “UserAppletOrder.java” 
+                    al momento del salvataggio di un ordine. Un controllo preliminare del parametro 
+                    “target=push” si occupa di salvare nel database “ordini_test.xml” il nuovo ordine.
+                    L’operazione procede scorrendo la HashMap&lt;String, Object&gt; e controllando se gli 
+                    utenti presenti siano in attesa di dati. Nel caso siano in attesa i dati vengono 
+                    inviati ad ogni utente mentre in caso contrario vengono accodati nella lista di 
+                    ogni utente presente nella HashMap&lt;String, Object&gt;. In ogni caso viene 
+                    restituita una risposta all’applet “UserAppletOrder.java” di “buon fine” 
+                    dell’operazione.
+
+                    <br/><br/>
+                </li>
+
+                <li>
+                    <b>pop:</b>
+                    questa operazione viene eseguita dopo la richiesta della funzione 
+                    “getMessages(‘ordini’)” o “getMessages(‘prenotazioni’)” rispettivamente nelle pagine
+                    “gestioneOrdini.jsp” e “gestionePrenotazioni.jsp”. Questa operazione, recuperato lo 
+                    username dell’utente, controlla se sono presenti dati nella HashMap&lt;String, Object&gt;
+                    relativi allo specifico utente. Nel caso siano presenti i dati, questi vengono
+                    restituiti mentre in caso contrario viene posto l’utente in attesa attraverso un
+                    timeout.
+                    <br/><br/>
+                </li>
+
+                <li>
+                    <b>getOrdini:</b>
+                    tale richiesta di operazione è effettuata dalla funzione “getOrdini(‘ordini’)” o 
+                    “getOrdini(‘prenotazioni’)” rispettivamente nelle pagine “gestioneOrdini.jsp” e
+                    “gestionePrenotazioni.jsp”. Questa operazione restituisce l’elenco degli ordini 
+                    presenti nel database “ordini_test.xml”.
+                    <br/><br/>
+                </li>
+
+                <li>
+                    <b>cambioStato:</b>
+                    questa operazione è utilizzata per cambiare lo stato di un ordine, già salvato 
+                    nel database “ordini_test.xml”, da “attesa” a “completato”. Dato l’id identificativo
+                    dell’ordine questo viene individuato e il contenuto del corrispondente nodo “done”
+                    viene modificato.
+
+                    <br/><br/>
+                </li>
+
+
+            </ul>
+        </div>
+
+
+        <h3>Informazioni memorizzate sul Server</h3>
+
+        <div>
+            <p>Le informazioni memorizzate sul server attraverso file XML sono le seguenti:</p>
+
+            <ul>
+                <li>
+                    <b>Utenti:</b>
+
+                    la struttura è definita nel file “anagrafica.xsd” e le tipologie di utenti 
+                    sono memorizzate nel file “anagrafica_test.xml”. Questo database è utilizzato 
+                    dalla servlet “LoginServlet.java” a seguito di una richiesta del form della 
+                    pagina “registrazione.jsp”, per memorizzare gli utenti registrati nel sito o 
+                    per permettere il login di utenti già registrati;
+
+                    <br/><br/>
+                </li>
+
+                <li>
+                    <b>Pizze:</b>
+                    la struttura è definita nel file “pizze_standard.xsd”. Le pizze disponibili 
+                    nel menu e quelle aggiunte dall’admin sono memorizzate nel file “pizze_standard_test.xml”. 
+                    Questo database è utilizzato sia dall’applet “UserAppletOrder.java” contenuta nella
+                    pagina “ordine.jsp”, alla quale può accedere il cliente per effettuare un ordine, 
+                    per mostrare le pizze presenti nel menu, sia dalla servlet “MenuServlet.java” nella 
+                    pagina “menu.jsp” che può essere utilizzata dall’admin per inserire e salvare nuove 
+                    pizze o da qualsiasi utente (anche non registrato) per visualizzare l’intero menu;
+                    <br/><br/>
+                </li>
+
+                <li>
+                    <b>Condimenti:</b>
+                    la struttura è definita nel file “condimenti.xsd”. I condimenti presenti nel menù e quelli
+                    aggiunti dall’admin sono memorizzati nel file “condimenti_test.xml”. Questo database è 
+                    utilizzato sia dall’applet “UserAppletOrder.java” contenuta nella pagina “ordine.jsp”, 
+                    alla quale può accedere il cliente per effettuare un ordine, per mostrare i vari condimenti
+                    che possono essere selezionati, sia dalla servlet “MenuServlet.java” nella pagina “menu.jsp”
+                    che può essere utilizzata dall’admin per inserire e salvare nuovi condimenti o da qualsiasi 
+                    utente (anche non registrato) per visualizzare l’intero menu;
+                    <br/><br/>
+                </li>
+
+                <li>
+                    <b>Ordini:</b>
+                    la struttura è definita nel file “ordini.xsd” e gli ordini effettuati dai clienti sono
+                    memorizzati nel file “ordini_test.xml”. Questo database è utilizzato sia dall’applet 
+                    “UserAppletOrder.java” contenuta nella pagina “ordine.jsp”, che permette di salvare gli
+                    ordini effettuati dai clienti, sia dal servizio “ManageOrderService.java” dalla pagina
+                    “gestioneOrdini.jsp” utilizzata dal cuoco che permette di mostrare gli ordini già effettuati 
+                    e dalla pagina “gestionePrenotazioni.jsp utilizzata dall’admin in cui sono mostrati gli 
+                    ordini che prevedono una prenotazione di tavoli;
+                    <br/><br/>
+                </li>
+
+                <li>
+                    <b>Messaggi:</b>
+                    la struttura è definita nel file “messaggi.xsd” e i messaggi inviati alla pizzeria sono 
+                    memorizzati nel file “messaggi.xml”. Questo database è utilizzato dalla servlet 
+                    “MessageServlet.java” sia dalla pagina “contatti.jsp” utilizzata dal cliente per inviare 
+                    messaggi alla pizzeria, sia dalla pagina “gestioneMessaggi.jsp” utilizzata dall’admin che 
+                    permette di visualizzare i messaggi ricevuti.
+                    <br/><br/>
+                </li>
+            </ul>
+
+        </div>
+
+        <h3>Informazioni scambiate su rete</h3>
+
+        <div>
+
+            <p>
+                I documenti che sono scambiati in rete tra RIA in Javascript, Applet e servlet 
+                o servizio web sono di tipo XML. Possono rappresentare:
+            </p>
+
+            <ul>
+                <li>
+                    <b>tipologie banali di messaggi</b>
+                    rappresentati da un nodo che contiene il tipo di operazione richiesta a 
+                    una servlet o la risposte a richieste che possono essere andate a “buon fine” o
+                    aver generato un errore;
+
+                    <br/><br/>
+                </li>
+
+                <li>
+                    un <b>nuovo ordine inviato dal cliente</b>
+                    (UserAppletOrder.java) alla pizzeria e quindi al servizio (ManageOrderService.java) 
+                    che mantiene la struttura contenuta in “ordini.xsd”;
+                    <br/><br/>
+                </li>
+
+                <li>
+                    una <b>nuova pizza</b>
+                    inserita nel menu dall’admin (AdminUpdateMenu.java) ed inviata alla servlet 
+                    (MenuServlet.java) che ha la struttura definita in nuovi_inserimenti.xsd;
+                    <br/><br/>
+                </li>
+
+                <li>
+                    un <b>nuovo condimento</b>
+                    inserito nel menu dall’admin (AdminUpdateMenu.java) ed inviato alla servlet
+                    (MenuServlet.java) che ha la struttura definita in nuovi_inserimenti.xsd.
+
+                    <br/><br/>
+                </li>
+
+            </ul>
+
+            <p>
+                Ulteriori informazioni scambiate in rete sono rappresentate dalle form
+                presenti nelle pagine di “registrazione.jsp” e “contatti.jsp”.
+
+            </p>
+        </div>
+    </body>
+</html>

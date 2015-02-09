@@ -1,11 +1,12 @@
 package asw1021;
 
 import asw1021.deploymentUtils.IDeployment;
+import static asw1021.deploymentUtils.IDeployment.SERVER_BASE_URL;
 import asw1021.pizze.*;
 import java.awt.Color;
 import java.awt.Container;
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.event.ActionListener; 
 import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -32,14 +33,14 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 
-/** Applet per effettuare ordini. 
- * Visualizzazione in base al pannello scelto, standard o personalizzata, 
- * delle possibili pizze da voler ordinare. Nel pannello "Standard" posso 
- * selezionare le pizze tradizionali presenti e visibili all'interno della
- * pagina menu; mentre nel pannello "Personalizzata" posso riadattare la
- * pizza a seconda delle mie preferenze partendo dalla base, bianca o 
- * margherita, e dai possibili condimenti da aggiungere sopra. In entrambi
- * i pannelli in più ho la possibilità di scegliere se la mia pizza la
+/**
+ * Applet per effettuare ordini. Visualizzazione in base al pannello scelto,
+ * standard o personalizzata, delle possibili pizze da voler ordinare. Nel
+ * pannello "Standard" posso selezionare le pizze tradizionali presenti e
+ * visibili all'interno della pagina menu; mentre nel pannello "Personalizzata"
+ * posso riadattare la pizza a seconda delle mie preferenze partendo dalla base,
+ * bianca o margherita, e dai possibili condimenti da aggiungere sopra. In
+ * entrambi i pannelli in più ho la possibilità di scegliere se la mia pizza la
  * volessi a base kamut o con doppia mozzarella o di dimensioni maxi; e nel caso
  * in cui avessi più pizze dello stesso tipo è stato inserito appositamente un
  * contatore da incrementare per non dover compilare la stessa procedura n
@@ -47,7 +48,7 @@ import org.w3c.dom.NodeList;
  *
  * @author Mezzapesa Beatrice, Papini Alessia, Pontellini Lorenzo
  */
-public class UserAppletOrder extends JApplet implements IDeployment{
+public class UserAppletOrder extends JApplet implements IDeployment {
 
     public UserAppletOrder() {
     }
@@ -110,6 +111,13 @@ public class UserAppletOrder extends JApplet implements IDeployment{
     private int nPosti;
 
     private ArrayList<pizza> listaOrdinazione;
+
+    private Thread inizializzaCondimenti;
+    private Thread inizializzaPizze;
+    private Thread salvaOrdinazione;
+    private Thread resetOrdinazione;
+    private Thread aggiungiStandard;
+    private Thread aggiungiPersonalizzata;
 
     /**
      * Inizializzazione dell' applet con creazione della GUI
@@ -387,111 +395,124 @@ public class UserAppletOrder extends JApplet implements IDeployment{
      * dal cliente.
      */
     private void salvaOrdinazione() {
-        if (textPaneOrdinazione.getText().equals("")) {
-            textPaneOrdinazione.setText("Scegliere almeno una pizza");
-        } else {
-            tabbedPane.setEnabled(false);
-            panelStandard.setEnabled(false);
-            panelPersonalizzata.setEnabled(false);
-            btnAggiungiPersonalizzata.setEnabled(false);
-            btnAggiungiStandard.setEnabled(false);
-            btnConferma.setEnabled(false);
-            String typeDelivery = "";
-            if (rdbtnRitiro.isSelected()) {
-                typeDelivery = "ritiro";
-            } else if (rdbtnAsporto.isSelected()) {
-                typeDelivery = "asporto";
-            } else if (rdbtnPrenotazione.isSelected()) {
-                typeDelivery = "prenotazione";
-                nPosti = ((Double) spinnerPosti.getValue()).intValue();
-            }
-            try {
-                HTTPClient httpClient = new HTTPClient();
-                httpClient.setBase(new URL(SERVER_BASE_URL));
-                ManageXML mngXML = new ManageXML();
-                String idUser = getParameter("user");
-                Document data = mngXML.newDocument();
-                Element rootFile = data.createElement("ordini_utente");
-                Element root = data.createElement("ordine_utente");
-                Element user = data.createElement("user");
-                user.setTextContent(idUser);
-                Element done = data.createElement("done");
-                boolean state = false;
-                done.setTextContent("" + state);
-                Element id = data.createElement("id");
-                String idOrdine = new SimpleDateFormat("dd-M-yyyy hh:mm:ss").format(new Date());
-                id.setTextContent(idUser + idOrdine);
-                Element type = data.createElement("tipo_ordine");
-                Element posti = null;
-                          
-                type.setTextContent(typeDelivery);
-                root.appendChild(user);
-                root.appendChild(id);
-                root.appendChild(type);
-                if (typeDelivery.equals("prenotazione")) {
-                    posti = data.createElement("posti");
-                    posti.setTextContent("" + nPosti);
-                    root.appendChild(posti);
-                }
-                root.appendChild(done);
 
-                Element typePizza, name, number, plus, base, condimento;
-                String plusString;
-                pizza newPizza = null;
-                for (int i = 0; i < listaOrdinazione.size(); i++) {
-                    plusString = " ";
-                    newPizza = listaOrdinazione.get(i);
-                    if (!newPizza.getName().equals("personalizzata")) {
-                        typePizza = data.createElement("pizzaS");
-                    } else {
-                        typePizza = data.createElement("pizzaP");
-                    }
-                    name = data.createElement("nome_pizza");
-                    name.setTextContent(newPizza.getName());
-                    number = data.createElement("numero_pizze");
-                    number.setTextContent("" + newPizza.getNPizze());
-                    plus = data.createElement("plus");
-                    for (int j = 0; j < newPizza.getAggiunte().size(); j++) {
-                        plusString += " " + newPizza.getAggiunte().get(j);
-                    }
-                    if (plusString.equals("")) {
-                        plusString = "Nessuna selezione";
-                    }
-                    plus.setTextContent(plusString);
+        salvaOrdinazione = new Thread(new Runnable() {
 
-                    typePizza.appendChild(name);
-                    typePizza.appendChild(number);
-                    typePizza.appendChild(plus);
-                    if (newPizza.getName().equals("personalizzata")) {
-                        pizzaPersonalizzata pizzaPers = (pizzaPersonalizzata) newPizza;
-                        base = data.createElement("base");
-                        base.setTextContent(pizzaPers.getBase());
-                        typePizza.appendChild(base);
-                        for (int k = 0; k < pizzaPers.getCondimenti().size(); k++) {
-                            condimento = data.createElement("condimento");
-                            condimento.setTextContent(pizzaPers.getCondimenti().get(k));
-                            typePizza.appendChild(condimento);
-                        }
-                    }
-
-                    root.appendChild(typePizza);
-                }
-
-                rootFile.appendChild(root);
-                data.appendChild(rootFile);
-
-                Document answer = httpClient.execute("ManageOrderService?target=push", data);
-                if (answer.getDocumentElement().getTagName().equals("ok")) {
-                    textPaneOrdinazione.setText("Ordine Confermato");
+            @Override
+            public void run() {
+                if (textPaneOrdinazione.getText().equals("")) {
+                    textPaneOrdinazione.setText("Scegliere almeno una pizza");
                 } else {
-                    textPaneOrdinazione.setText("Ordine non effettuato");
+                    tabbedPane.setEnabled(false);
+                    panelStandard.setEnabled(false);
+                    panelPersonalizzata.setEnabled(false);
+                    btnAggiungiPersonalizzata.setEnabled(false);
+                    btnAggiungiStandard.setEnabled(false);
+                    btnConferma.setEnabled(false);
+                    String typeDelivery = "";
+                    if (rdbtnRitiro.isSelected()) {
+                        typeDelivery = "ritiro";
+                    } else if (rdbtnAsporto.isSelected()) {
+                        typeDelivery = "asporto";
+                    } else if (rdbtnPrenotazione.isSelected()) {
+                        typeDelivery = "prenotazione";
+                        nPosti = ((Double) spinnerPosti.getValue()).intValue();
+                    }
+                    try {
+                        HTTPClient httpClient = new HTTPClient();
+                        httpClient.setBase(new URL(SERVER_BASE_URL));
+                        ManageXML mngXML = new ManageXML();
+                        String idUser = getParameter("user");
+                        Document data = mngXML.newDocument();
+                        Element rootFile = data.createElement("ordini_utente");
+                        Element root = data.createElement("ordine_utente");
+                        Element user = data.createElement("user");
+                        user.setTextContent(idUser);
+                        Element done = data.createElement("done");
+                        boolean state = false;
+                        done.setTextContent("" + state);
+                        Element id = data.createElement("id");
+                        String idOrdine = new SimpleDateFormat("dd-M-yyyy hh:mm:ss").format(new Date());
+                        id.setTextContent(idUser + idOrdine);
+                        Element type = data.createElement("tipo_ordine");
+                        Element posti = null;
+
+                        type.setTextContent(typeDelivery);
+                        root.appendChild(user);
+                        root.appendChild(id);
+                        root.appendChild(type);
+                        if (typeDelivery.equals("prenotazione")) {
+                            posti = data.createElement("posti");
+                            posti.setTextContent("" + nPosti);
+                            root.appendChild(posti);
+                        }
+                        root.appendChild(done);
+
+                        Element typePizza, name, number, plus, base, condimento;
+                        String plusString;
+                        pizza newPizza = null;
+                        for (int i = 0; i < listaOrdinazione.size(); i++) {
+                            plusString = " ";
+                            newPizza = listaOrdinazione.get(i);
+                            if (!newPizza.getName().equals("personalizzata")) {
+                                typePizza = data.createElement("pizzaS");
+                            } else {
+                                typePizza = data.createElement("pizzaP");
+                            }
+                            name = data.createElement("nome_pizza");
+                            name.setTextContent(newPizza.getName());
+                            number = data.createElement("numero_pizze");
+                            number.setTextContent("" + newPizza.getNPizze());
+                            plus = data.createElement("plus");
+                            for (int j = 0; j < newPizza.getAggiunte().size(); j++) {
+                                plusString += " " + newPizza.getAggiunte().get(j);
+                            }
+                            if (plusString.equals("")) {
+                                plusString = "Nessuna selezione";
+                            }
+                            plus.setTextContent(plusString);
+
+                            typePizza.appendChild(name);
+                            typePizza.appendChild(number);
+                            typePizza.appendChild(plus);
+                            if (newPizza.getName().equals("personalizzata")) {
+                                pizzaPersonalizzata pizzaPers = (pizzaPersonalizzata) newPizza;
+                                base = data.createElement("base");
+                                base.setTextContent(pizzaPers.getBase());
+                                typePizza.appendChild(base);
+                                for (int k = 0; k < pizzaPers.getCondimenti().size(); k++) {
+                                    if (!pizzaPers.getCondimenti().get(k).equals("nessuna selezione")) {
+                                        condimento = data.createElement("condimento");
+                                        condimento.setTextContent(pizzaPers.getCondimenti().get(k));
+                                        typePizza.appendChild(condimento);
+                                    }
+                                }
+                            }
+
+                            root.appendChild(typePizza);
+                        }
+
+                        rootFile.appendChild(root);
+                        data.appendChild(rootFile);
+
+                        Document answer = httpClient.execute("ManageOrderService?target=push", data);
+                        if (answer.getDocumentElement().getTagName().equals("ok")) {
+                            textPaneOrdinazione.setText("Ordine Confermato");
+                        } else {
+                            textPaneOrdinazione.setText("Ordine non effettuato");
+                        }
+
+                    } catch (Exception e) {
+                        Logger.getLogger(UserAppletOrder.class.getName()).log(Level.SEVERE, null, e);
+                        textPaneOrdinazione.setText("Errore");
+                    }
                 }
 
-            } catch (Exception e) {
-                Logger.getLogger(UserAppletOrder.class.getName()).log(Level.SEVERE, null, e);
-                textPaneOrdinazione.setText("Errore");
             }
-        }
+
+        });
+
+        salvaOrdinazione.start();
     }
 
     /**
@@ -501,146 +522,180 @@ public class UserAppletOrder extends JApplet implements IDeployment{
      */
     private void resetOrdinazione() {
 
-        listaOrdinazione.clear();
-        textPaneOrdinazione.setText("");
+        resetOrdinazione = new Thread(new Runnable() {
+
+            @Override
+            public void run() {
+
+                listaOrdinazione.clear();
+                textPaneOrdinazione.setText("");
+            }
+
+        });
+
+        resetOrdinazione.start();
+
     }
 
     /**
      * Una volta decisa la pizza da ordinare, premendo "Aggiungi", questa viene
-     * inserita nella JTextArea e poi posso continuare a completare l'ordine
-     * con le pizze che voglio richiedere.
+     * inserita nella JTextArea e poi posso continuare a completare l'ordine con
+     * le pizze che voglio richiedere.
      */
     private void aggiungiPizzaStandard() {
 
-        if (textPaneOrdinazione.getText().equals("Scegliere almeno una pizza")) {
-            resetOrdinazione();
-        }
+        aggiungiStandard = new Thread(new Runnable() {
 
-        pizzaStandard pizza = new pizzaStandard();
+            @Override
+            public void run() {
 
-        String select = (String) comboBoxStandard.getSelectedItem();
+                if (textPaneOrdinazione.getText().equals("Scegliere almeno una pizza")) {
+                    resetOrdinazione();
+                }
 
-        pizza.setName(select);
+                pizzaStandard pizza = new pizzaStandard();
 
-        int n = ((Double) spinnerStandard.getValue()).intValue();
+                String select = (String) comboBoxStandard.getSelectedItem();
 
-        pizza.setNPizze(n);
+                pizza.setName(select);
 
-        String aggiunte = "(";
+                int n = ((Double) spinnerStandard.getValue()).intValue();
 
-        if (chckbxBaseKamutS.isSelected()) {
-            aggiunte += " Base Kamut ";
-            pizza.setAggiunta("Base Kamut");
-        }
+                pizza.setNPizze(n);
 
-        if (chckbxGiganteS.isSelected()) {
-            aggiunte += " Maxi ";
-            pizza.setAggiunta("Maxi");
-        }
+                String aggiunte = "(";
 
-        if (chckbxDoppiaMozzarellaS.isSelected()) {
-            aggiunte += " Doppia Moz ";
-            pizza.setAggiunta("Doppia Mozzarella");
-        }
+                if (chckbxBaseKamutS.isSelected()) {
+                    aggiunte += " Base Kamut ";
+                    pizza.setAggiunta("Base Kamut");
+                }
 
-        aggiunte += ")";
+                if (chckbxGiganteS.isSelected()) {
+                    aggiunte += " Maxi ";
+                    pizza.setAggiunta("Maxi");
+                }
 
-        String ordinazione = ("Pizza: " + select + " n° " + n);
+                if (chckbxDoppiaMozzarellaS.isSelected()) {
+                    aggiunte += " Doppia Moz ";
+                    pizza.setAggiunta("Doppia Mozzarella");
+                }
 
-        if (aggiunte.equals("()")) {
-            ordinazione += "\n";
-        } else {
-            ordinazione += (" " + aggiunte + "\n");
-        }
-        String tmp = textPaneOrdinazione.getText();
-        tmp += ordinazione;
-        textPaneOrdinazione.setText(tmp);
+                aggiunte += ")";
 
-        listaOrdinazione.add(pizza);
+                String ordinazione = ("Pizza: " + select + " n° " + n);
+
+                if (aggiunte.equals("()")) {
+                    ordinazione += "\n";
+                } else {
+                    ordinazione += (" " + aggiunte + "\n");
+                }
+                String tmp = textPaneOrdinazione.getText();
+                tmp += ordinazione;
+                textPaneOrdinazione.setText(tmp);
+
+                listaOrdinazione.add(pizza);
+
+            }
+        });
+
+        aggiungiStandard.start();
+
     }
 
     /**
      * Una volta decisa la pizza da ordinare, premendo "Aggiungi", questa viene
-     * inserita nella JTextArea e poi posso continuare a completare l'ordine
-     * con le pizze che voglio richiedere.
+     * inserita nella JTextArea e poi posso continuare a completare l'ordine con
+     * le pizze che voglio richiedere.
      */
     private void aggiungiPizzaPersonalizzata() {
 
-        if (textPaneOrdinazione.getText().equals("Scegliere almeno una pizza")) {
-            resetOrdinazione();
-        }
+        aggiungiPersonalizzata = new Thread(new Runnable() {
 
-        pizzaPersonalizzata pizza = new pizzaPersonalizzata();
+            @Override
+            public void run() {
 
-        String ordinazione = "Base Pizza: ";
-        if (rdbtnMargherita.isSelected()) {
-            ordinazione += rdbtnMargherita.getText() + " ";
-            pizza.setBase(rdbtnMargherita.getText());
-        } else {
-            ordinazione += rdbtnBianca.getText() + " ";
-            pizza.setBase(rdbtnBianca.getText());
-        }
+                if (textPaneOrdinazione.getText().equals("Scegliere almeno una pizza")) {
+                    resetOrdinazione();
+                }
 
-        ordinazione += "Condimenti: ";
+                pizzaPersonalizzata pizza = new pizzaPersonalizzata();
 
-        String select1 = (String) comboBoxCondimento1.getSelectedItem();
-        String select2 = (String) comboBoxCondimento2.getSelectedItem();
-        String select3 = (String) comboBoxCondimento3.getSelectedItem();
-        String select4 = (String) comboBoxCondimento4.getSelectedItem();
+                String ordinazione = "Base Pizza: ";
+                if (rdbtnMargherita.isSelected()) {
+                    ordinazione += rdbtnMargherita.getText() + " ";
+                    pizza.setBase(rdbtnMargherita.getText());
+                } else {
+                    ordinazione += rdbtnBianca.getText() + " ";
+                    pizza.setBase(rdbtnBianca.getText());
+                }
 
-        if (!select1.equals("nessuna selezione")) {
-            ordinazione += select1 + " ";
-            pizza.setCondimento(select1);
-        }
+                ordinazione += "Condimenti: ";
 
-        if (!select2.equals("nessuna selezione")) {
-            ordinazione += select2 + " ";
-            pizza.setCondimento(select2);
-        }
+                String select1 = (String) comboBoxCondimento1.getSelectedItem();
+                String select2 = (String) comboBoxCondimento2.getSelectedItem();
+                String select3 = (String) comboBoxCondimento3.getSelectedItem();
+                String select4 = (String) comboBoxCondimento4.getSelectedItem();
 
-        if (!select3.equals("nessuna selezione")) {
-            ordinazione += select3 + " ";
-            pizza.setCondimento(select3);
-        }
+                if (!select1.equals("Nessuna selezione")) {
+                    ordinazione += select1 + " ";
+                    pizza.setCondimento(select1);
+                }
 
-        if (!select4.equals("nessuna selezione")) {
-            ordinazione += select4 + " ";
-            pizza.setCondimento(select4);
-        }
+                if (!select2.equals("Nessuna selezione")) {
+                    ordinazione += select2 + " ";
+                    pizza.setCondimento(select2);
+                }
 
-        int n = ((Double) spinnerPersonalizzata.getValue()).intValue();
-        ordinazione += "n° " + n;
-        pizza.setNPizze(n);
+                if (!select3.equals("Nessuna selezione")) {
+                    ordinazione += select3 + " ";
+                    pizza.setCondimento(select3);
+                }
 
-        String aggiunte = "(";
+                if (!select4.equals("Nessuna selezione")) {
+                    ordinazione += select4 + " ";
+                    pizza.setCondimento(select4);
+                }
 
-        if (chckbxBaseKamutP.isSelected()) {
-            aggiunte += " Base Kamut ";
-            pizza.setAggiunta("Base Kamut");
-        }
+                int n = ((Double) spinnerPersonalizzata.getValue()).intValue();
+                ordinazione += "n° " + n;
+                pizza.setNPizze(n);
 
-        if (chckbxGiganteP.isSelected()) {
-            aggiunte += " Maxi ";
-            pizza.setAggiunta("Maxi");
-        }
+                String aggiunte = "(";
 
-        if (chckbxDoppiaMozzarellaP.isSelected()) {
-            aggiunte += " Doppia Moz ";
-            pizza.setAggiunta("Doppia Mozzarella");
-        }
+                if (chckbxBaseKamutP.isSelected()) {
+                    aggiunte += " Base Kamut ";
+                    pizza.setAggiunta("Base Kamut");
+                }
 
-        aggiunte += ")";
+                if (chckbxGiganteP.isSelected()) {
+                    aggiunte += " Maxi ";
+                    pizza.setAggiunta("Maxi");
+                }
 
-        if (aggiunte.equals("()")) {
-            ordinazione += "\n";
-        } else {
-            ordinazione += (" " + aggiunte + "\n");
-        }
-        String tmp = textPaneOrdinazione.getText();
-        tmp += ordinazione;
-        textPaneOrdinazione.setText(tmp);
+                if (chckbxDoppiaMozzarellaP.isSelected()) {
+                    aggiunte += " Doppia Moz ";
+                    pizza.setAggiunta("Doppia Mozzarella");
+                }
 
-        listaOrdinazione.add(pizza);
+                aggiunte += ")";
+
+                if (aggiunte.equals("()")) {
+                    ordinazione += "\n";
+                } else {
+                    ordinazione += (" " + aggiunte + "\n");
+                }
+                String tmp = textPaneOrdinazione.getText();
+                tmp += ordinazione;
+                textPaneOrdinazione.setText(tmp);
+
+                listaOrdinazione.add(pizza);
+
+            }
+
+        });
+
+        aggiungiPersonalizzata.start();
+
     }
 
     /**
@@ -648,31 +703,43 @@ public class UserAppletOrder extends JApplet implements IDeployment{
      * personalizzata.
      */
     private void initializeListaCondimenti() {
-        try {
-            HTTPClient httpClient = new HTTPClient();
-            httpClient.setBase(new URL(SERVER_BASE_URL));
 
-            ManageXML mngXML = new ManageXML();
-            Document data = mngXML.newDocument();
-            Element rootFile = data.createElement("tipo");
-            rootFile.setTextContent("condimenti");
-            data.appendChild(rootFile);
+        inizializzaCondimenti = new Thread(new Runnable() {
 
-            Document answer = httpClient.execute("MenuServlet", data);
-            NodeList l = answer.getElementsByTagName("condimento");
-            for (int i = 0; i < l.getLength(); i++) {
-                Element n = (Element) l.item(i);
+            @Override
+            public void run() {
 
-                comboBoxCondimento1.addItem(n.getElementsByTagName("nome").item(0).getTextContent());
-                comboBoxCondimento2.addItem(n.getElementsByTagName("nome").item(0).getTextContent());
-                comboBoxCondimento3.addItem(n.getElementsByTagName("nome").item(0).getTextContent());
-                comboBoxCondimento4.addItem(n.getElementsByTagName("nome").item(0).getTextContent());
+                try {
+                    HTTPClient httpClient = new HTTPClient();
+                    httpClient.setBase(new URL(SERVER_BASE_URL));
 
+                    ManageXML mngXML = new ManageXML();
+                    Document data = mngXML.newDocument();
+                    Element rootFile = data.createElement("tipo");
+                    rootFile.setTextContent("condimenti");
+                    data.appendChild(rootFile);
+
+                    Document answer = httpClient.execute("MenuServlet", data);
+                    NodeList l = answer.getElementsByTagName("condimento");
+                    for (int i = 0; i < l.getLength(); i++) {
+                        Element n = (Element) l.item(i);
+
+                        comboBoxCondimento1.addItem(n.getElementsByTagName("nome").item(0).getTextContent());
+                        comboBoxCondimento2.addItem(n.getElementsByTagName("nome").item(0).getTextContent());
+                        comboBoxCondimento3.addItem(n.getElementsByTagName("nome").item(0).getTextContent());
+                        comboBoxCondimento4.addItem(n.getElementsByTagName("nome").item(0).getTextContent());
+
+                    }
+
+                } catch (Exception e) {
+                    System.err.println("--> " + e.getMessage());
+                }
             }
 
-        } catch (Exception e) {
-            System.err.println("--> " + e.getMessage());
-        }
+        });
+
+        inizializzaCondimenti.start();
+
     }
 
     /**
@@ -680,27 +747,39 @@ public class UserAppletOrder extends JApplet implements IDeployment{
      */
     private void initializeListaStandard() {
 
-        try {
+        inizializzaPizze = new Thread(new Runnable() {
 
-            HTTPClient httpClient = new HTTPClient();
-            httpClient.setBase(new URL(SERVER_BASE_URL));
+            @Override
+            public void run() {
 
-            ManageXML mngXML = new ManageXML();
-            Document data = mngXML.newDocument();
-            Element rootFile = data.createElement("tipo");
-            rootFile.setTextContent("pizze");
-            data.appendChild(rootFile);
+                try {
 
-            Document answer = httpClient.execute("MenuServlet", data);
-            NodeList l = answer.getElementsByTagName("pizza_standard");
+                    HTTPClient httpClient = new HTTPClient();
+                    httpClient.setBase(new URL(SERVER_BASE_URL));
 
-            for (int i = 0; i < l.getLength(); i++) {
-                Element n = (Element) l.item(i);
-                comboBoxStandard.addItem(n.getElementsByTagName("nome").item(0).getTextContent());
+                    ManageXML mngXML = new ManageXML();
+                    Document data = mngXML.newDocument();
+                    Element rootFile = data.createElement("tipo");
+                    rootFile.setTextContent("pizze");
+                    data.appendChild(rootFile);
+
+                    Document answer = httpClient.execute("MenuServlet", data);
+                    NodeList l = answer.getElementsByTagName("pizza_standard");
+
+                    for (int i = 0; i < l.getLength(); i++) {
+                        Element n = (Element) l.item(i);
+                        comboBoxStandard.addItem(n.getElementsByTagName("nome").item(0).getTextContent());
+                    }
+
+                } catch (Exception e) {
+                    System.err.println("--> " + e.getMessage());
+                }
+
             }
 
-        } catch (Exception e) {
-            System.err.println("--> " + e.getMessage());
-        }
+        });
+
+        inizializzaPizze.start();
+
     }
 }

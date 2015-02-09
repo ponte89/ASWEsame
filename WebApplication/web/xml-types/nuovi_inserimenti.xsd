@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+
+<xsd:schema version="1.0" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+
+    <xs:sequence>
+        <xs:element name="tipo" type="xs:string"/>
+        <xs:element name="nome" type="xs:string"/>
+    </xs:sequence>
+    
+</xsd:schema>

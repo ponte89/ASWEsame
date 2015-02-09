@@ -76,7 +76,7 @@ public class LoginServlet extends HttpServlet {
                     String cap = request.getParameter("postcode");
                     String country = request.getParameter("country");
                     
-                    //controllo mail
+                   
                     if(!mail.equals("")){
                         if(!mail.matches("[a-zA-Z0-9._%-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,4}")){
                             error = "Inserire un indirizzo mail valido";
@@ -86,7 +86,7 @@ public class LoginServlet extends HttpServlet {
                         error = "Inserire tutti i dati richiesti";
                     }
                     
-                    //controllo user unico
+                    
                     if(error.equals("")){
                         InputStream is = getServletContext().getResourceAsStream("/WEB-INF/xml/anagrafica_test.xml");
                         ManageXML manageXml = new ManageXML();
@@ -105,7 +105,7 @@ public class LoginServlet extends HttpServlet {
                                }
                         }
                         if(!found){
-                        //inserisci il nuovo utente
+                        
                             Element newUser = doc.createElement("utente");
                             Element newName = doc.createElement("name");
                             newName.setTextContent(name);

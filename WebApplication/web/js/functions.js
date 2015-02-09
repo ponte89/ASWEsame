@@ -99,9 +99,6 @@ function stampaDati(data, value) {
         var con = document.getElementById("pizze");
         
         var pizze = data.getElementsByTagName("nome");
-                
-        var prova = data.getElementsByTagName("pizza_standard");
-        console.log("dimensione pizza standard: "+prova.length);
         
         var sopra = "<caption align='attributo' style='font-size:36px'>Le nostre Pizze</caption>";
         var table = "";

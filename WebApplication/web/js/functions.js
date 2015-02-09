@@ -334,7 +334,6 @@ function ordineCompletato(idOrdine){
     document.getElementById(r).style.background = "#00FF00";
     document.getElementById(complete).type = "hidden";
     document.getElementById(idOrdine).innerHTML = 'Completato';
-    //trovare l'ordine e modificare lo stato
         var xmlhttp2 = new XMLHttpRequest();
         xmlhttp2.onreadystatechange = function () {
             if (xmlhttp2.readyState === 4 && xmlhttp2.status === 200) {
@@ -344,14 +343,12 @@ function ordineCompletato(idOrdine){
         xmlhttp2.open("POST", "../ManageOrderService", true);
         xmlhttp2.setRequestHeader("Content-Type", "text/xml");
 
-        //dataOrdini 
         var doc = document.implementation.createDocument("", "cambioStato", null);
         var nameElement = doc.createElement("idOrdine");
         var name = doc.createTextNode(idOrdine);
 
         nameElement.appendChild(name);
 
-        // append to document
         doc.documentElement.appendChild(nameElement);
         xmlhttp2.send(doc);
 }

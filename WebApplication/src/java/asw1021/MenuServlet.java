@@ -20,7 +20,7 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
-/**
+/** Servlet per la modifica del menù da parte dell'admin
  *
  * @author Mezzapesa Beatrice, Papini Alessia, Pontellini Lorenzo
  */
@@ -68,7 +68,6 @@ public class MenuServlet extends HttpServlet {
             } else if (s.contains("nuovePizze")) {
 
                 String path = getServletContext().getRealPath("") + "/WEB-INF/xml/pizze_standard_test.xml";
-                //Document doc = manageXml.parse(new File(path));
 
                 NodeList pizzeinput = docin.getElementsByTagName("nome");
                 Document document = manageXml.newDocument();

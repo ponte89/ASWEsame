@@ -19,7 +19,7 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 
-/**
+/** Servlet per la gestione dei messaggi inviati all'admin dai clienti
  *
  * @author Mezzapesa Beatrice, Papini Alessia, Pontellini Lorenzo
  */
@@ -89,9 +89,7 @@ public class MessageServlet extends HttpServlet {
         }
         response.sendRedirect(request.getContextPath() + "/jsp/home.jsp");
 
-        //response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");

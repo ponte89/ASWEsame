@@ -1,6 +1,5 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
-
 <html>
     <head>
         <title>Pizzeria Interattiva</title>
@@ -82,7 +81,6 @@
 
                     </fieldset>
 
-
                     <fieldset>
 
                         <button type=submit>Conferma</button>
@@ -91,10 +89,7 @@
 
                 </form>
 
-
             </div>
-
-
 
         </section>
 

@@ -21,7 +21,7 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Document;
 import org.w3c.dom.NodeList;
 
-/**
+/** Servlet adibita alla gestione della login utente
  *
  * @author Mezzapesa Beatrice, Papini Alessia, Pontellini Lorenzo
  */
@@ -87,7 +87,6 @@ public class LoginServlet extends HttpServlet {
                     }
                     
                     //controllo user unico
-                    
                     if(error.equals("")){
                         InputStream is = getServletContext().getResourceAsStream("/WEB-INF/xml/anagrafica_test.xml");
                         ManageXML manageXml = new ManageXML();

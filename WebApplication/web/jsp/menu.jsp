@@ -12,16 +12,12 @@
 
             <%@ include file="/WEB-INF/jspf/sidebar.jspf" %>   
 
-
-
-
             <div class="content">
                 <h1>Il menu tradizionale</h1>
 
                 <%  if ((session.getAttribute("login") != null)
                             && (session.getAttribute("type").toString().equals("admin"))) {
                 %>
-
 
                 <div id="applet" align="center" style="margin:5px;">
 

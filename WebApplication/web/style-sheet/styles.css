@@ -108,9 +108,7 @@ footer {
     padding-left: 60px;
     padding-top:10px;
 }
-//.content ul, .content ol {
-// padding: 0 15px 15px 340px;
-//}
+
 .clearfloat {
     clear:both;
     height:0;
@@ -392,7 +390,6 @@ input.login[type=password] {
 }
 input.login[type=submit] {
     float: left;
-    //margin-right: 20px;
     margin-top: 10px;
     margin-left:5px;
     width: 90px;

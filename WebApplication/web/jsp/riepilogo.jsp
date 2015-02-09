@@ -20,7 +20,6 @@
                 String us = session.getAttribute("type").toString();
                 String ordineLog = "";
                 
-                    
                 if (us.equals("utente")) {
                     %>
                     <h1>Riepilogo ordini</h1> 
@@ -29,12 +28,10 @@
                     InputStream is = getServletContext().getResourceAsStream("/WEB-INF/xml/ordini_test.xml");
                     ManageXML manageXml = new ManageXML();
                     Document doc = manageXml.parse(is);
-                    Element root = doc.getDocumentElement();
                     NodeList ordini= doc.getElementsByTagName("ordine_utente");
-                    Element ordine, numero_posti;
-                    NodeList pizzaS, pizzaP, tipo;
+                    Element ordine;
+                    NodeList pizzaS, pizzaP;
                     String id, done, tipo_ordine, numero, nome, plus, base;
-                    
                     
                     for (int i = 0; i < ordini.getLength(); i++) {
                            ordineLog = ""; 
@@ -83,18 +80,7 @@
                                }
                              %>
                              <tr><td><%=ordineLog%></td></tr>
-                             
-                             <%
-                           }
-                    }
-                 %>
-                 
-                
-
-                 <%
-                
-            %>
-           
+          
             </table> 
             </div>
             

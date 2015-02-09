@@ -18,7 +18,6 @@
                 String user = (String) session.getAttribute("login");
                 String us = session.getAttribute("type").toString();
                 if (us.equals("admin")) {  //admin
-                    //application = getServletContext();
                     HashMap<String, Object> contexts = (HashMap<String, Object>) application.getAttribute("loginList");
                     contexts.put(user, new LinkedList<Document>());
         %>  

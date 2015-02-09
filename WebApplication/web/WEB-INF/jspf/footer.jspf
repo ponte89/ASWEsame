@@ -1,5 +1,5 @@
 <%-- any content can be specified here e.g.: --%>
 <%@ page pageEncoding="UTF-8" %>
 <footer class="container">
-            <p>Copyright &copy; Pizzeria Interattiva. All rights reserved. Design by Mezzapesa Beatrice Papini Alessia Pontellini Lorenzo<p>
+            <p>Copyright &copy; Pizzeria Interattiva. All rights reserved. Design by Mezzapesa Beatrice, Papini Alessia e Pontellini Lorenzo<p>
 </footer>

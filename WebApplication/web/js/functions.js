@@ -57,9 +57,7 @@ function getDati(value) {
         xmlhttp2.onreadystatechange = function () {
             if (xmlhttp2.readyState === 4 && xmlhttp2.status === 200) {
                 var answer = xmlhttp2.responseXML;
-                
-                //console.log(answer);
-                
+                                
                 stampaDati(answer, "messaggi");
             }
         };
@@ -73,7 +71,6 @@ function getDati(value) {
         text.nodeValue = "messaggi";
         rootData.appendChild(text);
         datiMessaggi.appendChild(rootData);
-
 
         xmlhttp2.send(datiMessaggi);
     }
@@ -102,11 +99,9 @@ function stampaDati(data, value) {
         var con = document.getElementById("pizze");
         
         var pizze = data.getElementsByTagName("nome");
-        
-        
+                
         var prova = data.getElementsByTagName("pizza_standard");
         console.log("dimensione pizza standard: "+prova.length);
-        
         
         var sopra = "<caption align='attributo' style='font-size:36px'>Le nostre Pizze</caption>";
         var table = "";
@@ -115,7 +110,6 @@ function stampaDati(data, value) {
             var nome = pizze[i].childNodes[0].nodeValue;
 
             table += "<tr><td width=25px align='center'>" + (i + 1) + "</td><td width=300>&nbsp;&nbsp;Pizza " + nome + "</td></tr>";
-
         }
 
         con.innerHTML = sopra + table;
@@ -146,11 +140,9 @@ function stampaDati(data, value) {
         var table = "<tr><th>Utente</th><th>Messaggio</th></tr>";
 
         for (i = 0; i < messaggio.length; i++) {
-
             var name = nome[i].childNodes[0].nodeValue;
             var mess = messaggio[i].childNodes[0].nodeValue;
             table += "<tr><td width=100px align='center'>"+name+"</td><td width=400>&nbsp;&nbsp;" + mess + "</td></tr>";
-
         }
 
         con.innerHTML = sopra + table;
@@ -168,7 +160,6 @@ function getMessages(value){
                     if (xmlhttp2.readyState === 4 && xmlhttp2.status===200) {   
                         answer = xmlhttp2.responseXML;
                         if(answer.documentElement.tagName === "ordini_utente"){
-                            
                             console.log(value);
                             if(value === "ordini"){
                                 stampaOrdini(answer, "ordini");   
@@ -224,13 +215,11 @@ function stampaOrdini(data, value){
                   tableOrdini += "<tr><td><b>Utente: </b>" + userLog + " <b>IdOrdine: </b>" + idLog + " <b>Consegna: </b>" + tipo_ordineLog + " </br>";  
                 }
 
-
                 var pizzeS = ordini[k].getElementsByTagName("pizzaS");
                 var pizzeP = ordini[k].getElementsByTagName("pizzaP");
                 var numeroLog, plusLog, nomeLog, baseLog;
                 var condimentiLog = "";
                 for (i = 0; i < pizzeS.length; i++) {
-
                     var nome = pizzeS[i].getElementsByTagName("nome_pizza");
                     nomeLog = nome[0].childNodes[0].nodeValue;
                     var numero = pizzeS[i].getElementsByTagName("numero_pizze");
@@ -242,7 +231,6 @@ function stampaOrdini(data, value){
                 }
 
                 for (i = 0; i < pizzeP.length; i++) {
-
                     var nome = pizzeP[i].getElementsByTagName("nome_pizza");
                     nomeLog = nome[0].childNodes[0].nodeValue;
                     var numero = pizzeP[i].getElementsByTagName("numero_pizze");
@@ -302,7 +290,6 @@ function stampaOrdini(data, value){
                 var numeroLog, plusLog, nomeLog, baseLog;
                 var condimentiLog = "";
                 for (i = 0; i < pizzeS.length; i++) {
-
                     var nome = pizzeS[i].getElementsByTagName("nome_pizza");
                     nomeLog = nome[0].childNodes[0].nodeValue;
                     var numero = pizzeS[i].getElementsByTagName("numero_pizze");
@@ -314,7 +301,6 @@ function stampaOrdini(data, value){
                 }
 
                 for (i = 0; i < pizzeP.length; i++) {
-
                     var nome = pizzeP[i].getElementsByTagName("nome_pizza");
                     nomeLog = nome[0].childNodes[0].nodeValue;
                     var numero = pizzeP[i].getElementsByTagName("numero_pizze");
@@ -352,7 +338,6 @@ function ordineCompletato(idOrdine){
         var xmlhttp2 = new XMLHttpRequest();
         xmlhttp2.onreadystatechange = function () {
             if (xmlhttp2.readyState === 4 && xmlhttp2.status === 200) {
-                var answer = xmlhttp2.responseXML;
                 console.log("Modifico l'ordine");
             }
         };
@@ -386,8 +371,7 @@ function getOrdini(value){
         };
         xmlhttp2.open("POST", "../ManageOrderService", true);
         xmlhttp2.setRequestHeader("Content-Type", "text/xml");
-        
-        
+               
         dataOrdini = document.implementation.createDocument("", "getOrdini", null);
 
         xmlhttp2.send(dataOrdini);

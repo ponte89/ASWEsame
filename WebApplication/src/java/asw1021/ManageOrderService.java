@@ -26,7 +26,7 @@ import javax.servlet.annotation.WebServlet;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
-/**
+/** Servlet per la gestione degli ordini da parte del cuoco 
  *
  * @author Mezzapesa Beatrice, Papini Alessia, Pontellini Lorenzo
  */
@@ -166,7 +166,6 @@ public class ManageOrderService extends HttpServlet {
                     //fine ordine
                     OutputStream os = new FileOutputStream(path);
                     mngXML.transform(os, doc);
-                    //mngXML.transform(os, data);
                     mngXML = new ManageXML();
                     os.close();
 

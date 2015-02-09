@@ -3,7 +3,6 @@
 <header class="container">
     <div class="headerPic"><img src="./../multimedia/headerPic.jpg">
 
-
     </div>
     <nav>
         <ul id="navlist">

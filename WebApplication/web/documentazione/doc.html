@@ -190,7 +190,7 @@ and open the template in the editor.
             <h4><u><a name="Cliente">Cliente</a></u></h4>
 
             <p>Ogni cliente ha la possibilità di effetture un ordine, per gestire questa funzionalità 
-                si è scelto l’uso dell’applet <b>“UserAppletOrder.java”</b> realizzando l’interfaccia grafica 
+                si è scelto l’uso dell’applet <a href="./javadocApplet1/asw1021/UserAppletOrder.html"><b>“UserAppletOrder.java”</b></a> realizzando l’interfaccia grafica 
                 tramite l’uso della libreria “Swing”. Il metodo “init()” dell’applet inizializza l’interfaccia 
                 grafica e si occupa di richiamare attraverso una richiesta alla servlet “MenuServlet.java”
                 sia le pizze presenti nel menu sia i vari condimenti a disposizione del cliente, in entrambi 
@@ -287,7 +287,7 @@ and open the template in the editor.
             <p>
                 L’admin è in grado di modificare il menù che è disponibile e consultabile 
                 da qualsiasi utente. Questo servizio gli è reso disponibile tramite un’apposita 
-                applet chiamata: <b>"AdminUpdateMenu.java"</b>. Anche per lo sviluppo di questa applet 
+                applet chiamata: <a href="./javadocApplet2/asw1021/AdminUpdateMenu.html"><b>"AdminUpdateMenu.java"</b></a>. Anche per lo sviluppo di questa applet 
                 si è fatto riferimento alla libreria Swing per quanto riguarda la gestione e 
                 la creazione dell’interfaccia grafica.
 
@@ -581,7 +581,7 @@ and open the template in the editor.
             <p>Le servlet presenti sono così gestite:</p>
 
             <p>
-                <b>LoginServlet.java:</b> 
+                <b><a href="./javadocServlets/asw1021/LoginServlet.html">LoginServlet.java:</a></b> 
                 Nel metodo “init()” della servlet avviene l’inizializzazione della 
                 HashMap&lt;String,Object&gt; che verrà poi impostata come parametro dell’oggetto
                 application in modo da essere visibile al resto delle servlet, in particolare al 
@@ -605,7 +605,7 @@ and open the template in the editor.
             </p> 
 
             <p>
-                <b>MenuServlet.java:</b> La servlet, dopo una richiesta dell’applet <b>“AdminUpdateMenu.java”</b>,
+                <a href="./javadocServlets/asw1021/MenuServlet.html"><b>MenuServlet.java:</b></a> La servlet, dopo una richiesta dell’applet <b>“AdminUpdateMenu.java”</b>,
                 permette di restituire la lista delle pizze presenti nel menu o l’elenco completo dei 
                 condimenti. Inoltre questa servlet si occupa di gestire l’aggiunta e rimozione di pizze o 
                 condimenti da parte dell’admin. In particolare nel caso in cui la richiesta ricevuta
@@ -617,7 +617,7 @@ and open the template in the editor.
             </p>
 
             <p>
-                <b>MessageServlet.java:</b> Questa servlet si occupa di gestire i nuovi messaggi inviati 
+                <a href="./javadocServlets/asw1021/MessageServlet.html"><b>MessageServlet.java:</b></a> Questa servlet si occupa di gestire i nuovi messaggi inviati 
                 dai clienti alla pizzeria e di farli visualizzare all’admin. Nel caso in cui la richiesta
                 avvenga dal form contenuto nella pagina <b>“contatti.jsp”</b>, ad opera di un cliente, con il parametro “target=new”, 
                 verrà gestito l’invio di un nuovo messaggio salvandolo nel database <b>“messaggi.xml”</b>.
@@ -632,7 +632,7 @@ and open the template in the editor.
 
 
             <p>
-                La servlet  <b>“ManageOrderService.java”</b> è un servizio web XML-over-HTTP, in grado 
+                La servlet  <a href="./javadocServlets/asw1021/ManageOrderService.html"><b>“ManageOrderService.java”</b></a> è un servizio web XML-over-HTTP, in grado 
                 di supportare la comunicazione asincrona, infatti l’implementazione di notifiche 
                 Comet si è resa necessaria per gestire il comportamento dinamico di alcune pagine.
                 Nel metodo “init()” viene recuperato il parametro “loginList” dell’oggetto application,

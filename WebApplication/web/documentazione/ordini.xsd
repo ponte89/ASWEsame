@@ -1,0 +1,50 @@
+<?xml version="1.0"?>
+
+<xsd:schema version="1.0" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    
+    <xsd:element name="ordini" type="tipo_ordini"/>
+    
+    <xsd:complexType name="ordine_utente">
+        <xsd:sequence>
+            <xsd:element name="user" type="xs:string"/>
+            <xsd:element name="id" type="xs:string" />
+            <xsd:element name="tipo_ordine" type="tipo_ordine" />
+            <xsd:element name="done" type="xs:boolean"/>
+            <xsd:element name="pizzaS" type="pizza_standard" maxOccurs="unbounded" />
+            <xsd:element name="pizzaP" type="pizza_personalizzata" maxOccurs="unbounded" />
+        </xsd:sequence> 
+    </xsd:complexType>
+
+    <xs:complexType name="pizza_standard">
+        <xs:sequence>
+            <xs:element name="numero_pizze" type="xs:string"/>
+            <xs:element name="plus" type="xs:string"/>
+            <xsd:element name="nome_pizza" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+    
+    <xs:complexType name="tipo_ordine">
+        <choiche>
+            <xs:element name="ritiro" type="xs:string"/>
+            <xs:element name="prenotazione" type="xs:string"/>
+            <xs:element name="consegna" type="xs:string"/>
+        </choiche>
+    </xs:complexType>
+    
+    <xs:complexType name="prenotazione">
+        <xs:element name="prenotazione" type="xs:string"/>
+        <xs:element name="posti" type="xs:string"/>
+    </xs:complexType>
+    
+    <xsd:complexType name="pizza_personalizzata">
+        <xsd:complexContent>
+            <xs:extension base="pizza_standard">
+                <xsd:element name="base" type="xs:string"/>
+                <xsd:sequence>
+                    <xsd:element name="condimento" type="xs:string" maxOccurs="4"/>  
+                </xsd:sequence>
+            </xs:extension>    
+        </xsd:complexContent>
+    </xsd:complexType>
+
+</xsd:schema>

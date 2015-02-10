@@ -47,6 +47,7 @@ public class LoginServlet extends HttpServlet {
         String user, password,type;
         try{
             switch(target){
+                //invoco la funzione checkUser per controllare se l'utente che si sta loggando è già presente nel database anagrafica_test.xml 
                 case "login":
                     user = request.getParameter("username");
                     password = request.getParameter("password");
@@ -60,9 +61,11 @@ public class LoginServlet extends HttpServlet {
                          session.setAttribute("message", "Attenzione! I dati inseriti non sono corretti");   
                     }
                     break;
+                //il logout avviene invalidando la sessione
                 case "logout":
                     session.invalidate();
                     break;
+                //la registrazione creando un nuovo nodo utente seguendo lo schema riportato in anagrafica.xsd
                 case "registration":
                     String error = "";
                     boolean found = false;
@@ -86,7 +89,7 @@ public class LoginServlet extends HttpServlet {
                         error = "Inserire tutti i dati richiesti";
                     }
                     
-                    
+                    //vado a controllare se il nome utente con il quale ci si sta registrando è già presente nel database
                     if(error.equals("")){
                         InputStream is = getServletContext().getResourceAsStream("/WEB-INF/xml/anagrafica_test.xml");
                         ManageXML manageXml = new ManageXML();
@@ -104,6 +107,8 @@ public class LoginServlet extends HttpServlet {
                                     found = true;
                                }
                         }
+                        
+                        //appendo i dati del nuovo utente registrato nel file anagrafica_test.xml e setto la variabile di sessione login con lo username dell'utente 
                         if(!found){
                         
                             Element newUser = doc.createElement("utente");
@@ -164,6 +169,7 @@ public class LoginServlet extends HttpServlet {
         
         System.out.println("url: "+url);
         
+        //se l'utente si registra correttamente questo viene rimandato alla pagina home.jsp, nei casi di errore viene ricaricata la stessa pagina
         response.sendRedirect(url);
     }
     
@@ -198,6 +204,7 @@ public class LoginServlet extends HttpServlet {
        return false;
     }
     
+    //entry point della servlet
     @Override
     public void init() throws ServletException {
         ServletContext application = getServletContext();

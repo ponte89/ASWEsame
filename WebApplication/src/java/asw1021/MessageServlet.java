@@ -42,7 +42,8 @@ public class MessageServlet extends HttpServlet {
             String message = request.getParameter("messaggio");
 
             String target = request.getParameter("target");
-
+            
+            //nel caso in cui sono un cliente che scrive un messaggio
             if (target.equals("new")) {
                 ManageXML manageXml = new ManageXML();
 
@@ -68,6 +69,8 @@ public class MessageServlet extends HttpServlet {
 
                 os.flush();
                 os.close();
+                
+                //nel caso in cui sono loggato come admin e visualizzo i messaggi dei clienti
             } else if (target.equals("manage")) {
                 System.out.println("richiesta manage");
                 

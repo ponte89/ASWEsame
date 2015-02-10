@@ -49,6 +49,13 @@ public class MenuServlet extends HttpServlet {
             System.out.println("contenuto: " + docin.getElementsByTagName("nome").getLength());
             System.out.println("tipo: " + s);
 
+            /*a seconda del testo trovato all'interno del nodo tipo possiamo distinguere se la richiesta 
+            è avvenuta da parte di un utente per visualizzare il menu, e quindi pizze e condimenti; 
+            o se è avvenuta da parte dell'admin per la modifica del menu stesso.
+            Nel primo caso devo inviare al client i dati relativi alle pizze o ai condimenti, nel secondo
+            caso invece la servlet riceve i dati da parte dell'admin contenenti le aggiunte o rimozioni di
+            pizze o condimenti, che andranno a sovrascrivere i rispettivi database xml.*/
+     
             if (s.equals("pizze")) {
                 String path = getServletContext().getRealPath("") + "/WEB-INF/xml/pizze_standard_test.xml";
                 Document doc = manageXml.parse(new File(path));

@@ -13,11 +13,13 @@ var riepilogo = "riepilogo";
 var color = "";
 var value = "";
 
+//richiama le funzioni per la richiesta dei dati che andranno visualizzati all'interno delle tabelle presenti nella pagina menu.jsp
 function inizializzaDati() {
     getDati("pizze");
     getDati("condimenti");
 }
 
+//invia la richiesta di pizze, condimenti o messaggi alla applet predisponendo un apposito documento e chiama la funzione per la stampa dei dati all'interno della rispettiva tabella
 function getDati(value) {
     if (value === "pizze") {
         var xmlhttp2 = new XMLHttpRequest();
@@ -76,6 +78,7 @@ function getDati(value) {
     }
 }
 
+//funzione che si occupa di creare la richiesta dei dati a seconda del valore che gli viene passato
 function creaRichiestaDati(value) {
     if (value === "pizze") {
         datiPizze = document.implementation.createDocument("", "", null);
@@ -94,6 +97,7 @@ function creaRichiestaDati(value) {
     }
 }
 
+//popola le tabelle relative al value con i dati corrispondenti
 function stampaDati(data, value) {
     if (value === "pizze") {
         var con = document.getElementById("pizze");

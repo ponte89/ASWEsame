@@ -62,7 +62,6 @@ public class AdminUpdateMenu extends JApplet implements IDeployment {
 
     private JButton btnNewButton;
 
-    private ArrayList<String> pizzeNuove;
     private Thread inviaDati;
     private Thread rimuoviPizza;
     private Thread aggiungiPizza;
@@ -169,8 +168,6 @@ public class AdminUpdateMenu extends JApplet implements IDeployment {
         panelPizze.add(lblNuovaPizza);
 
         listaPizze = new JList();
-
-        pizzeNuove = new ArrayList<String>();
 
         txtNuovoCondimento = new JTextField();
         txtNuovoCondimento.setBounds(6, 24, 108, 28);

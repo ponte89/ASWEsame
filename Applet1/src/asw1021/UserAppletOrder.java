@@ -115,10 +115,7 @@ public class UserAppletOrder extends JApplet implements IDeployment {
     private Thread inizializzaCondimenti;
     private Thread inizializzaPizze;
     private Thread salvaOrdinazione;
-    private Thread resetOrdinazione;
-    private Thread aggiungiStandard;
-    private Thread aggiungiPersonalizzata;
-
+    
     /**
      * Inizializzazione dell' applet con creazione della GUI
      */
@@ -522,18 +519,8 @@ public class UserAppletOrder extends JApplet implements IDeployment {
      */
     private void resetOrdinazione() {
 
-        resetOrdinazione = new Thread(new Runnable() {
-
-            @Override
-            public void run() {
-
-                listaOrdinazione.clear();
-                textPaneOrdinazione.setText("");
-            }
-
-        });
-
-        resetOrdinazione.start();
+        listaOrdinazione.clear();
+        textPaneOrdinazione.setText("");
 
     }
 
@@ -544,61 +531,51 @@ public class UserAppletOrder extends JApplet implements IDeployment {
      */
     private void aggiungiPizzaStandard() {
 
-        aggiungiStandard = new Thread(new Runnable() {
+        if (textPaneOrdinazione.getText().equals("Scegliere almeno una pizza")) {
+            resetOrdinazione();
+        }
 
-            @Override
-            public void run() {
+        pizzaStandard pizza = new pizzaStandard();
 
-                if (textPaneOrdinazione.getText().equals("Scegliere almeno una pizza")) {
-                    resetOrdinazione();
-                }
+        String select = (String) comboBoxStandard.getSelectedItem();
 
-                pizzaStandard pizza = new pizzaStandard();
+        pizza.setName(select);
 
-                String select = (String) comboBoxStandard.getSelectedItem();
+        int n = ((Double) spinnerStandard.getValue()).intValue();
 
-                pizza.setName(select);
+        pizza.setNPizze(n);
 
-                int n = ((Double) spinnerStandard.getValue()).intValue();
+        String aggiunte = "(";
 
-                pizza.setNPizze(n);
+        if (chckbxBaseKamutS.isSelected()) {
+            aggiunte += " Base Kamut ";
+            pizza.setAggiunta("Base Kamut");
+        }
 
-                String aggiunte = "(";
+        if (chckbxGiganteS.isSelected()) {
+            aggiunte += " Maxi ";
+            pizza.setAggiunta("Maxi");
+        }
 
-                if (chckbxBaseKamutS.isSelected()) {
-                    aggiunte += " Base Kamut ";
-                    pizza.setAggiunta("Base Kamut");
-                }
+        if (chckbxDoppiaMozzarellaS.isSelected()) {
+            aggiunte += " Doppia Moz ";
+            pizza.setAggiunta("Doppia Mozzarella");
+        }
 
-                if (chckbxGiganteS.isSelected()) {
-                    aggiunte += " Maxi ";
-                    pizza.setAggiunta("Maxi");
-                }
+        aggiunte += ")";
 
-                if (chckbxDoppiaMozzarellaS.isSelected()) {
-                    aggiunte += " Doppia Moz ";
-                    pizza.setAggiunta("Doppia Mozzarella");
-                }
+        String ordinazione = ("Pizza: " + select + " n° " + n);
 
-                aggiunte += ")";
+        if (aggiunte.equals("()")) {
+            ordinazione += "\n";
+        } else {
+            ordinazione += (" " + aggiunte + "\n");
+        }
+        String tmp = textPaneOrdinazione.getText();
+        tmp += ordinazione;
+        textPaneOrdinazione.setText(tmp);
 
-                String ordinazione = ("Pizza: " + select + " n° " + n);
-
-                if (aggiunte.equals("()")) {
-                    ordinazione += "\n";
-                } else {
-                    ordinazione += (" " + aggiunte + "\n");
-                }
-                String tmp = textPaneOrdinazione.getText();
-                tmp += ordinazione;
-                textPaneOrdinazione.setText(tmp);
-
-                listaOrdinazione.add(pizza);
-
-            }
-        });
-
-        aggiungiStandard.start();
+        listaOrdinazione.add(pizza);
 
     }
 
@@ -609,92 +586,81 @@ public class UserAppletOrder extends JApplet implements IDeployment {
      */
     private void aggiungiPizzaPersonalizzata() {
 
-        aggiungiPersonalizzata = new Thread(new Runnable() {
+        if (textPaneOrdinazione.getText().equals("Scegliere almeno una pizza")) {
+            resetOrdinazione();
+        }
 
-            @Override
-            public void run() {
+        pizzaPersonalizzata pizza = new pizzaPersonalizzata();
 
-                if (textPaneOrdinazione.getText().equals("Scegliere almeno una pizza")) {
-                    resetOrdinazione();
-                }
+        String ordinazione = "Base Pizza: ";
+        if (rdbtnMargherita.isSelected()) {
+            ordinazione += rdbtnMargherita.getText() + " ";
+            pizza.setBase(rdbtnMargherita.getText());
+        } else {
+            ordinazione += rdbtnBianca.getText() + " ";
+            pizza.setBase(rdbtnBianca.getText());
+        }
 
-                pizzaPersonalizzata pizza = new pizzaPersonalizzata();
+        ordinazione += "Condimenti: ";
 
-                String ordinazione = "Base Pizza: ";
-                if (rdbtnMargherita.isSelected()) {
-                    ordinazione += rdbtnMargherita.getText() + " ";
-                    pizza.setBase(rdbtnMargherita.getText());
-                } else {
-                    ordinazione += rdbtnBianca.getText() + " ";
-                    pizza.setBase(rdbtnBianca.getText());
-                }
+        String select1 = (String) comboBoxCondimento1.getSelectedItem();
+        String select2 = (String) comboBoxCondimento2.getSelectedItem();
+        String select3 = (String) comboBoxCondimento3.getSelectedItem();
+        String select4 = (String) comboBoxCondimento4.getSelectedItem();
 
-                ordinazione += "Condimenti: ";
+        if (!select1.equals("Nessuna selezione")) {
+            ordinazione += select1 + " ";
+            pizza.setCondimento(select1);
+        }
 
-                String select1 = (String) comboBoxCondimento1.getSelectedItem();
-                String select2 = (String) comboBoxCondimento2.getSelectedItem();
-                String select3 = (String) comboBoxCondimento3.getSelectedItem();
-                String select4 = (String) comboBoxCondimento4.getSelectedItem();
+        if (!select2.equals("Nessuna selezione")) {
+            ordinazione += select2 + " ";
+            pizza.setCondimento(select2);
+        }
 
-                if (!select1.equals("Nessuna selezione")) {
-                    ordinazione += select1 + " ";
-                    pizza.setCondimento(select1);
-                }
+        if (!select3.equals("Nessuna selezione")) {
+            ordinazione += select3 + " ";
+            pizza.setCondimento(select3);
+        }
 
-                if (!select2.equals("Nessuna selezione")) {
-                    ordinazione += select2 + " ";
-                    pizza.setCondimento(select2);
-                }
+        if (!select4.equals("Nessuna selezione")) {
+            ordinazione += select4 + " ";
+            pizza.setCondimento(select4);
+        }
 
-                if (!select3.equals("Nessuna selezione")) {
-                    ordinazione += select3 + " ";
-                    pizza.setCondimento(select3);
-                }
+        int n = ((Double) spinnerPersonalizzata.getValue()).intValue();
+        ordinazione += "n° " + n;
+        pizza.setNPizze(n);
 
-                if (!select4.equals("Nessuna selezione")) {
-                    ordinazione += select4 + " ";
-                    pizza.setCondimento(select4);
-                }
+        String aggiunte = "(";
 
-                int n = ((Double) spinnerPersonalizzata.getValue()).intValue();
-                ordinazione += "n° " + n;
-                pizza.setNPizze(n);
+        if (chckbxBaseKamutP.isSelected()) {
+            aggiunte += " Base Kamut ";
+            pizza.setAggiunta("Base Kamut");
+        }
 
-                String aggiunte = "(";
+        if (chckbxGiganteP.isSelected()) {
+            aggiunte += " Maxi ";
+            pizza.setAggiunta("Maxi");
+        }
 
-                if (chckbxBaseKamutP.isSelected()) {
-                    aggiunte += " Base Kamut ";
-                    pizza.setAggiunta("Base Kamut");
-                }
+        if (chckbxDoppiaMozzarellaP.isSelected()) {
+            aggiunte += " Doppia Moz ";
+            pizza.setAggiunta("Doppia Mozzarella");
+        }
 
-                if (chckbxGiganteP.isSelected()) {
-                    aggiunte += " Maxi ";
-                    pizza.setAggiunta("Maxi");
-                }
+        aggiunte += ")";
 
-                if (chckbxDoppiaMozzarellaP.isSelected()) {
-                    aggiunte += " Doppia Moz ";
-                    pizza.setAggiunta("Doppia Mozzarella");
-                }
+        if (aggiunte.equals("()")) {
+            ordinazione += "\n";
+        } else {
+            ordinazione += (" " + aggiunte + "\n");
+        }
+        String tmp = textPaneOrdinazione.getText();
+        tmp += ordinazione;
+        textPaneOrdinazione.setText(tmp);
 
-                aggiunte += ")";
-
-                if (aggiunte.equals("()")) {
-                    ordinazione += "\n";
-                } else {
-                    ordinazione += (" " + aggiunte + "\n");
-                }
-                String tmp = textPaneOrdinazione.getText();
-                tmp += ordinazione;
-                textPaneOrdinazione.setText(tmp);
-
-                listaOrdinazione.add(pizza);
-
-            }
-
-        });
-
-        aggiungiPersonalizzata.start();
+        listaOrdinazione.add(pizza);
 
     }
 

@@ -16,7 +16,6 @@ import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.net.URL;
-import java.util.ArrayList;
 import javax.swing.DefaultListModel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
@@ -63,10 +62,6 @@ public class AdminUpdateMenu extends JApplet implements IDeployment {
     private JButton btnNewButton;
 
     private Thread inviaDati;
-    private Thread rimuoviPizza;
-    private Thread aggiungiPizza;
-    private Thread rimuoviCondimento;
-    private Thread aggiungiCondimento;
     private Thread listaCondimentiThread;
     private Thread listaPizzeThread;
 
@@ -298,20 +293,11 @@ public class AdminUpdateMenu extends JApplet implements IDeployment {
      */
     private void rimuoviCondimento() {
 
-        rimuoviCondimento = new Thread(new Runnable() {
-
-            @Override
-            public void run() {
-
-                if (listaCondimenti.getSelectedIndex() != -1) {
-                    modelCondimenti.remove(listaCondimenti.getSelectedIndex());
-                    listaCondimenti.setModel(modelCondimenti);
-                }
-            }
-
-        });
-
-        rimuoviCondimento.start();
+        if (listaCondimenti.getSelectedIndex() != -1) {
+            modelCondimenti.remove(listaCondimenti.getSelectedIndex());
+            listaCondimenti.setModel(modelCondimenti);
+        }
+            
     }
 
     /**
@@ -321,20 +307,12 @@ public class AdminUpdateMenu extends JApplet implements IDeployment {
      */
     private void aggiungiCondimento() {
 
-        aggiungiCondimento = new Thread(new Runnable() {
-
-            @Override
-            public void run() {
-                if (!txtNuovoCondimento.getText().isEmpty()) {
-                    String p = txtNuovoCondimento.getText();
-                    modelCondimenti.addElement(p);
-                    listaCondimenti.setModel(modelCondimenti);
-                }
-            }
-
-        });
-
-        aggiungiCondimento.start();
+        if (!txtNuovoCondimento.getText().isEmpty()) {
+            String p = txtNuovoCondimento.getText();
+            modelCondimenti.addElement(p);
+            listaCondimenti.setModel(modelCondimenti);
+        }
+            
     }
 
     /**
@@ -344,21 +322,11 @@ public class AdminUpdateMenu extends JApplet implements IDeployment {
      */
     private void rimuoviPizza() {
 
-        rimuoviPizza = new Thread(new Runnable() {
+        if (listaPizze.getSelectedIndex() != -1) {
+            modelPizze.remove(listaPizze.getSelectedIndex());
+            listaPizze.setModel(modelPizze);
+        }
 
-            @Override
-            public void run() {
-
-                if (listaPizze.getSelectedIndex() != -1) {
-                    modelPizze.remove(listaPizze.getSelectedIndex());
-                    listaPizze.setModel(modelPizze);
-                }
-
-            }
-
-        });
-
-        rimuoviPizza.start();
     }
 
     /**
@@ -368,21 +336,12 @@ public class AdminUpdateMenu extends JApplet implements IDeployment {
      */
     private void aggiungiPizza() {
 
-        aggiungiPizza = new Thread(new Runnable() {
-
-            @Override
-            public void run() {
-                if (!txtNuovaPizza.getText().isEmpty()) {
-                    String p = txtNuovaPizza.getText();
-                    modelPizze.addElement(p);
-                    listaPizze.setModel(modelPizze);
-                }
-            }
-
-        });
-
-        aggiungiPizza.start();
-
+        if (!txtNuovaPizza.getText().isEmpty()) {
+            String p = txtNuovaPizza.getText();
+            modelPizze.addElement(p);
+            listaPizze.setModel(modelPizze);
+        }
+        
     }
 
     /**

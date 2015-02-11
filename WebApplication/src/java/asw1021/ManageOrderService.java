@@ -64,6 +64,7 @@ public class ManageOrderService extends HttpServlet {
                 is.close();
                 String target = "";
                 target = request.getParameter("target");
+                //lettura parametro target ed eventuale scrittura su database
                 if (target != null) {
                     String path = getServletContext().getRealPath("") + "/WEB-INF/xml/ordini_test.xml";
                     Document doc = mngXML.parse(new File(path));
@@ -163,7 +164,6 @@ public class ManageOrderService extends HttpServlet {
                     }
 
                     ordini.item(0).appendChild(ordineU);
-                    //fine ordine
                     OutputStream os = new FileOutputStream(path);
                     mngXML.transform(os, doc);
                     mngXML = new ManageXML();
@@ -197,13 +197,14 @@ public class ManageOrderService extends HttpServlet {
         Document doc;
 
         switch (operation) {
+            //operazione con cui si inviano i dati agli utenti in attesa o si accodano nella lista
             case "push":
-                System.out.println("push received");
+                System.out.println("push ricevuta");
                 synchronized (this) {
                     for (String destUser : contexts.keySet()) {
                         Object value = contexts.get(destUser);
                         if (value instanceof AsyncContext) {
-                            System.out.println("Utente in attesa" + (AsyncContext) value);
+                            System.out.println("Utente in attesa " + (AsyncContext) value);
                             try (OutputStream aos = ((AsyncContext) value).getResponse().getOutputStream()) {
                                 mngXML.transform(aos, dataInput);
                             }
@@ -219,9 +220,11 @@ public class ManageOrderService extends HttpServlet {
                 mngXML.transform(os, answer);
                 os.close();
                 break;
+            //operazione che permette la lettura di dati, nel caso siano presenti oppure pongono 
+            //l'utente in attesa
             case "pop":
                 user = (String) session.getAttribute("login");
-                System.out.println("pop received from: " + user);
+                System.out.println("pop ricevuta da: " + user);
 
                 boolean async;
                 synchronized (this) {
@@ -238,7 +241,7 @@ public class ManageOrderService extends HttpServlet {
                                     AsyncContext asyncContext = e.getAsyncContext();
                                     HttpServletRequest reqAsync = (HttpServletRequest) asyncContext.getRequest();
                                     String user = (String) reqAsync.getSession().getAttribute("login");
-                                    System.out.println("timeout event launched for: " + user);
+                                    System.out.println("Evento timeout per: " + user);
 
                                     Document answer = mngXML.newDocument("timeout");
                                     boolean confirm;
@@ -270,6 +273,7 @@ public class ManageOrderService extends HttpServlet {
                     os.close();
                 }
                 break;
+            //operazione che restituisce la lista degli ordini
             case "getOrdini":
                 path = getServletContext().getRealPath("") + "/WEB-INF/xml/ordini_test.xml";
                 doc = mngXML.parse(new File(path));
@@ -278,6 +282,7 @@ public class ManageOrderService extends HttpServlet {
                 mngXML.transform(osOrdini, doc);
                 osOrdini.close();
                 break;
+            //operazione che effettua il cambio stato degli ordini (attesa/completato)
             case "cambioStato":
                 String idOrdineState = root.getFirstChild().getTextContent();
                 System.out.println(idOrdineState);

@@ -150,7 +150,11 @@ function stampaDati(data, value) {
     }
 }
 
-//GESTIONE ORDINI e PRENOTAZIONI
+function getMessaggi(){
+    getDati("messaggi");
+}
+
+//funzione che si occupa di inviare richieste al service
 function getMessages(value){      
                 var xmlhttp2,answer,data;
                 console.log("Richiesta ordini");
@@ -179,6 +183,7 @@ function getMessages(value){
             xmlhttp2.send(data);
 }
 
+//funzione che visualizza i dati nella pagina
 function stampaOrdini(data, value){
     if (value === "ordini"){
         var ordiniElement = document.getElementById("riepilogo_ordini");
@@ -327,6 +332,7 @@ function stampaOrdini(data, value){
     }
 }
 
+//funzione che effettua una richiesta alla servlet per cambiare lo stato di un ordine
 function ordineCompletato(idOrdine){
     
     var r = "2"+idOrdine;
@@ -354,6 +360,7 @@ function ordineCompletato(idOrdine){
         xmlhttp2.send(doc);
 }
 
+//funzione che effettua una richiesta alla servlet per ricevere gli ordini/prenotazioni
 function getOrdini(value){
         var xmlhttp2 = new XMLHttpRequest();
         xmlhttp2.onreadystatechange = function () {
@@ -375,6 +382,3 @@ function getOrdini(value){
         xmlhttp2.send(dataOrdini);
 }
 
-function getMessaggi(){
-    getDati("messaggi");
-}

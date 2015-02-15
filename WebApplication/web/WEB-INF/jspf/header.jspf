@@ -25,7 +25,9 @@
             <li><a href="<%= request.getContextPath()%>/jsp/ordina.jsp">Ordina</a></li>
             <li><a href="<%= request.getContextPath()%>/jsp/riepilogo.jsp">Riepilogo ordini</a></li>
             <li><a href="<%= request.getContextPath()%>/jsp/contatti.jsp">Contatti</a></li>
-                <%}
+                    <%} else if (us.equals("fattorino")) {%> <!-- fattorino -->
+                    <li><a href="<%= request.getContextPath()%>/jsp/consegnaPizze.jsp">Consegna Pizze</a></li>
+            <%}
                 } 
             else {%>  <!-- utente non registrato -->
 

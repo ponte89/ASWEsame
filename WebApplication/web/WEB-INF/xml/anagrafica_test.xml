@@ -15,6 +15,13 @@
             <password>cuoco</password>
         </cuoco>
         
+        <fattorino>
+            <name>fattorino</name>
+            <surname>fattorino</surname>
+            <username>fattorino</username>
+            <password>fattorino</password>
+        </fattorino>
+        
         <utente>
             <name>cliente1</name>
             <surname>cliente1</surname>

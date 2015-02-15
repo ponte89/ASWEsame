@@ -35,7 +35,8 @@
             <div>
             <br><input class ="types" type="radio" name="type" value="utente" checked="checked">Cliente<br>
             <input class="types" type="radio" name="type" value="admin">Admin<br>
-            <input class="types" type="radio" name="type" value="cuoco">Cuoco
+            <input class="types" type="radio" name="type" value="cuoco">Cuoco<br>
+            <input class="types" type="radio" name="type" value="cuoco">Fattorino
             </div>
             
             <input class="login" type="submit" value="Login">

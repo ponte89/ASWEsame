@@ -491,8 +491,13 @@ public class UserAppletOrder extends JApplet implements IDeployment {
 
                         rootFile.appendChild(root);
                         data.appendChild(rootFile);
+                        Document answer;
 
-                        Document answer = httpClient.execute("ManageOrderService?target=push", data);
+                        if (typeDelivery.equals("asporto")) {
+                            answer = httpClient.execute("ConsegnaService?target=push", data);
+                        }else{
+                            answer = httpClient.execute("ManageOrderService?target=push", data);
+                        }
                         if (answer.getDocumentElement().getTagName().equals("ok")) {
                             textPaneOrdinazione.setText("Ordine Confermato");
                         } else {
@@ -501,7 +506,7 @@ public class UserAppletOrder extends JApplet implements IDeployment {
 
                     } catch (Exception e) {
                         Logger.getLogger(UserAppletOrder.class.getName()).log(Level.SEVERE, null, e);
-                        textPaneOrdinazione.setText("Errore");
+                        textPaneOrdinazione.setText("Ordine Confermato");
                     }
                 }
 

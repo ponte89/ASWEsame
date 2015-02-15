@@ -261,7 +261,7 @@ public class ManageOrderService extends HttpServlet {
                                 }
                             }
                         });
-                        contexts.put(user, asyncContext);
+                        contexts.put(user, asyncContext);                   
                     } else {
                         answer = list.removeFirst();
                     }

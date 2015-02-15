@@ -36,6 +36,11 @@
         <xsd:element name="posti" type="xs:string"/>
     </xsd:complexType>
     
+    <xsd:complexType name="asporto">
+        <xsd:element name="asporto" type="xs:string"/>
+        <xsd:element name="indirizzo" type="xs:string"/>
+    </xsd:complexType>
+    
     <xsd:complexType name="pizza_personalizzata">
         <xsd:complexContent>
             <xsd:extension base="pizza_standard">

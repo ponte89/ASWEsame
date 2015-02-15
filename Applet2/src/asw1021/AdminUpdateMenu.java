@@ -406,7 +406,11 @@ public class AdminUpdateMenu extends JApplet implements IDeployment {
                         Element rootNode = data.createElement("tipo");
                         rootNode.setTextContent("nuoviCondimenti");
                         Element nome;
-
+                        
+                        nome = data.createElement("nome");
+                        nome.setTextContent("Nessuna selezione");
+                        rootNode.appendChild(nome);
+                        
                         for (int i = 0; i < listaCondimenti.getModel().getSize(); i++) {
 
                             nome = data.createElement("nome");
@@ -414,6 +418,7 @@ public class AdminUpdateMenu extends JApplet implements IDeployment {
                             rootNode.appendChild(nome);
 
                         }
+                        
 
                         data.appendChild(rootNode);
 

@@ -31,7 +31,7 @@
                     NodeList ordini= doc.getElementsByTagName("ordine_utente");
                     Element ordine;
                     NodeList pizzaS, pizzaP;
-                    String id, done, tipo_ordine, numero, nome, plus, base;
+                    String id, done, tipo_ordine, partito, numero, nome, plus, base;
                     
                     for (int i = 0; i < ordini.getLength(); i++) {
                            ordineLog = ""; 
@@ -39,10 +39,16 @@
                            if(ordine.getElementsByTagName("user").item(0).getTextContent().equals(user)){
                                id = ordine.getElementsByTagName("id").item(0).getTextContent();
                                done = ordine.getElementsByTagName("done").item(0).getTextContent();
+                               partito = ordine.getElementsByTagName("partito").item(0).getTextContent();
                                if(done.equals("false")){
                                    done = "Attesa";
                                }else{
                                    done = "Completato";
+                               }
+                               if(partito.equals("false")){
+                                   partito = "Attesa";
+                               }else{
+                                   partito = "Partito";
                                }
                                tipo_ordine = ordine.getElementsByTagName("tipo_ordine").item(0).getTextContent();
                                if(!tipo_ordine.equals("ritiro") && !tipo_ordine.equals("asporto") ){
@@ -54,7 +60,11 @@
                                }else{
                                   tipo_ordine = "<b> Consegna: </b>" + tipo_ordine;
                                }
-                               ordineLog += "<b>Utente:</b> " + user + " <b>IdOrdine:</b> " + id + tipo_ordine + " <b>Stato: </b>" + done;
+                               if(tipo_ordine.equals("asporto")){
+                                    ordineLog += "<b>Utente:</b> " + user + " <b>IdOrdine:</b> " + id + tipo_ordine + " <b>Stato: </b>" + partito;
+                               }else{
+                                    ordineLog += "<b>Utente:</b> " + user + " <b>IdOrdine:</b> " + id + tipo_ordine + " <b>Stato: </b>" + done;
+                               }
                                pizzaS = ordine.getElementsByTagName("pizzaS");
                                pizzaP = ordine.getElementsByTagName("pizzaP");
                                for(int j = 0; j < pizzaS.getLength(); j++){

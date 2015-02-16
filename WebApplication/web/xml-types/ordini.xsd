@@ -10,6 +10,7 @@
             <xsd:element name="id" type="xs:string" />
             <xsd:element name="tipo_ordine" type="tipo_ordine" />
             <xsd:element name="done" type="xs:boolean"/>
+            <xsd:element name="partito" type="xs:boolean"/>
             <xsd:element name="pizzaS" type="pizza_standard" maxOccurs="unbounded" />
             <xsd:element name="pizzaP" type="pizza_personalizzata" maxOccurs="unbounded" />
         </xsd:sequence> 
@@ -38,7 +39,7 @@
     
     <xsd:complexType name="asporto">
         <xsd:element name="asporto" type="xs:string"/>
-        <xsd:element name="indirizzo" type="xs:string"/>
+        <xsd:element name="address" type="xs:string"/>
     </xsd:complexType>
     
     <xsd:complexType name="pizza_personalizzata">

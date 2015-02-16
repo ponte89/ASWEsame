@@ -492,12 +492,14 @@ public class UserAppletOrder extends JApplet implements IDeployment {
                         rootFile.appendChild(root);
                         data.appendChild(rootFile);
                         Document answer;
-
+                        Document answer2;
+                        
                         if (typeDelivery.equals("asporto")) {
-                            answer = httpClient.execute("ConsegnaService?target=push", data);
-                        }else{
-                            answer = httpClient.execute("ManageOrderService?target=push", data);
+                            answer2 = httpClient.execute("ConsegnaService?target=push", data);
                         }
+                        
+                        answer = httpClient.execute("ManageOrderService?target=push", data);
+
                         if (answer.getDocumentElement().getTagName().equals("ok")) {
                             textPaneOrdinazione.setText("Ordine Confermato");
                         } else {

@@ -453,6 +453,11 @@ table#riepilogo_prenotazioni{
     padding: 5px;
 }
 
+table#riepilogo_consegne{
+    margin: 10px;
+    padding: 5px;
+}
+
 table#riepilogo{
     margin: 10px;
     padding: 5px;

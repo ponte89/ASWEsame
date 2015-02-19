@@ -369,14 +369,14 @@ function stampaOrdini(data, value){
                     var address = ordini[k].getElementsByTagName("address");
                     var addressLog = address[0].childNodes[0].nodeValue;
                 }
-                var partito = ordini[k].getElementsByTagName("partito");
-                var partitoLog = partito[0].childNodes[0].nodeValue;
-                if(partitoLog === "false"){
-                    partitoLog = "Attesa";
+                var done = ordini[k].getElementsByTagName("done");
+                var doneLog = done[0].childNodes[0].nodeValue;
+                if(doneLog === "false"){
+                    doneLog = "Attesa";
                     color = "#FF000";
                     value = "button";
                 }else{
-                    partitoLog = "Partito";
+                    doneLog = "Partito";
                     color = "#00FF00";
                     value = "hidden";
                 }

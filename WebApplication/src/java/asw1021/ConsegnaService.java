@@ -14,6 +14,7 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import javax.servlet.AsyncContext;
 import javax.servlet.AsyncEvent;
+import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -330,6 +331,12 @@ public class ConsegnaService extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         processRequest(request, response);
+    }
+    
+    @Override
+    public void init() throws ServletException {
+        ServletContext application = getServletContext();
+        contexts = (HashMap<String, Object>) application.getAttribute("loginList");
     }
 
     /**

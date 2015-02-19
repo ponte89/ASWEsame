@@ -32,7 +32,6 @@
                     Element ordine;
                     NodeList pizzaS, pizzaP;
                     String id, done, tipo_ordine, numero, nome, plus, base;
-                    String partito;
                     
                     for (int i = 0; i < ordini.getLength(); i++) {
                            ordineLog = ""; 
@@ -40,12 +39,15 @@
                            if(ordine.getElementsByTagName("user").item(0).getTextContent().equals(user)){
                                id = ordine.getElementsByTagName("id").item(0).getTextContent();
                                done = ordine.getElementsByTagName("done").item(0).getTextContent();
+                               tipo_ordine = ordine.getElementsByTagName("tipo_ordine").item(0).getTextContent();
                                if(done.equals("false")){
                                     done = "Attesa";
-                               }else{
+                               }else if(done.equals("true") && !(tipo_ordine.equals("asporto"))){
                                     done = "Completato";
+                               }else if(done.equals("true") && tipo_ordine.equals("asporto")){
+                                   done = "Partito";
                                }
-                               tipo_ordine = ordine.getElementsByTagName("tipo_ordine").item(0).getTextContent();
+                               
                                if(tipo_ordine.equals("prenotazione")){
                                   String numeroPosti = ordine.getElementsByTagName("posti").item(0).getTextContent();
                                   Element postiEl = doc.createElement("posti");
@@ -53,18 +55,9 @@
                                   ordine.appendChild(postiEl);
                                   tipo_ordine = " <b>Prenotazione per: </b>" + numeroPosti;
                                   ordineLog += "<b>Utente:</b> " + user + " <b>IdOrdine:</b> " + id + tipo_ordine + " <b>Stato: </b>" + done;
-                               }else if(tipo_ordine.equals("asporto")){
+                               }else{
                                   tipo_ordine = "<b> Consegna: </b>" + tipo_ordine;
-                                  partito = ordine.getElementsByTagName("partito").item(0).getTextContent();
-                                  if(partito.equals("false")){
-                                    partito = "Attesa";
-                                  }else{
-                                    partito = "Partito";
-                                  }
-                                  ordineLog += "<b>Utente:</b> " + user + " <b>IdOrdine:</b> " + id + tipo_ordine + " <b>Stato: </b>" + done + "<b>Fattorino: </b>" + partito;
-                               }else if(tipo_ordine.equals("ritiro")){
-                                   tipo_ordine = "<b> Consegna: </b>" + tipo_ordine;
-                                   ordineLog += "<b>Utente:</b> " + user + " <b>IdOrdine:</b> " + id + tipo_ordine + " <b>Stato: </b>" + done;
+                                  ordineLog += "<b>Utente:</b> " + user + " <b>IdOrdine:</b> " + id + tipo_ordine + " <b>Stato: </b>" + done;
                                }
                                
                                pizzaS = ordine.getElementsByTagName("pizzaS");

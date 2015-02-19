@@ -10,7 +10,6 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.io.PrintWriter;
 import java.util.HashMap;
 import java.util.LinkedList;
 import javax.servlet.AsyncContext;
@@ -186,7 +185,7 @@ public class ConsegnaService extends HttpServlet {
         Element root = data.getDocumentElement();
         String operation = root.getTagName();
         String user;
-        Document answer = null;
+        Document answer2 = null;
         OutputStream os;
         String path;
         Document doc;
@@ -210,9 +209,9 @@ public class ConsegnaService extends HttpServlet {
                         }
                     }
                 }
-                answer = mngXML.newDocument("ok");
+                answer2 = mngXML.newDocument("ok");
                 os = response.getOutputStream();
-                mngXML.transform(os, answer);
+                mngXML.transform(os, answer2);
                 os.close();
                 break;
             //operazione che permette la lettura di dati, nel caso siano presenti oppure pongono 
@@ -238,7 +237,7 @@ public class ConsegnaService extends HttpServlet {
                                     String user = (String) reqAsync.getSession().getAttribute("login");
                                     System.out.println("Evento timeout per: " + user);
 
-                                    Document answer = mngXML.newDocument("timeout");
+                                    Document answer2 = mngXML.newDocument("timeout");
                                     boolean confirm;
                                     synchronized (ConsegnaService.this) {
                                         if (confirm = (contexts.get(user) instanceof AsyncContext)) {
@@ -247,7 +246,7 @@ public class ConsegnaService extends HttpServlet {
                                     }
                                     if (confirm) {
                                         OutputStream tos = asyncContext.getResponse().getOutputStream();
-                                        mngXML.transform(tos, answer);
+                                        mngXML.transform(tos, answer2);
                                         tos.close();
                                         asyncContext.complete();
                                     }
@@ -258,13 +257,13 @@ public class ConsegnaService extends HttpServlet {
                         });
                         contexts.put(user, asyncContext);                   
                     } else {
-                        answer = list.removeFirst();
+                        answer2 = list.removeFirst();
                     }
                 }
                 if (!async) {
                     os = response.getOutputStream();
                     response.setContentType("text/xml");
-                    mngXML.transform(os, answer);
+                    mngXML.transform(os, answer2);
                     os.close();
                 }
                 break;

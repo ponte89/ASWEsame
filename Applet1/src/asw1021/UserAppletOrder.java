@@ -429,7 +429,7 @@ public class UserAppletOrder extends JApplet implements IDeployment {
                         boolean state = false;
                         done.setTextContent("" + state);
                         Element id = data.createElement("id");
-                        String idOrdine = new SimpleDateFormat("dd-M-yyyy hh:mm:ss").format(new Date());
+                        String idOrdine = new SimpleDateFormat(" dd-M-yyyy hh:mm:ss").format(new Date());
                         id.setTextContent(idUser + idOrdine);
                         Element type = data.createElement("tipo_ordine");
                         Element posti = null;
@@ -491,16 +491,16 @@ public class UserAppletOrder extends JApplet implements IDeployment {
 
                         rootFile.appendChild(root);
                         data.appendChild(rootFile);
-                        Document answer;
-                        Document answer2;
+                        
+                        Document answer2=null;
+                        
+                        Document answer = httpClient.execute("ManageOrderService?target=push", data);
                         
                         if (typeDelivery.equals("asporto")) {
                             answer2 = httpClient.execute("ConsegnaService?target=push", data);
                         }
-                        
-                        answer = httpClient.execute("ManageOrderService?target=push", data);
 
-                        if (answer.getDocumentElement().getTagName().equals("ok")) {
+                        if (answer.getDocumentElement().getTagName().equals("ok") || answer2.getDocumentElement().getTagName().equals("ok")) {
                             textPaneOrdinazione.setText("Ordine Confermato");
                         } else {
                             textPaneOrdinazione.setText("Ordine non effettuato");
